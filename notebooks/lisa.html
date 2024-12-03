@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alternating Linear approximation of the ISA (aLISA) method &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="New Direct Inversion in Iterative Space (DIIS)" href="lisa_diis.html" />
+    <link rel="prev" title="Minimum Basis Iterative Stockholder (MBIS) scheme" href="mbis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyapi/modules.html">horton_part</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pyapi/horton_part.html">horton_part package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Alternating Linear approximation of the ISA (aLISA) method</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/lisa.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Alternating-Linear-approximation-of-the-ISA-(aLISA)-method">
+<h1>Alternating Linear approximation of the ISA (aLISA) method<a class="headerlink" href="#Alternating-Linear-approximation-of-the-ISA-(aLISA)-method" title="Link to this heading"></a></h1>
+<section id="Non-linear-optimization-problem">
+<h2>Non-linear optimization problem<a class="headerlink" href="#Non-linear-optimization-problem" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">setup</span> <span class="kn">import</span> <span class="n">prepare_argument_dict</span><span class="p">,</span> <span class="n">prepare_grid_and_dens</span><span class="p">,</span> <span class="n">print_results</span>
+
+<span class="kn">from</span> <span class="nn">horton_part</span> <span class="kn">import</span> <span class="n">BasisFuncHelper</span><span class="p">,</span> <span class="n">ExpBasisFuncHelper</span><span class="p">,</span> <span class="n">LinearISAWPart</span>
+</pre></div>
+</div>
+</div>
+<section id="Convex-optimization-method">
+<h3>Convex optimization method<a class="headerlink" href="#Convex-optimization-method" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="n">prepare_grid_and_dens</span><span class="p">(</span><span class="s2">&quot;data/h2o.fchk&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">use_cvxopt_solver</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Local LISA by solving convex optimization problem.&quot;&quot;&quot;</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cvxopt&quot;</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">LinearISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+
+<span class="n">use_cvxopt_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of electrons: 10.000003764139395
+Coordinates of the atoms
+ [[ 0.     0.     0.224]
+ [-0.     1.457 -0.896]
+ [-0.    -1.457 -0.896]]
+Atomic numbers of the atom
+ [8 1 1]
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : CVXOPT
+  Basis function type              : GAUSS
+  Grid type                        : 1
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22856e-01   2.11396e-01
+        2   2.65514e-02   1.08102e-01
+        3   1.49501e-02   7.80048e-02
+        4   9.43136e-03   6.28961e-02
+        5   6.28278e-03   5.43378e-02
+        6   4.36240e-03   4.91980e-02
+        7   3.13687e-03   4.59887e-02
+        8   2.32436e-03   4.39260e-02
+        9   1.76689e-03   4.25692e-02
+       10   1.37223e-03   4.16592e-02
+       11   1.08483e-03   4.10387e-02
+       12   8.70229e-04   4.06094e-02
+       13   7.06492e-04   4.03086e-02
+       14   5.79250e-04   4.00953e-02
+       15   4.78831e-04   3.99426e-02
+       16   3.98556e-04   3.98323e-02
+       17   3.33687e-04   3.97519e-02
+       18   2.80794e-04   3.96929e-02
+       19   2.37332e-04   3.96492e-02
+       20   2.01386e-04   3.96168e-02
+       21   1.71486e-04   3.95926e-02
+       22   1.46492e-04   3.95743e-02
+       23   1.25506e-04   3.95606e-02
+       24   1.07816e-04   3.95501e-02
+       25   9.28501e-05   3.95422e-02
+       26   8.01470e-05   3.95361e-02
+       27   6.93317e-05   3.95315e-02
+       28   6.00975e-05   3.95279e-02
+       29   5.21920e-05   3.95251e-02
+       30   4.54072e-05   3.95230e-02
+       31   3.95702e-05   3.95214e-02
+       32   3.45374e-05   3.95201e-02
+       33   3.01887e-05   3.95191e-02
+       34   2.64235e-05   3.95183e-02
+       35   2.31572e-05   3.95177e-02
+       36   2.03187e-05   3.95173e-02
+       37   1.78476e-05   3.95169e-02
+       38   1.56930e-05   3.95166e-02
+       39   1.38115e-05   3.95164e-02
+       40   1.21661e-05   3.95162e-02
+       41   1.07252e-05   3.95161e-02
+       42   9.46198e-06   3.95160e-02
+       43   8.35316e-06   3.95159e-02
+       44   7.37884e-06   3.95158e-02
+       45   6.52185e-06   3.95158e-02
+       46   5.76738e-06   3.95158e-02
+       47   5.10260e-06   3.95157e-02
+       48   4.51639e-06   3.95157e-02
+       49   3.99910e-06   3.95157e-02
+       50   3.54233e-06   3.95157e-02
+       51   3.13875e-06   3.95157e-02
+       52   2.78197e-06   3.95157e-02
+       53   2.46641e-06   3.95156e-02
+       54   2.18717e-06   3.95156e-02
+       55   1.93998e-06   3.95156e-02
+       56   1.72107e-06   3.95156e-02
+       57   1.52713e-06   3.95156e-02
+       58   1.35528e-06   3.95156e-02
+       59   1.20294e-06   3.95156e-02
+       60   1.06787e-06   3.95156e-02
+       61   9.48077e-07   3.95156e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.    -0.     0.133 -5.381 -0.    -0.    -4.802 -0.    -5.094  0.    -0.     0.034  0.     0.     0.    -0.     0.416 -0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.    -0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+</pre></div></div>
+</div>
+</section>
+<section id="Trust-region-method">
+<h3>Trust-region method<a class="headerlink" href="#Trust-region-method" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">use_trust_region_implicit_constr</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Local LISA by solving convex optimization problem.&quot;&quot;&quot;</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;trust-region&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver_options&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;explicit_constr&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">LinearISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+
+<span class="n">use_trust_region_implicit_constr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                            : Linear Iterative Stockholder
+  Outer loop convergence threshold  : 1.0e-06
+  Inner loop convergence threshold  : 1.0e-08
+  Using global ISA                  : False
+  Maximum outer iterations          : 1000
+  lmax                              : 3
+  Solver                            : TRUST-REGION
+  Basis function type               : GAUSS
+  Grid type                         : 1
+  Solver options -- explicit_constr : False
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22857e-01   2.11396e-01
+        2   2.65513e-02   1.08102e-01
+        3   1.49502e-02   7.80028e-02
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/scipy/optimize/_hessian_update_strategy.py:182: UserWarning: delta_grad == 0.0. Check if the approximated function is linear. If the function is linear better results can be obtained by defining the Hessian as zero instead of using quasi-Newton approximations.
+  warn(&#39;delta_grad == 0.0. Check if the approximated &#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+        4   9.43139e-03   6.28939e-02
+        5   6.28278e-03   5.43357e-02
+        6   4.36176e-03   4.91977e-02
+        7   3.13724e-03   4.59788e-02
+        8   2.32439e-03   4.39260e-02
+        9   1.76663e-03   4.25672e-02
+       10   1.37236e-03   4.16535e-02
+       11   1.08426e-03   4.10372e-02
+       12   8.69002e-04   4.05994e-02
+       13   7.07334e-04   4.02827e-02
+       14   5.79412e-04   4.00938e-02
+       15   4.79068e-04   3.99380e-02
+       16   3.98152e-04   3.98321e-02
+       17   3.34015e-04   3.97421e-02
+       18   2.81002e-04   3.96912e-02
+       19   2.37413e-04   3.96482e-02
+       20   2.01270e-04   3.96150e-02
+       21   1.71392e-04   3.95866e-02
+       22   1.46297e-04   3.95722e-02
+       23   1.25170e-04   3.95506e-02
+       24   1.08530e-04   3.95197e-02
+       25   9.42482e-05   3.95398e-02
+       26   8.01395e-05   3.95303e-02
+       27   6.95924e-05   3.95253e-02
+       28   6.02034e-05   3.95269e-02
+       29   5.21416e-05   3.95200e-02
+       30   4.55336e-05   3.95169e-02
+       31   3.99712e-05   3.95200e-02
+       32   3.49082e-05   3.95150e-02
+       33   3.01641e-05   3.95140e-02
+       34   2.68027e-05   3.95160e-02
+       35   2.29319e-05   3.95078e-02
+       36   2.00355e-05   3.95072e-02
+       37   1.77119e-05   3.95068e-02
+       38   1.62033e-05   3.95105e-02
+       39   1.37105e-05   3.95112e-02
+       40   1.29701e-05   3.95099e-02
+       41   1.07454e-05   3.95102e-02
+       42   9.71581e-06   3.95060e-02
+       43   8.83410e-06   3.95098e-02
+       44   8.15586e-06   3.95135e-02
+       45   7.19968e-06   3.95137e-02
+       46   6.30629e-06   3.95097e-02
+       47   5.33348e-06   3.95057e-02
+       48   4.46998e-06   3.95056e-02
+       49   3.77317e-06   3.95056e-02
+       50   3.33970e-06   3.95056e-02
+       51   3.00130e-06   3.95056e-02
+       52   2.96631e-06   3.95056e-02
+       53   3.29021e-06   3.95053e-02
+       54   1.99794e-06   3.95056e-02
+       55   1.75818e-06   3.95056e-02
+       56   2.60511e-06   3.95056e-02
+       57   1.34410e-06   3.95053e-02
+       58   2.54437e-06   3.95053e-02
+       59   2.20108e-06   3.95056e-02
+       60   1.76033e-06   3.95053e-02
+       61   1.18436e-06   3.95055e-02
+       62   7.81326e-07   3.95055e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.    -0.     0.133 -5.381 -0.    -0.    -4.801  0.    -5.094  0.    -0.     0.034  0.     0.     0.    -0.     0.416 -0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.    -0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Non-linear-equations-(fixed-point-equations)">
+<h2>Non-linear equations (fixed-point equations)<a class="headerlink" href="#Non-linear-equations-(fixed-point-equations)" title="Link to this heading"></a></h2>
+<section id="Self-consistent-method">
+<h3>Self-consistent method<a class="headerlink" href="#Self-consistent-method" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">use_sc_solver</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Self-consistent solver.&quot;&quot;&quot;</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sc&quot;</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">LinearISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+
+<span class="n">use_sc_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : SC
+  Basis function type              : GAUSS
+  Grid type                        : 1
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22855e-01   2.11396e-01
+        2   2.65514e-02   1.08102e-01
+        3   1.49501e-02   7.80048e-02
+        4   9.43137e-03   6.28961e-02
+        5   6.28279e-03   5.43378e-02
+        6   4.36239e-03   4.91980e-02
+        7   3.13686e-03   4.59887e-02
+        8   2.32436e-03   4.39260e-02
+        9   1.76689e-03   4.25692e-02
+       10   1.37224e-03   4.16592e-02
+       11   1.08483e-03   4.10387e-02
+       12   8.70230e-04   4.06094e-02
+       13   7.06494e-04   4.03086e-02
+       14   5.79250e-04   4.00953e-02
+       15   4.78833e-04   3.99426e-02
+       16   3.98555e-04   3.98323e-02
+       17   3.33686e-04   3.97519e-02
+       18   2.80794e-04   3.96929e-02
+       19   2.37332e-04   3.96492e-02
+       20   2.01386e-04   3.96168e-02
+       21   1.71485e-04   3.95926e-02
+       22   1.46492e-04   3.95743e-02
+       23   1.25506e-04   3.95606e-02
+       24   1.07816e-04   3.95501e-02
+       25   9.28499e-05   3.95422e-02
+       26   8.01454e-05   3.95361e-02
+       27   6.93308e-05   3.95315e-02
+       28   6.00965e-05   3.95279e-02
+       29   5.21911e-05   3.95251e-02
+       30   4.54063e-05   3.95230e-02
+       31   3.95693e-05   3.95214e-02
+       32   3.45365e-05   3.95201e-02
+       33   3.01888e-05   3.95191e-02
+       34   2.64229e-05   3.95183e-02
+       35   2.31565e-05   3.95177e-02
+       36   2.03179e-05   3.95173e-02
+       37   1.78467e-05   3.95169e-02
+       38   1.56920e-05   3.95166e-02
+       39   1.38104e-05   3.95164e-02
+       40   1.21649e-05   3.95162e-02
+       41   1.07240e-05   3.95161e-02
+       42   9.46161e-06   3.95160e-02
+       43   8.35226e-06   3.95159e-02
+       44   7.37789e-06   3.95158e-02
+       45   6.52082e-06   3.95158e-02
+       46   5.76628e-06   3.95158e-02
+       47   5.10146e-06   3.95157e-02
+       48   4.51860e-06   3.95157e-02
+       49   3.99824e-06   3.95157e-02
+       50   3.54140e-06   3.95157e-02
+       51   3.13774e-06   3.95157e-02
+       52   2.78160e-06   3.95157e-02
+       53   2.46552e-06   3.95156e-02
+       54   2.18621e-06   3.95156e-02
+       55   1.93964e-06   3.95156e-02
+       56   1.72015e-06   3.95156e-02
+       57   1.52399e-06   3.95156e-02
+       58   1.35421e-06   3.95156e-02
+       59   1.20259e-06   3.95156e-02
+       60   1.06770e-06   3.95156e-02
+       61   9.46257e-07   3.95156e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.    -0.     0.133 -5.381 -0.    -0.    -4.802 -0.    -5.094 -0.    -0.     0.034  0.     0.     0.    -0.     0.416 -0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.     0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+</pre></div></div>
+</div>
+</section>
+<section id="Direct-Inversion-in-Iterative-Space-(DIIS)">
+<h3>Direct Inversion in Iterative Space (DIIS)<a class="headerlink" href="#Direct-Inversion-in-Iterative-Space-(DIIS)" title="Link to this heading"></a></h3>
+<p>This method has been extensively used to solve self-consistent field (SCF) problems in the fields of quantum chemistry and physics. In this tutorial, we employ this method to accelerate the solving of fixed-point problems.</p>
+<p>It should be noted that one potential issue with this method is that non-negative parameters cannot be guaranteed during optimization in the conventional DIIS approach. Although this issue can be addressed by explicitly introducing constraints to the linear combination coefficients, key concepts in DIIS, numerical issues may still arise, such as singular matrices or convergence problems.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">use_diis_solver</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;diis&quot;</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">LinearISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+
+<span class="n">use_diis_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : DIIS
+  Basis function type              : GAUSS
+  Grid type                        : 1
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22855e-01   2.11396e-01
+        2   2.65515e-02   1.08102e-01
+        3   1.49501e-02   7.80048e-02
+        4   9.43137e-03   6.28961e-02
+        5   6.28278e-03   5.43378e-02
+        6   4.36240e-03   4.91980e-02
+        7   3.13687e-03   4.59888e-02
+        8   2.32437e-03   4.39260e-02
+        9   1.76689e-03   4.25692e-02
+       10   1.37224e-03   4.16592e-02
+       11   1.08477e-03   4.10387e-02
+       12   8.70268e-04   4.06094e-02
+       13   7.06515e-04   4.03085e-02
+       14   5.79259e-04   4.00953e-02
+       15   4.78833e-04   3.99426e-02
+       16   3.98553e-04   3.98323e-02
+       17   3.33683e-04   3.97519e-02
+       18   2.80789e-04   3.96928e-02
+       19   2.37328e-04   3.96492e-02
+       20   2.01381e-04   3.96168e-02
+       21   1.71485e-04   3.95926e-02
+       22   1.46486e-04   3.95743e-02
+       23   1.25503e-04   3.95606e-02
+       24   1.07837e-04   3.95501e-02
+       25   9.28262e-05   3.95422e-02
+       26   8.01463e-05   3.95361e-02
+       27   6.93267e-05   3.95315e-02
+       28   6.00950e-05   3.95279e-02
+       29   5.21910e-05   3.95251e-02
+       30   4.54046e-05   3.95230e-02
+       31   3.95668e-05   3.95214e-02
+       32   3.45395e-05   3.95201e-02
+       33   3.01894e-05   3.95191e-02
+       34   2.64219e-05   3.95183e-02
+       35   2.32048e-05   3.95177e-02
+       36   2.02725e-05   3.95173e-02
+       37   1.78443e-05   3.95169e-02
+       38   1.56917e-05   3.95166e-02
+       39   1.38118e-05   3.95164e-02
+       40   1.21657e-05   3.95162e-02
+       41   1.07252e-05   3.95161e-02
+       42   9.46173e-06   3.95160e-02
+       43   8.35306e-06   3.95159e-02
+       44   7.37884e-06   3.95158e-02
+       45   6.52269e-06   3.95158e-02
+       46   5.76628e-06   3.95158e-02
+       47   5.10255e-06   3.95157e-02
+       48   4.51624e-06   3.95157e-02
+       49   3.99896e-06   3.95157e-02
+       50   3.54223e-06   3.95157e-02
+       51   3.13864e-06   3.95157e-02
+       52   2.78194e-06   3.95157e-02
+       53   2.46633e-06   3.95156e-02
+       54   2.18725e-06   3.95156e-02
+       55   1.93972e-06   3.95156e-02
+       56   1.72097e-06   3.95156e-02
+       57   1.52708e-06   3.95156e-02
+       58   1.35521e-06   3.95156e-02
+       59   1.20290e-06   3.95156e-02
+       60   1.06782e-06   3.95156e-02
+       61   9.48037e-07   3.95156e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.     0.     0.133 -5.381 -0.    -0.    -4.802  0.    -5.094 -0.    -0.     0.034  0.    -0.     0.    -0.     0.416 -0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.     0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+</pre></div></div>
+</div>
+</section>
+<section id="Newton-Method">
+<h3>Newton Method<a class="headerlink" href="#Newton-Method" title="Link to this heading"></a></h3>
+<p>The final method is the Newton method. Similarly to the previous methods, the Newton method cannot guarantee non-negative parameters, and negative pro-atom densities may arise during optimization. To address this, one might need to modify the hyper-parameters used in the method for different systems, which can make it less robust.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">newton_method</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;newton&quot;</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">LinearISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+
+<span class="n">newton_method</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : NEWTON
+  Basis function type              : GAUSS
+  Grid type                        : 1
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22855e-01   2.11396e-01
+        2   2.65514e-02   1.08102e-01
+        3   1.49501e-02   7.80048e-02
+        4   9.43137e-03   6.28961e-02
+        5   6.28278e-03   5.43378e-02
+        6   4.36240e-03   4.91980e-02
+        7   3.13687e-03   4.59888e-02
+        8   2.32436e-03   4.39260e-02
+        9   1.76689e-03   4.25692e-02
+       10   1.37223e-03   4.16592e-02
+       11   1.08483e-03   4.10387e-02
+       12   8.70228e-04   4.06094e-02
+       13   7.06492e-04   4.03086e-02
+       14   5.79250e-04   4.00953e-02
+       15   4.78831e-04   3.99426e-02
+       16   3.98556e-04   3.98323e-02
+       17   3.33687e-04   3.97519e-02
+       18   2.80794e-04   3.96929e-02
+       19   2.37332e-04   3.96492e-02
+       20   2.01386e-04   3.96168e-02
+       21   1.71486e-04   3.95926e-02
+       22   1.46492e-04   3.95743e-02
+       23   1.25506e-04   3.95606e-02
+       24   1.07816e-04   3.95501e-02
+       25   9.28500e-05   3.95422e-02
+       26   8.01470e-05   3.95361e-02
+       27   6.93317e-05   3.95315e-02
+       28   6.00974e-05   3.95279e-02
+       29   5.21920e-05   3.95251e-02
+       30   4.54072e-05   3.95230e-02
+       31   3.95702e-05   3.95214e-02
+       32   3.45374e-05   3.95201e-02
+       33   3.01887e-05   3.95191e-02
+       34   2.64235e-05   3.95183e-02
+       35   2.31572e-05   3.95177e-02
+       36   2.03187e-05   3.95173e-02
+       37   1.78476e-05   3.95169e-02
+       38   1.56930e-05   3.95166e-02
+       39   1.38115e-05   3.95164e-02
+       40   1.21661e-05   3.95162e-02
+       41   1.07252e-05   3.95161e-02
+       42   9.46198e-06   3.95160e-02
+       43   8.35316e-06   3.95159e-02
+       44   7.37883e-06   3.95158e-02
+       45   6.52185e-06   3.95158e-02
+       46   5.76738e-06   3.95158e-02
+       47   5.10260e-06   3.95157e-02
+       48   4.51639e-06   3.95157e-02
+       49   3.99910e-06   3.95157e-02
+       50   3.54233e-06   3.95157e-02
+       51   3.13875e-06   3.95157e-02
+       52   2.78197e-06   3.95157e-02
+       53   2.46641e-06   3.95156e-02
+       54   2.18717e-06   3.95156e-02
+       55   1.93998e-06   3.95156e-02
+       56   1.72107e-06   3.95156e-02
+       57   1.52714e-06   3.95156e-02
+       58   1.35528e-06   3.95156e-02
+       59   1.20294e-06   3.95156e-02
+       60   1.06787e-06   3.95156e-02
+       61   9.48078e-07   3.95156e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.    -0.     0.133 -5.381 -0.    -0.    -4.802 -0.    -5.094 -0.    -0.     0.034  0.    -0.     0.    -0.     0.416 -0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.     0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Customized-Methods">
+<h2>Customized Methods<a class="headerlink" href="#Customized-Methods" title="Link to this heading"></a></h2>
+<p>One can also apply customized solvers. Next, we will implement and apply a modified version of the self-consistent method.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">customize_self_consistent_solver</span><span class="p">(</span>
+    <span class="n">bs_funcs</span><span class="p">,</span>
+    <span class="n">rho</span><span class="p">,</span>
+    <span class="n">propars</span><span class="p">,</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="n">weights</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="p">,</span>
+    <span class="n">logger</span><span class="p">,</span>
+    <span class="n">density_cutoff</span><span class="p">,</span>
+    <span class="n">negative_cutoff</span><span class="p">,</span>
+    <span class="n">population_cutoff</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Optimize parameters for proatom density functions using a self-consistent (SC) method.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        N_{Ai} = \int \rho_A(r) \frac{\rho_{Ai}^0(r)}{\rho_A^0(r)} dr</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bs_funcs : 2D np.ndarray</span>
+<span class="sd">        Basis functions array with shape (M, N), where &#39;M&#39; is the number of basis functions</span>
+<span class="sd">        and &#39;N&#39; is the number of grid points.</span>
+<span class="sd">    rho : 1D np.ndarray</span>
+<span class="sd">        Spherically-averaged atomic density as a function of radial distance, with shape (N,).</span>
+<span class="sd">    propars : 1D np.ndarray</span>
+<span class="sd">        Pro-atom parameters with shape (M). &#39;M&#39; is the number of basis functions.</span>
+<span class="sd">    points : 1D np.ndarray</span>
+<span class="sd">        Radial coordinates of grid points, with shape (N,).</span>
+<span class="sd">    weights : 1D np.ndarray</span>
+<span class="sd">        Weights for integration, including the angular part (4πr²), with shape (N,).</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Convergence threshold for the iterative process.</span>
+<span class="sd">    density_cutoff : float</span>
+<span class="sd">        Density values below this cutoff are considered invalid.</span>
+<span class="sd">    negative_cutoff : float</span>
+<span class="sd">        The value less than `negative_cutoff` is treated as negative.</span>
+<span class="sd">    population_cutoff : float</span>
+<span class="sd">        The criteria for the difference between the sum of propars and reference population.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    1D np.ndarray</span>
+<span class="sd">        Optimized proatom parameters.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    RuntimeError</span>
+<span class="sd">        If the inner iteration does not converge.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pro_shells</span> <span class="o">=</span> <span class="n">bs_funcs</span> <span class="o">*</span> <span class="n">propars</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">pro_density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij-&gt;j&quot;</span><span class="p">,</span> <span class="n">pro_shells</span><span class="p">)</span>
+    <span class="n">sick</span> <span class="o">=</span> <span class="p">(</span><span class="n">rho</span> <span class="o">&lt;</span> <span class="n">density_cutoff</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">pro_density</span> <span class="o">&lt;</span> <span class="n">density_cutoff</span><span class="p">)</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">pro_density</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">rho</span><span class="p">),</span> <span class="n">where</span><span class="o">=~</span><span class="n">sick</span><span class="p">)</span>
+    <span class="n">propars</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;p,ip-&gt;i&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">pro_shells</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">propars</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">customized_self_consistent_method</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">customize_self_consistent_solver</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">LinearISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+
+<span class="n">customized_self_consistent_method</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : customize_self_consistent_solver
+  Basis function type              : GAUSS
+  Grid type                        : 1
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   8.86585e-02   2.11396e-01
+        2   5.02846e-02   1.36292e-01
+        3   2.65819e-02   1.03225e-01
+        4   2.18078e-02   8.44885e-02
+        5   1.89744e-02   7.24750e-02
+        6   1.50523e-02   6.43082e-02
+        7   1.12722e-02   5.85582e-02
+        8   8.31795e-03   5.44026e-02
+        9   6.29088e-03   5.13346e-02
+       10   5.01125e-03   4.90284e-02
+       11   4.21355e-03   4.72676e-02
+       12   3.67168e-03   4.59039e-02
+       13   3.24896e-03   4.48339e-02
+       14   2.88401e-03   4.39841e-02
+       15   2.55799e-03   4.33014e-02
+       16   2.27038e-03   4.27469e-02
+       17   2.02574e-03   4.22920e-02
+       18   1.82754e-03   4.19153e-02
+       19   1.67554e-03   4.16006e-02
+       20   1.56527e-03   4.13357e-02
+       21   1.48897e-03   4.11110e-02
+       22   1.43743e-03   4.09193e-02
+       23   1.40179e-03   4.07546e-02
+       24   1.37477e-03   4.06125e-02
+       25   1.35103e-03   4.04893e-02
+       26   1.32709e-03   4.03819e-02
+       27   1.30090e-03   4.02881e-02
+       28   1.27147e-03   4.02058e-02
+       29   1.23852e-03   4.01334e-02
+       30   1.20219e-03   4.00694e-02
+       31   1.16288e-03   4.00129e-02
+       32   1.12112e-03   3.99628e-02
+       33   1.07749e-03   3.99183e-02
+       34   1.03254e-03   3.98787e-02
+       35   9.86801e-04   3.98433e-02
+       36   9.40751e-04   3.98118e-02
+       37   8.94802e-04   3.97836e-02
+       38   8.49310e-04   3.97584e-02
+       39   8.04574e-04   3.97357e-02
+       40   7.60835e-04   3.97154e-02
+       41   7.18289e-04   3.96972e-02
+       42   6.77089e-04   3.96807e-02
+       43   6.37347e-04   3.96660e-02
+       44   5.99147e-04   3.96526e-02
+       45   5.62541e-04   3.96406e-02
+       46   5.27562e-04   3.96298e-02
+       47   4.94220e-04   3.96200e-02
+       48   4.62510e-04   3.96111e-02
+       49   4.32414e-04   3.96031e-02
+       50   4.03903e-04   3.95958e-02
+       51   3.76940e-04   3.95893e-02
+       52   3.51482e-04   3.95833e-02
+       53   3.27478e-04   3.95779e-02
+       54   3.04877e-04   3.95729e-02
+       55   2.83623e-04   3.95685e-02
+       56   2.63661e-04   3.95644e-02
+       57   2.44931e-04   3.95607e-02
+       58   2.27377e-04   3.95573e-02
+       59   2.10941e-04   3.95542e-02
+       60   1.95567e-04   3.95514e-02
+       61   1.81200e-04   3.95488e-02
+       62   1.67785e-04   3.95464e-02
+       63   1.55270e-04   3.95443e-02
+       64   1.43606e-04   3.95423e-02
+       65   1.32743e-04   3.95405e-02
+       66   1.22634e-04   3.95388e-02
+       67   1.13236e-04   3.95373e-02
+       68   1.04505e-04   3.95359e-02
+       69   9.64010e-05   3.95346e-02
+       70   8.88855e-05   3.95334e-02
+       71   8.19220e-05   3.95323e-02
+       72   7.54758e-05   3.95313e-02
+       73   6.95141e-05   3.95303e-02
+       74   6.40062e-05   3.95294e-02
+       75   5.89229e-05   3.95286e-02
+       76   5.42367e-05   3.95279e-02
+       77   4.99218e-05   3.95272e-02
+       78   4.59540e-05   3.95266e-02
+       79   4.23103e-05   3.95260e-02
+       80   3.89693e-05   3.95254e-02
+       81   3.59108e-05   3.95249e-02
+       82   3.31159e-05   3.95244e-02
+       83   3.05666e-05   3.95239e-02
+       84   2.82461e-05   3.95235e-02
+       85   2.61385e-05   3.95231e-02
+       86   2.42286e-05   3.95228e-02
+       87   2.25020e-05   3.95224e-02
+       88   2.09451e-05   3.95221e-02
+       89   1.95448e-05   3.95218e-02
+       90   1.82883e-05   3.95215e-02
+       91   1.71637e-05   3.95212e-02
+       92   1.61591e-05   3.95210e-02
+       93   1.52635e-05   3.95207e-02
+       94   1.44660e-05   3.95205e-02
+       95   1.37564e-05   3.95203e-02
+       96   1.31250e-05   3.95201e-02
+       97   1.25625e-05   3.95199e-02
+       98   1.20605e-05   3.95197e-02
+       99   1.16111e-05   3.95195e-02
+      100   1.12071e-05   3.95194e-02
+      101   1.08421e-05   3.95192e-02
+      102   1.05104e-05   3.95191e-02
+      103   1.02067e-05   3.95189e-02
+      104   9.92682e-06   3.95188e-02
+      105   9.66679e-06   3.95187e-02
+      106   9.42338e-06   3.95185e-02
+      107   9.19381e-06   3.95184e-02
+      108   8.97575e-06   3.95183e-02
+      109   8.76728e-06   3.95182e-02
+      110   8.56679e-06   3.95181e-02
+      111   8.37299e-06   3.95180e-02
+      112   8.18483e-06   3.95179e-02
+      113   8.00146e-06   3.95178e-02
+      114   7.82222e-06   3.95177e-02
+      115   7.64661e-06   3.95177e-02
+      116   7.47422e-06   3.95176e-02
+      117   7.30476e-06   3.95175e-02
+      118   7.13802e-06   3.95174e-02
+      119   6.97384e-06   3.95174e-02
+      120   6.81214e-06   3.95173e-02
+      121   6.65285e-06   3.95172e-02
+      122   6.49594e-06   3.95172e-02
+      123   6.34142e-06   3.95171e-02
+      124   6.18929e-06   3.95171e-02
+      125   6.03959e-06   3.95170e-02
+      126   5.89234e-06   3.95170e-02
+      127   5.74758e-06   3.95169e-02
+      128   5.60535e-06   3.95169e-02
+      129   5.46569e-06   3.95168e-02
+      130   5.32863e-06   3.95168e-02
+      131   5.19421e-06   3.95167e-02
+      132   5.06245e-06   3.95167e-02
+      133   4.93338e-06   3.95167e-02
+      134   4.80702e-06   3.95166e-02
+      135   4.68338e-06   3.95166e-02
+      136   4.56248e-06   3.95166e-02
+      137   4.44430e-06   3.95165e-02
+      138   4.32886e-06   3.95165e-02
+      139   4.21614e-06   3.95165e-02
+      140   4.10613e-06   3.95164e-02
+      141   3.99882e-06   3.95164e-02
+      142   3.89418e-06   3.95164e-02
+      143   3.79219e-06   3.95164e-02
+      144   3.69281e-06   3.95163e-02
+      145   3.59603e-06   3.95163e-02
+      146   3.50180e-06   3.95163e-02
+      147   3.41008e-06   3.95163e-02
+      148   3.32084e-06   3.95162e-02
+      149   3.23403e-06   3.95162e-02
+      150   3.14960e-06   3.95162e-02
+      151   3.06752e-06   3.95162e-02
+      152   2.98774e-06   3.95162e-02
+      153   2.91019e-06   3.95161e-02
+      154   2.83485e-06   3.95161e-02
+      155   2.76166e-06   3.95161e-02
+      156   2.69056e-06   3.95161e-02
+      157   2.62150e-06   3.95161e-02
+      158   2.55445e-06   3.95160e-02
+      159   2.48933e-06   3.95160e-02
+      160   2.42611e-06   3.95160e-02
+      161   2.36474e-06   3.95160e-02
+      162   2.30516e-06   3.95160e-02
+      163   2.24732e-06   3.95160e-02
+      164   2.19117e-06   3.95160e-02
+      165   2.13667e-06   3.95160e-02
+      166   2.08377e-06   3.95159e-02
+      167   2.03242e-06   3.95159e-02
+      168   1.98258e-06   3.95159e-02
+      169   1.93419e-06   3.95159e-02
+      170   1.88722e-06   3.95159e-02
+      171   1.84162e-06   3.95159e-02
+      172   1.79735e-06   3.95159e-02
+      173   1.75437e-06   3.95159e-02
+      174   1.71264e-06   3.95159e-02
+      175   1.67212e-06   3.95159e-02
+      176   1.63276e-06   3.95158e-02
+      177   1.59454e-06   3.95158e-02
+      178   1.55741e-06   3.95158e-02
+      179   1.52135e-06   3.95158e-02
+      180   1.48630e-06   3.95158e-02
+      181   1.45226e-06   3.95158e-02
+      182   1.41917e-06   3.95158e-02
+      183   1.38701e-06   3.95158e-02
+      184   1.35575e-06   3.95158e-02
+      185   1.32537e-06   3.95158e-02
+      186   1.29582e-06   3.95158e-02
+      187   1.26708e-06   3.95158e-02
+      188   1.23914e-06   3.95158e-02
+      189   1.21195e-06   3.95158e-02
+      190   1.18550e-06   3.95158e-02
+      191   1.15976e-06   3.95158e-02
+      192   1.13471e-06   3.95158e-02
+      193   1.11033e-06   3.95157e-02
+      194   1.08660e-06   3.95157e-02
+      195   1.06348e-06   3.95157e-02
+      196   1.04098e-06   3.95157e-02
+      197   1.01905e-06   3.95157e-02
+      198   9.97697e-07   3.95157e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.    -0.     0.133 -5.381 -0.    -0.    -4.801 -0.    -5.094  0.    -0.     0.033  0.     0.     0.    -0.     0.416 -0.     0.366]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.     0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+</pre></div></div>
+</div>
+<p>One can also apply customized basis functions using the <code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper</span></code> class. First, we need to define the basis functions, which should adhere to the following general format:</p>
+<div class="math notranslate nohighlight">
+\[f_{ak} = c_{ak} \exp^{-\alpha_{ak} |r|^{n_{ak}}}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(c_{ak}\)</span> represents the prefactors and the pro-atom parameters to be determined; <span class="math notranslate nohighlight">\(\alpha_{ak}\)</span> is the exponential coefficient; and <span class="math notranslate nohighlight">\(n_{ak}\)</span> corresponds to the power of the exponential function. The subscripts <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(k\)</span> denote the indices of atoms and basis functions, respectively.</p>
+<p>We initialize <code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper</span></code> using the default method, and therefore need to provide the <span class="math notranslate nohighlight">\(\alpha_{ak}\)</span> (<code class="docutils literal notranslate"><span class="pre">exponents</span></code>), <span class="math notranslate nohighlight">\(n_{ak}\)</span> (<code class="docutils literal notranslate"><span class="pre">exponents_orders</span></code>), and initial values of <span class="math notranslate nohighlight">\(c_{ak}\)</span> (<code class="docutils literal notranslate"><span class="pre">initials</span></code>). To illustrate the functionality, we use three exponential functions with different <span class="math notranslate nohighlight">\(n\)</span> values, i.e., 1 (Slater type), 1.5, and 2 (Gaussian type).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bs_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;exponents_orders&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">]},</span>
+    <span class="s2">&quot;exponents&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]},</span>
+    <span class="s2">&quot;initials&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.33</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.33</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">},</span>
+<span class="p">}</span>
+<span class="n">basis_helper</span> <span class="o">=</span> <span class="n">ExpBasisFuncHelper</span><span class="p">(</span><span class="o">**</span><span class="n">bs_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>It should be noted that one can also initialize a <code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper</span></code> through a <code class="docutils literal notranslate"><span class="pre">json</span></code> file by calling <code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.from_json('json_file_path.json')</span></code>.</p>
+<p>Next, we can apply the newly customized basis functions and the self-consistent solver. It is important to note</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">customized_basis_functions</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">customize_self_consistent_solver</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;basis_func&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">basis_helper</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">LinearISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+
+<span class="n">customized_basis_functions</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : customize_self_consistent_solver
+  Basis function type              : Customized
+  Grid type                        : 1
+
+Iteration       Change      Entropy
+        1   5.89735e-01   5.05801e+00
+        2   1.15038e-01   3.85235e+00
+        3   3.22005e-02   3.65738e+00
+        4   2.93260e-02   3.54683e+00
+        5   3.14458e-02   3.47062e+00
+        6   3.00283e-02   3.41504e+00
+        7   2.73979e-02   3.37363e+00
+        8   2.46431e-02   3.34244e+00
+        9   2.21092e-02   3.31880e+00
+       10   1.98673e-02   3.30078e+00
+       11   1.79024e-02   3.28696e+00
+       12   1.61789e-02   3.27630e+00
+       13   1.46612e-02   3.26803e+00
+       14   1.33189e-02   3.26156e+00
+       15   1.21268e-02   3.25646e+00
+       16   1.10643e-02   3.25241e+00
+       17   1.01144e-02   3.24917e+00
+       18   9.26283e-03   3.24657e+00
+       19   8.49748e-03   3.24445e+00
+       20   7.80804e-03   3.24272e+00
+       21   7.18563e-03   3.24130e+00
+       22   6.62257e-03   3.24013e+00
+       23   6.11219e-03   3.23915e+00
+       24   5.64868e-03   3.23833e+00
+       25   5.22694e-03   3.23764e+00
+       26   4.84253e-03   3.23706e+00
+       27   4.49154e-03   3.23656e+00
+       28   4.17053e-03   3.23614e+00
+       29   3.87647e-03   3.23578e+00
+       30   3.60667e-03   3.23548e+00
+       31   3.35878e-03   3.23521e+00
+       32   3.13068e-03   3.23498e+00
+       33   2.92052e-03   3.23478e+00
+       34   2.72662e-03   3.23461e+00
+       35   2.54751e-03   3.23446e+00
+       36   2.38186e-03   3.23433e+00
+       37   2.22849e-03   3.23422e+00
+       38   2.08632e-03   3.23412e+00
+       39   1.95441e-03   3.23403e+00
+       40   1.83189e-03   3.23395e+00
+       41   1.71799e-03   3.23389e+00
+       42   1.61201e-03   3.23383e+00
+       43   1.51330e-03   3.23378e+00
+       44   1.42129e-03   3.23373e+00
+       45   1.33547e-03   3.23369e+00
+       46   1.25535e-03   3.23366e+00
+       47   1.18051e-03   3.23363e+00
+       48   1.11055e-03   3.23360e+00
+       49   1.04510e-03   3.23358e+00
+       50   9.83842e-04   3.23356e+00
+       51   9.26471e-04   3.23354e+00
+       52   8.72711e-04   3.23352e+00
+       53   8.22307e-04   3.23351e+00
+       54   7.75025e-04   3.23349e+00
+       55   7.30651e-04   3.23348e+00
+       56   6.88987e-04   3.23347e+00
+       57   6.49850e-04   3.23346e+00
+       58   6.13072e-04   3.23345e+00
+       59   5.78496e-04   3.23345e+00
+       60   5.45978e-04   3.23344e+00
+       61   5.15385e-04   3.23344e+00
+       62   4.86593e-04   3.23343e+00
+       63   4.59488e-04   3.23343e+00
+       64   4.33962e-04   3.23342e+00
+       65   4.09916e-04   3.23342e+00
+       66   3.87259e-04   3.23342e+00
+       67   3.65904e-04   3.23341e+00
+       68   3.45771e-04   3.23341e+00
+       69   3.26786e-04   3.23341e+00
+       70   3.08880e-04   3.23341e+00
+       71   2.91987e-04   3.23341e+00
+       72   2.76047e-04   3.23341e+00
+       73   2.61003e-04   3.23340e+00
+       74   2.46802e-04   3.23340e+00
+       75   2.33394e-04   3.23340e+00
+       76   2.20734e-04   3.23340e+00
+       77   2.08777e-04   3.23340e+00
+       78   1.97482e-04   3.23340e+00
+       79   1.86813e-04   3.23340e+00
+       80   1.76731e-04   3.23340e+00
+       81   1.67205e-04   3.23340e+00
+       82   1.58202e-04   3.23340e+00
+       83   1.49692e-04   3.23340e+00
+       84   1.41648e-04   3.23340e+00
+       85   1.34043e-04   3.23340e+00
+       86   1.26852e-04   3.23340e+00
+       87   1.20053e-04   3.23340e+00
+       88   1.13623e-04   3.23340e+00
+       89   1.07543e-04   3.23340e+00
+       90   1.01791e-04   3.23340e+00
+       91   9.63514e-05   3.23340e+00
+       92   9.12053e-05   3.23340e+00
+       93   8.63370e-05   3.23340e+00
+       94   8.17312e-05   3.23340e+00
+       95   7.73735e-05   3.23340e+00
+       96   7.32502e-05   3.23340e+00
+       97   6.93485e-05   3.23340e+00
+       98   6.56563e-05   3.23340e+00
+       99   6.21623e-05   3.23340e+00
+      100   5.88555e-05   3.23340e+00
+      101   5.57259e-05   3.23340e+00
+      102   5.27638e-05   3.23340e+00
+      103   4.99602e-05   3.23340e+00
+      104   4.73064e-05   3.23340e+00
+      105   4.47943e-05   3.23340e+00
+      106   4.24164e-05   3.23340e+00
+      107   4.01653e-05   3.23340e+00
+      108   3.80343e-05   3.23340e+00
+      109   3.60168e-05   3.23340e+00
+      110   3.41069e-05   3.23340e+00
+      111   3.22986e-05   3.23340e+00
+      112   3.05866e-05   3.23340e+00
+      113   2.89656e-05   3.23340e+00
+      114   2.74309e-05   3.23340e+00
+      115   2.59777e-05   3.23340e+00
+      116   2.46018e-05   3.23340e+00
+      117   2.32989e-05   3.23340e+00
+      118   2.20653e-05   3.23340e+00
+      119   2.08971e-05   3.23340e+00
+      120   1.97909e-05   3.23340e+00
+      121   1.87435e-05   3.23340e+00
+      122   1.77516e-05   3.23340e+00
+      123   1.68123e-05   3.23340e+00
+      124   1.59228e-05   3.23340e+00
+      125   1.50804e-05   3.23340e+00
+      126   1.42827e-05   3.23340e+00
+      127   1.35273e-05   3.23340e+00
+      128   1.28119e-05   3.23340e+00
+      129   1.21343e-05   3.23340e+00
+      130   1.14927e-05   3.23340e+00
+      131   1.08850e-05   3.23340e+00
+      132   1.03095e-05   3.23340e+00
+      133   9.76452e-06   3.23340e+00
+      134   9.24834e-06   3.23340e+00
+      135   8.75948e-06   3.23340e+00
+      136   8.29649e-06   3.23340e+00
+      137   7.85799e-06   3.23340e+00
+      138   7.44269e-06   3.23340e+00
+      139   7.04936e-06   3.23340e+00
+      140   6.67684e-06   3.23340e+00
+      141   6.32402e-06   3.23340e+00
+      142   5.98985e-06   3.23340e+00
+      143   5.67336e-06   3.23340e+00
+      144   5.37360e-06   3.23340e+00
+      145   5.08968e-06   3.23340e+00
+      146   4.82078e-06   3.23340e+00
+      147   4.56610e-06   3.23340e+00
+      148   4.32487e-06   3.23340e+00
+      149   4.09640e-06   3.23340e+00
+      150   3.88000e-06   3.23340e+00
+      151   3.67504e-06   3.23340e+00
+      152   3.48091e-06   3.23340e+00
+      153   3.29704e-06   3.23340e+00
+      154   3.12289e-06   3.23340e+00
+      155   2.95794e-06   3.23340e+00
+      156   2.80170e-06   3.23340e+00
+      157   2.65372e-06   3.23340e+00
+      158   2.51356e-06   3.23340e+00
+      159   2.38080e-06   3.23340e+00
+      160   2.25506e-06   3.23340e+00
+      161   2.13596e-06   3.23340e+00
+      162   2.02315e-06   3.23340e+00
+      163   1.91630e-06   3.23340e+00
+      164   1.81510e-06   3.23340e+00
+      165   1.71924e-06   3.23340e+00
+      166   1.62845e-06   3.23340e+00
+      167   1.54245e-06   3.23340e+00
+      168   1.46099e-06   3.23340e+00
+      169   1.38384e-06   3.23340e+00
+      170   1.31076e-06   3.23340e+00
+      171   1.24154e-06   3.23340e+00
+      172   1.17597e-06   3.23340e+00
+      173   1.11387e-06   3.23340e+00
+      174   1.05505e-06   3.23340e+00
+      175   9.99340e-07   3.23340e+00
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.411  0.207  0.207]
+cartesian multipoles:
+[[-0.411 -0.    -0.     0.05  -3.886 -0.    -0.    -3.749 -0.    -4.009 -0.    -0.    -0.561  0.     0.    -0.    -0.     0.281 -0.    -0.98 ]
+ [ 0.207 -0.     0.243 -0.22  -1.022 -0.    -0.    -0.931  0.077 -1.001 -0.     0.487 -0.535 -0.     0.    -0.     1.249 -0.268  0.399 -1.297]
+ [ 0.207 -0.    -0.243 -0.22  -1.022 -0.    -0.    -0.931 -0.077 -1.001 -0.    -0.487 -0.535 -0.    -0.    -0.    -1.249 -0.268 -0.399 -1.297]]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mbis.html" class="btn btn-neutral float-left" title="Minimum Basis Iterative Stockholder (MBIS) scheme" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lisa_diis.html" class="btn btn-neutral float-right" title="New Direct Inversion in Iterative Space (DIIS)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

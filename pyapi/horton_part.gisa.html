@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>horton_part.gisa module &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="horton_part.glisa module" href="horton_part.glisa.html" />
+    <link rel="prev" title="horton_part.becke module" href="horton_part.becke.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">horton_part</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="horton_part.html">horton_part package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="horton_part.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">horton_part</a></li>
+          <li class="breadcrumb-item"><a href="horton_part.html">horton_part package</a></li>
+      <li class="breadcrumb-item active">horton_part.gisa module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pyapi/horton_part.gisa.rst" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-horton_part.gisa">
+<span id="horton-part-gisa-module"></span><h1>horton_part.gisa module<a class="headerlink" href="#module-horton_part.gisa" title="Link to this heading"></a></h1>
+<p>Gaussian Iterative Stockholder Analysis (GISA) partitioning</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GaussianISAWPart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moldens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spindens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quadprog'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart" title="horton_part.core.iterstock.AbstractISAWPart"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractISAWPart</span></code></a></p>
+<p>Iterative Stockholder Partitioning with Becke-Lebedev grids.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moldens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spindens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quadprog'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initial function.</p>
+<p><strong>Optional arguments:</strong> (that are not defined in <code class="xref py py-class docutils literal notranslate"><span class="pre">horton_part.core.itertock.AbstractISAWPart</span></code>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> (<em>str</em><em> or </em><em>callable</em>) – The solver name or a callable object.</p></li>
+<li><p><strong>solver_options</strong> (<em>dict</em>) – The options for different solvers.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.bs_helper">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bs_helper</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.bs_helper" title="Link to this definition"></a></dt>
+<dd><p>A basis function helper.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.cache">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.cache" title="Link to this definition"></a></dt>
+<dd><p>Cache.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.calc_radial_distances">
+<span class="sig-name descname"><span class="pre">calc_radial_distances</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.calc_radial_distances" title="Link to this definition"></a></dt>
+<dd><p>Calculate radial distance w.r.t coordinates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.clear" title="Link to this definition"></a></dt>
+<dd><p>Discard all cached results, e.g. because wfn changed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.compute_change">
+<span class="sig-name descname"><span class="pre">compute_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">propars1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propars2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.compute_change" title="Link to this definition"></a></dt>
+<dd><p>Compute the difference between an old and a new proatoms</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.compute_pseudo_population">
+<span class="sig-name descname"><span class="pre">compute_pseudo_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.compute_pseudo_population" title="Link to this definition"></a></dt>
+<dd><p>Compute pseudo population</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.coordinates">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coordinates</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.coordinates" title="Link to this definition"></a></dt>
+<dd><p>Center/Atomic coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray(M, 3)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.density_cutoff">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">density_cutoff</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.density_cutoff" title="Link to this definition"></a></dt>
+<dd><p>Get the density cutoff value.</p>
+<p>Density values below this cutoff are considered to be invalid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The cutoff value for density.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.do_all">
+<span class="sig-name descname"><span class="pre">do_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.do_all" title="Link to this definition"></a></dt>
+<dd><p>Computes all properties and return a list of their keys.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.do_charges">
+<span class="sig-name descname"><span class="pre">do_charges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.do_charges" title="Link to this definition"></a></dt>
+<dd><p>Compute atomic charges.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.do_density_decomposition">
+<span class="sig-name descname"><span class="pre">do_density_decomposition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.do_density_decomposition" title="Link to this definition"></a></dt>
+<dd><p>Compute density decomposition.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.do_moments">
+<span class="sig-name descname"><span class="pre">do_moments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.do_moments" title="Link to this definition"></a></dt>
+<dd><p>Compute atomic multiple moments.</p>
+<p>Calculates various types of multipoles, including Cartesian, Spherical, and Radial moments.
+The order of the moments is determined by the <cite>lmax</cite> parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.do_partitioning">
+<span class="sig-name descname"><span class="pre">do_partitioning</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.do_partitioning" title="Link to this definition"></a></dt>
+<dd><p>Do partitioning</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.do_populations">
+<span class="sig-name descname"><span class="pre">do_populations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.do_populations" title="Link to this definition"></a></dt>
+<dd><p>Compute atomic populations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.do_prosplines">
+<span class="sig-name descname"><span class="pre">do_prosplines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.do_prosplines" title="Link to this definition"></a></dt>
+<dd><p>Do pro-atom splines</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.do_spin_charges">
+<span class="sig-name descname"><span class="pre">do_spin_charges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.do_spin_charges" title="Link to this definition"></a></dt>
+<dd><p>Compute atomic spin charges.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.eval_proatom">
+<span class="sig-name descname"><span class="pre">eval_proatom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.eval_proatom" title="Link to this definition"></a></dt>
+<dd><p>Evaluate function on the molecular grid.</p>
+<p>The size of the local grid is specified by the radius of the sphere where the local grid is considered.
+For example, when the radius is <cite>np.inf</cite>, the grid corresponds to the whole molecular grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of an atom in the molecule.</p></li>
+<li><p><strong>output</strong> (<em>1D np.array</em>) – The size of <cite>output</cite> should be the same as the size of the local grid.</p></li>
+<li><p><strong>grid</strong> (<em>2D np.array</em>) – The molecular grid.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.eval_spline">
+<span class="sig-name descname"><span class="pre">eval_spline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'noname'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.eval_spline" title="Link to this definition"></a></dt>
+<dd><p>Evaluate a given spline at radial distances from a specified atom center and store the results in the output array.</p>
+<p>This method calculates the radial distances from the specified atom center to each point in the provided grid.
+It then evaluates the provided spline function at these distances, storing the results in the given output array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the atom whose center is used for calculating radial distances.</p></li>
+<li><p><strong>spline</strong> (<em>callable</em>) – The spline function to be evaluated. This should be a function that takes an array of radial distances
+and returns the corresponding spline values.</p></li>
+<li><p><strong>output</strong> (<em>1D ndarray</em>) – The array where the evaluated spline values will be stored. This array is modified in-place.</p></li>
+<li><p><strong>grid</strong> (<em>Grid</em>) – An object representing the grid points. It should have an attribute <cite>points</cite> which is an array of
+grid point coordinates.</p></li>
+<li><p><strong>label</strong> (<em>str</em><em>, </em><em>optional</em>) – A label for identification purposes, defaults to “noname”.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The method computes the Euclidean norm (radial distance) from the atom center, specified by <cite>index</cite>, to each
+point in the grid. The spline function is then evaluated at these distances. The results are stored directly
+in the <cite>output</cite> array, overwriting any existing data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.fix_proatom_rho">
+<span class="sig-name descname"><span class="pre">fix_proatom_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deriv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.fix_proatom_rho" title="Link to this definition"></a></dt>
+<dd><p>Check if the radial density for the proatom is correct and fix as needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The atom for which this proatom rho is created.</p></li>
+<li><p><strong>rho</strong> (<em>1D np.ndarray</em>) – The radial density</p></li>
+<li><p><strong>deriv</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – the derivative of the radial density or None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.get_grid">
+<span class="sig-name descname"><span class="pre">get_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.get_grid" title="Link to this definition"></a></dt>
+<dd><p>Return an integration grid</p>
+<p><strong>Optional arguments:</strong></p>
+<dl class="simple">
+<dt>index</dt><dd><p>The index of the atom. If not given, a grid for the entire
+system is returned. If self.local is False, a full system grid
+is always returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.get_moldens">
+<span class="sig-name descname"><span class="pre">get_moldens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.get_moldens" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the molecular electron density (moldens) on the atomic grid.</p>
+<p>This method converts the molecular electron density to the atomic grid specified
+by the index. If an output array is provided, the result is stored in that array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The index of the atom for which the electron density is required.
+If None, electron density for all atoms is considered. Default is None.</p></li>
+<li><p><strong>output</strong> (<em>np.ndarray</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – An optional array to store the resulting electron density.
+If provided, the result is saved in this array. Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The molecular electron density on the atomic grid.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.get_proatom_rho">
+<span class="sig-name descname"><span class="pre">get_proatom_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iatom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.get_proatom_rho" title="Link to this definition"></a></dt>
+<dd><p>Get pro-atom density for atom <cite>iatom</cite>.</p>
+<p>If <cite>propars</cite> is <cite>None</cite>, the cache values are used; otherwise, the <cite>propars</cite> are used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iatom</strong> (<em>int</em>) – The index of atom <cite>iatom</cite>.</p></li>
+<li><p><strong>propars</strong> (<em>1D np.array</em>) – The pro-atom parameters.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.get_proatom_spline">
+<span class="sig-name descname"><span class="pre">get_proatom_spline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.get_proatom_spline" title="Link to this definition"></a></dt>
+<dd><p>Create and return a spline representation of the radial density for a given atomic index.</p>
+<p>This method first retrieves the radial density and its derivatives for the specified atomic index.
+It then ensures the correctness of these values and constructs a spline representation based
+on the radial grid points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the atom for which the radial density spline is to be calculated.</p></li>
+<li><p><strong>*args</strong> – Variable length argument list, used for passing non-keyworded arguments.</p></li>
+<li><p><strong>**kwargs</strong> – Arbitrary keyword arguments, used for passing additional data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A spline representation of the radial density. If derivatives are available,
+a <cite>CubicHermiteSpline</cite> is returned. Otherwise, a <cite>CubicSpline</cite> is used.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>CubicSpline or CubicHermiteSpline</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The method internally calls <cite>get_proatom_rho</cite> to obtain the radial density (<cite>rho</cite>) and its
+derivatives (<cite>deriv</cite>), and <cite>fix_proatom_rho</cite> to validate and potentially correct these values.
+It also uses <cite>get_rgrid</cite> to acquire the radial grid points (<cite>rgrid.points</cite>). The spline is
+constructed with these grid points and density values, with the type of spline depending on
+the availability of derivative information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.get_rgrid">
+<span class="sig-name descname"><span class="pre">get_rgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.get_rgrid" title="Link to this definition"></a></dt>
+<dd><p>Load radial grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.get_spindens">
+<span class="sig-name descname"><span class="pre">get_spindens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.get_spindens" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the spin density (spindens) on the atomic grid.</p>
+<p>This method converts the spin density to the atomic grid specified by the index.
+If an output array is provided, the result is stored in that array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The index of the atom for which the spin density is required.
+If None, spin density for all atoms is considered. Default is None.</p></li>
+<li><p><strong>output</strong> (<em>np.ndarray</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – An optional array to store the resulting spin density.
+If provided, the result is saved in this array. Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The spin density on the atomic grid.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.get_wcor">
+<span class="sig-name descname"><span class="pre">get_wcor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.get_wcor" title="Link to this definition"></a></dt>
+<dd><p>Load correction of weights.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.grid">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">grid</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.grid" title="Link to this definition"></a></dt>
+<dd><p>Molecular grid.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.grid_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">grid_type</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.grid_type" title="Link to this definition"></a></dt>
+<dd><p>Get the type of grids used for partitioning density.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The type of grids used in the partitioning process.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.lmax">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lmax</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.lmax" title="Link to this definition"></a></dt>
+<dd><p>The maximum angular momentum index for moment calculations.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.local">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.local" title="Link to this definition"></a></dt>
+<dd><p>Whether local grids are included.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'gisa'</span></em><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.natom">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">natom</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.natom" title="Link to this definition"></a></dt>
+<dd><p>The number of atoms in the molecule.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.negative_cutoff">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">negative_cutoff</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.negative_cutoff" title="Link to this definition"></a></dt>
+<dd><p>Get the negative cutoff value.</p>
+<p>Values less than this threshold are treated as negative in computations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The negative cutoff value.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.nelec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nelec</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.nelec" title="Link to this definition"></a></dt>
+<dd><p>The number of electrons in the molecule.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.numbers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">numbers</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.numbers" title="Link to this definition"></a></dt>
+<dd><p>Atomic numbers</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.on_molgrid">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_molgrid</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.on_molgrid" title="Link to this definition"></a></dt>
+<dd><p>Check whether quantities are computed on molecular grids.</p>
+<blockquote>
+<div><p>These grids are used for evaluating various properties, including:</p>
+<ul class="simple">
+<li><p>AIM (Atoms-in-Molecule) weight functions: <span class="math notranslate nohighlight">\(w_a(\mathbf{r})\)</span>.</p></li>
+<li><p>Pro-atom density: :math:<a href="#id1"><span class="problematic" id="id2">`</span></a></p></li>
+</ul>
+</div></blockquote>
+<dl>
+<dt>ho_a^0(mathbf{r})`.</dt><dd><ul class="simple">
+<li><p>Pro-molecule density: :math:<a href="#id3"><span class="problematic" id="id4">`</span></a></p></li>
+</ul>
+</dd>
+<dt>ho^0(mathbf{r})`.</dt><dd><ul class="simple">
+<li><p>Mean-square deviation during computations.</p></li>
+</ul>
+<dl class="simple">
+<dt>bool</dt><dd><p>True if quantities are computed on molecular grids, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.only_use_molgrid">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">only_use_molgrid</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.only_use_molgrid" title="Link to this definition"></a></dt>
+<dd><p>Check whether intermediate values are computed exclusively using molecular grids.</p>
+<p>When set to <cite>True</cite>, all quantities are computed solely on the molecular grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if intermediate values are computed only using the molecular grid, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.population_cutoff">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">population_cutoff</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.population_cutoff" title="Link to this definition"></a></dt>
+<dd><p>Get the population cutoff criterion.</p>
+<p>This represents the allowed difference between the sum of proatom parameters
+and the reference population for determining accuracy of methods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The cutoff value for population differences.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.pseudo_numbers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pseudo_numbers</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.pseudo_numbers" title="Link to this definition"></a></dt>
+<dd><p>Atomic charges.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.radial_distances">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">radial_distances</span></span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.radial_distances" title="Link to this definition"></a></dt>
+<dd><p>Get the radial distances of points from the atomic coordinates.</p>
+<p>The radial distances are calculated as the L2 norm (Euclidean distance)
+of the points relative to the atomic coordinates.</p>
+<p class="rubric">Notes</p>
+<p>Accessing this property triggers the calculation of radial distances
+via the <cite>calc_radial_distances</cite> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing the radial distances of points for each atom.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.setup_grids">
+<span class="sig-name descname"><span class="pre">setup_grids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.setup_grids" title="Link to this definition"></a></dt>
+<dd><p>Setup grids used in partitioning.</p>
+<p># 1. atom_grids + mol_grid, use atoms for everything and mol_grid is only used for weights calculation
+# 2. atom_grids + mol_grid, use mol_grid for everything but atom_grids are used applied contratins.
+# 3. mol_grid, use mol_grid for everything, like in gLISA+.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.to_atomic_grid">
+<span class="sig-name descname"><span class="pre">to_atomic_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.to_atomic_grid" title="Link to this definition"></a></dt>
+<dd><p>Load atomic contribution of molecular properties.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.update_at_weights">
+<span class="sig-name descname"><span class="pre">update_at_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_on_molgrid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.update_at_weights" title="Link to this definition"></a></dt>
+<dd><p>See <code class="docutils literal notranslate"><span class="pre">Part.update_at_weights</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.update_pro">
+<span class="sig-name descname"><span class="pre">update_pro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proatdens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">promoldens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_on_molgrid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.update_pro" title="Link to this definition"></a></dt>
+<dd><p>Update propars.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the atom for which the pro-atom and pro-molecule densities are to be updated.</p></li>
+<li><p><strong>proatdens</strong> (<em>1D np.ndarray</em>) – The array representing the pro-atom density. This array is updated with the new density values
+for the specified atom.</p></li>
+<li><p><strong>promoldens</strong> (<em>1D np.ndarray</em>) – The array representing the pro-molecule density. This array accumulates the density contributions
+from each atom, including the one specified by <cite>index</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.gisa.GaussianISAWPart.variables_stored_in_cache">
+<span class="sig-name descname"><span class="pre">variables_stored_in_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.GaussianISAWPart.variables_stored_in_cache" title="Link to this definition"></a></dt>
+<dd><p>The properties stored in cache obj.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.gisa.evaluate_basis_functions">
+<span class="sig-name descname"><span class="pre">evaluate_basis_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">part</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_on_molgrid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.evaluate_basis_functions" title="Link to this definition"></a></dt>
+<dd><p>Evaluate basis function on a 1D grid.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.gisa.get_proatom_rho">
+<span class="sig-name descname"><span class="pre">get_proatom_rho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">part</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iatom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.get_proatom_rho" title="Link to this definition"></a></dt>
+<dd><p>Get pro-atom density for atom <cite>iatom</cite>.</p>
+<p>If <cite>propars</cite> is <cite>None</cite>, the cache values are used; otherwise, the <cite>propars</cite> are used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iatom</strong> (<em>int</em>) – The index of atom <cite>iatom</cite>.</p></li>
+<li><p><strong>propars</strong> (<em>np.array</em>) – The pro-atom parameters.</p></li>
+<li><p><strong>on_molgrid</strong> (<em>bool</em>) – Whether evaluate values on the molecular grid.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.gisa.init_propars">
+<span class="sig-name descname"><span class="pre">init_propars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">part</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.init_propars" title="Link to this definition"></a></dt>
+<dd><p>Initial propars.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.gisa.opt_propars_qp_interface">
+<span class="sig-name descname"><span class="pre">opt_propars_qp_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bs_funcs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alphas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quadprog'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">solver_options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.gisa.opt_propars_qp_interface" title="Link to this definition"></a></dt>
+<dd><p>Optimize pro-atom parameters using quadratic-programming implemented in the <cite>CVXOPT</cite> package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bs_funcs</strong> (<em>2D np.ndarray</em>) – Basis functions array with shape (M, N), where ‘M’ is the number of basis functions
+and ‘N’ is the number of grid points.</p></li>
+<li><p><strong>rho</strong> (<em>1D np.ndarray</em>) – Spherically-averaged atomic density as a function of radial distance, with shape (N,).</p></li>
+<li><p><strong>propars</strong> (<em>1D np.ndarray</em>) – Pro-atom parameters with shape (M). ‘M’ is the number of basis functions.</p></li>
+<li><p><strong>weights</strong> (<em>1D np.ndarray</em>) – Weights for integration, including the angular part (4πr²), with shape (N,).</p></li>
+<li><p><strong>alphas</strong> (<em>1D np.ndarray</em>) – The Gaussian exponential coefficients.</p></li>
+<li><p><strong>solver</strong> (<em>str</em>) – The name of sovler. See <cite>qpsovler.solve_qp</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optimized proatom parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1D np.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>RuntimeError</strong> – If the inner iteration does not converge.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="horton_part.becke.html" class="btn btn-neutral float-left" title="horton_part.becke module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="horton_part.glisa.html" class="btn btn-neutral float-right" title="horton_part.glisa module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

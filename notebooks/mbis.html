@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimum Basis Iterative Stockholder (MBIS) scheme &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Alternating Linear approximation of the ISA (aLISA) method" href="lisa.html" />
+    <link rel="prev" title="Gaussian Iterative Stockholder Analysis (GISA) method" href="gisa.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyapi/modules.html">horton_part</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pyapi/horton_part.html">horton_part package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Minimum Basis Iterative Stockholder (MBIS) scheme</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/mbis.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Minimum-Basis-Iterative-Stockholder-(MBIS)-scheme">
+<h1>Minimum Basis Iterative Stockholder (MBIS) scheme<a class="headerlink" href="#Minimum-Basis-Iterative-Stockholder-(MBIS)-scheme" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setup</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">horton_part</span> <span class="kn">import</span> <span class="n">MBISWPart</span>
+
+<span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="n">prepare_grid_and_dens</span><span class="p">(</span><span class="s2">&quot;data/h2o.fchk&quot;</span><span class="p">)</span>
+<span class="n">part</span> <span class="o">=</span> <span class="n">MBISWPart</span><span class="p">(</span><span class="o">**</span><span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">))</span>
+<span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+<span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of electrons: 10.000003764139395
+Coordinates of the atoms
+ [[ 0.     0.     0.224]
+ [-0.     1.457 -0.896]
+ [-0.    -1.457 -0.896]]
+Atomic numbers of the atom
+ [8 1 1]
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+Iteration       Change      Entropy
+        1   7.03232e-01   6.49265e-01
+        2   7.33878e-02   1.10215e-01
+        3   1.63712e-02   8.93342e-02
+        4   1.53463e-02   8.03457e-02
+        5   1.17546e-02   7.51961e-02
+        6   8.91499e-03   7.21761e-02
+        7   6.81170e-03   7.03768e-02
+        8   5.24340e-03   6.92914e-02
+        9   4.06100e-03   6.86304e-02
+       10   3.16086e-03   6.82248e-02
+       11   2.47010e-03   6.79746e-02
+       12   1.93651e-03   6.78194e-02
+       13   1.52209e-03   6.77229e-02
+       14   1.19882e-03   6.76627e-02
+       15   9.45749e-04   6.76251e-02
+       16   7.47079e-04   6.76016e-02
+       17   5.90751e-04   6.75868e-02
+       18   4.67524e-04   6.75775e-02
+       19   3.70239e-04   6.75717e-02
+       20   2.93355e-04   6.75681e-02
+       21   2.32527e-04   6.75658e-02
+       22   1.84378e-04   6.75643e-02
+       23   1.46232e-04   6.75634e-02
+       24   1.16007e-04   6.75628e-02
+       25   9.20394e-05   6.75625e-02
+       26   7.30378e-05   6.75623e-02
+       27   5.79605e-05   6.75621e-02
+       28   4.60040e-05   6.75620e-02
+       29   3.65118e-05   6.75620e-02
+       30   2.89842e-05   6.75619e-02
+       31   2.30049e-05   6.75619e-02
+       32   1.82643e-05   6.75619e-02
+       33   1.44964e-05   6.75619e-02
+       34   1.15106e-05   6.75619e-02
+       35   9.13538e-06   6.75619e-02
+       36   7.25496e-06   6.75619e-02
+       37   5.75706e-06   6.75619e-02
+       38   4.57307e-06   6.75619e-02
+       39   3.62798e-06   6.75619e-02
+       40   2.88284e-06   6.75619e-02
+       41   2.28613e-06   6.75619e-02
+       42   1.81756e-06   6.75619e-02
+       43   1.44040e-06   6.75619e-02
+       44   1.14613e-06   6.75619e-02
+       45   9.07345e-07   6.75619e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.907  0.454  0.454]
+cartesian multipoles:
+[[-0.907  0.    -0.     0.157 -5.377 -0.    -0.    -4.824 -0.    -5.102  0.     0.     0.013  0.    -0.     0.     0.     0.392 -0.     0.302]
+ [ 0.454  0.     0.019  0.002 -0.277 -0.    -0.    -0.264  0.008 -0.266  0.    -0.001  0.013  0.     0.     0.     0.008  0.011  0.004  0.042]
+ [ 0.454  0.    -0.019  0.002 -0.277  0.    -0.    -0.264 -0.008 -0.266  0.     0.001  0.013  0.    -0.     0.    -0.008  0.011 -0.004  0.042]]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gisa.html" class="btn btn-neutral float-left" title="Gaussian Iterative Stockholder Analysis (GISA) method" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lisa.html" class="btn btn-neutral float-right" title="Alternating Linear approximation of the ISA (aLISA) method" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

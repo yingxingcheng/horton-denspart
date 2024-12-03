@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>(Iterative) Hirshfeld method &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mulliken method" href="mulliken.html" />
+    <link rel="prev" title="Global Linear approximation of the ISA (gLISA) method" href="glisa.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyapi/modules.html">horton_part</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pyapi/horton_part.html">horton_part package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">(Iterative) Hirshfeld method</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/hirshfeld.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="(Iterative)-Hirshfeld-method">
+<h1>(Iterative) Hirshfeld method<a class="headerlink" href="#(Iterative)-Hirshfeld-method" title="Link to this heading"></a></h1>
+<p>In this tutorial, we will introduce how to use the <code class="docutils literal notranslate"><span class="pre">horton_part</span></code> API method to execute (iterative) Hirshfeld partitioning methods.</p>
+<p>First, we import the required libraries.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">gbasis.evals.eval</span> <span class="kn">import</span> <span class="n">evaluate_basis</span>
+<span class="kn">from</span> <span class="nn">gbasis.wrappers</span> <span class="kn">import</span> <span class="n">from_iodata</span>
+<span class="kn">from</span> <span class="nn">grid</span> <span class="kn">import</span> <span class="n">AtomGrid</span><span class="p">,</span> <span class="n">BeckeWeights</span><span class="p">,</span> <span class="n">ExpRTransform</span><span class="p">,</span> <span class="n">MolGrid</span><span class="p">,</span> <span class="n">UniformInteger</span>
+<span class="kn">from</span> <span class="nn">iodata</span> <span class="kn">import</span> <span class="n">load_one</span>
+<span class="kn">from</span> <span class="nn">setup</span> <span class="kn">import</span> <span class="n">prepare_grid_and_dens</span><span class="p">,</span> <span class="n">print_results</span>
+
+<span class="kn">from</span> <span class="nn">horton_part</span> <span class="kn">import</span> <span class="n">HirshfeldIWPart</span><span class="p">,</span> <span class="n">HirshfeldWPart</span><span class="p">,</span> <span class="n">ProAtomDB</span><span class="p">,</span> <span class="n">ProAtomRecord</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>In (iterative) Hirshfeld methods, a database of atomic radial density profiles is required. Therefore, different single-atom DFT or other <em>ab initio</em> calculations should be executed. Here, we use the Gaussian package. The checkpoint files, in <code class="docutils literal notranslate"><span class="pre">fchk</span></code> format, are generated using Gaussian tools as well.</p>
+<p>Next, the radial atomic density is obtained by computing the spherical average of the atomic density. This process can be applied using the <code class="docutils literal notranslate"><span class="pre">gbasis</span></code> and <code class="docutils literal notranslate"><span class="pre">grid</span></code> packages.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">prepare_record</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare molecular grid and density.&quot;&quot;&quot;</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">load_one</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="c1"># Specify the integration grid</span>
+    <span class="n">rtf</span> <span class="o">=</span> <span class="n">ExpRTransform</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">,</span> <span class="mf">2e1</span><span class="p">,</span> <span class="mi">120</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">uniform_grid</span> <span class="o">=</span> <span class="n">UniformInteger</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+    <span class="n">rgrid</span> <span class="o">=</span> <span class="n">rtf</span><span class="o">.</span><span class="n">transform_1d_grid</span><span class="p">(</span><span class="n">uniform_grid</span><span class="p">)</span>
+
+    <span class="c1"># Get the spin-summed density matrix</span>
+    <span class="n">one_rdm</span> <span class="o">=</span> <span class="n">mol</span><span class="o">.</span><span class="n">one_rdms</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;post_scf&quot;</span><span class="p">,</span> <span class="n">mol</span><span class="o">.</span><span class="n">one_rdms</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scf&quot;</span><span class="p">))</span>
+    <span class="n">basis</span><span class="p">,</span> <span class="n">coord_types</span> <span class="o">=</span> <span class="n">from_iodata</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">atnums</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">AtomGrid</span><span class="o">.</span><span class="n">from_preset</span><span class="p">(</span><span class="n">rgrid</span><span class="p">,</span> <span class="n">atnum</span><span class="o">=</span><span class="n">mol</span><span class="o">.</span><span class="n">atnums</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">preset</span><span class="o">=</span><span class="s2">&quot;fine&quot;</span><span class="p">)</span>
+
+    <span class="n">basis_grid</span> <span class="o">=</span> <span class="n">evaluate_basis</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="n">coord_type</span><span class="o">=</span><span class="n">coord_types</span><span class="p">)</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ab,bp,ap-&gt;p&quot;</span><span class="p">,</span> <span class="n">one_rdm</span><span class="p">,</span> <span class="n">basis_grid</span><span class="p">,</span> <span class="n">basis_grid</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">spline</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">spherical_average</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+    <span class="n">radial_rho</span> <span class="o">=</span> <span class="n">spline</span><span class="p">(</span><span class="n">rgrid</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+
+    <span class="n">record</span> <span class="o">=</span> <span class="n">ProAtomRecord</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">atnums</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mol</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span> <span class="n">mol</span><span class="o">.</span><span class="n">energy</span><span class="p">,</span> <span class="n">rgrid</span><span class="p">,</span> <span class="n">radial_rho</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">record</span>
+</pre></div>
+</div>
+</div>
+<p>In this tutorial, we focus on the water molecule and therefore only need data for hydrogen and oxygen atoms. It should be noted that data for both cations and anions are also used.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h_1</span> <span class="o">=</span> <span class="n">prepare_record</span><span class="p">(</span><span class="s2">&quot;./data/atoms/001__h_001_q+00/mult02/atom.fchk&quot;</span><span class="p">)</span>
+<span class="n">h_2</span> <span class="o">=</span> <span class="n">prepare_record</span><span class="p">(</span><span class="s2">&quot;./data/atoms/001__h_002_q-01/mult01/atom.fchk&quot;</span><span class="p">)</span>
+<span class="n">o_7</span> <span class="o">=</span> <span class="n">prepare_record</span><span class="p">(</span><span class="s2">&quot;./data/atoms/008__o_007_q+01/mult04/atom.fchk&quot;</span><span class="p">)</span>
+<span class="n">o_8</span> <span class="o">=</span> <span class="n">prepare_record</span><span class="p">(</span><span class="s2">&quot;./data/atoms/008__o_008_q+00/mult03/atom.fchk&quot;</span><span class="p">)</span>
+<span class="n">o_9</span> <span class="o">=</span> <span class="n">prepare_record</span><span class="p">(</span><span class="s2">&quot;./data/atoms/008__o_009_q-01/mult02/atom.fchk&quot;</span><span class="p">)</span>
+
+<span class="n">records</span> <span class="o">=</span> <span class="p">[</span><span class="n">h_1</span><span class="p">,</span> <span class="n">h_2</span><span class="p">,</span> <span class="n">o_7</span><span class="p">,</span> <span class="n">o_8</span><span class="p">,</span> <span class="n">o_9</span><span class="p">]</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">ProAtomDB</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Next, we prepare the molecular grid and densities as described in the <code class="docutils literal notranslate"><span class="pre">Basic</span> <span class="pre">Usage</span></code> section. It should be noted that the radial grids for atoms in the water molecule should match the atomic radial grids used for the corresponding single atoms in the atomic database calculations.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare basic input arguments for all AIM methods.&quot;&quot;&quot;</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="n">mol</span><span class="o">.</span><span class="n">atcoords</span><span class="p">,</span>
+        <span class="s2">&quot;numbers&quot;</span><span class="p">:</span> <span class="n">mol</span><span class="o">.</span><span class="n">atnums</span><span class="p">,</span>
+        <span class="s2">&quot;pseudo_numbers&quot;</span><span class="p">:</span> <span class="n">mol</span><span class="o">.</span><span class="n">atnums</span><span class="p">,</span>
+        <span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="n">grid</span><span class="p">,</span>
+        <span class="s2">&quot;moldens&quot;</span><span class="p">:</span> <span class="n">rho</span><span class="p">,</span>
+        <span class="s2">&quot;lmax&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;proatomdb&quot;</span><span class="p">:</span> <span class="n">db</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">kwargs</span>
+</pre></div>
+</div>
+</div>
+<section id="Hirshfeld-method">
+<h2>Hirshfeld method<a class="headerlink" href="#Hirshfeld-method" title="Link to this heading"></a></h2>
+<p>The Hirshfeld method can be executed using the <code class="docutils literal notranslate"><span class="pre">HirshfeldWPart</span></code> class.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="n">prepare_grid_and_dens</span><span class="p">(</span><span class="s2">&quot;data/h2o.fchk&quot;</span><span class="p">)</span>
+<span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">HirshfeldWPart</span><span class="p">(</span><span class="o">**</span><span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">))</span>
+<span class="n">h</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+<span class="n">print_results</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of electrons: 10.000003764139395
+Coordinates of the atoms
+ [[ 0.     0.     0.224]
+ [-0.     1.457 -0.896]
+ [-0.    -1.457 -0.896]]
+Atomic numbers of the atom
+ [8 1 1]
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+Initialized: HirshfeldWPart
+  Scheme       : Hirshfeld
+  Proatomic DB : &lt;horton_part.core.proatomdb.ProAtomDB object at 0x10327cac0&gt;
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Computing atomic dispersion coefficients.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.305  0.153  0.153]
+cartesian multipoles:
+[[-0.305 -0.    -0.    -0.253 -4.416 -0.    -0.    -3.647 -0.    -4.093 -0.    -0.    -0.637 -0.    -0.    -0.    -0.    -0.247 -0.    -1.401]
+ [ 0.153 -0.     0.167 -0.131 -0.758 -0.    -0.    -0.643  0.035 -0.689 -0.     0.206 -0.2   -0.    -0.    -0.     0.468 -0.127  0.164 -0.454]
+ [ 0.153  0.    -0.167 -0.131 -0.758  0.     0.    -0.643 -0.035 -0.689 -0.    -0.206 -0.2   -0.    -0.    -0.    -0.468 -0.127 -0.164 -0.454]]
+</pre></div></div>
+</div>
+</section>
+<section id="Iterative-Hirshfeld-method">
+<h2>Iterative Hirshfeld method<a class="headerlink" href="#Iterative-Hirshfeld-method" title="Link to this heading"></a></h2>
+<p>The iterative Hirshfeld method can be executed using <code class="docutils literal notranslate"><span class="pre">HirshfeldIWpart</span></code> class.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hi</span> <span class="o">=</span> <span class="n">HirshfeldIWPart</span><span class="p">(</span><span class="o">**</span><span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">))</span>
+<span class="n">hi</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+<span class="n">print_results</span><span class="p">(</span><span class="n">hi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+Initialized: HirshfeldIWPart
+  Scheme                : Hirshfeld-I
+  Convergence threshold : 1.0e-06
+  Maximum iterations    : 500
+  Proatomic DB          : &lt;horton_part.core.proatomdb.ProAtomDB object at 0x10327cac0&gt;
+Iteration       Change      Entropy
+        1   4.91894e-02   2.00489e-01
+        2   3.09349e-02   1.80862e-01
+        3   1.95877e-02   1.90830e-01
+        4   1.26979e-02   2.03872e-01
+        5   8.40308e-03   2.14964e-01
+        6   5.64913e-03   2.23432e-01
+        7   3.84155e-03   2.29631e-01
+        8   2.63387e-03   2.34078e-01
+        9   1.81637e-03   2.37237e-01
+       10   1.25775e-03   2.39468e-01
+       11   8.73435e-04   2.41038e-01
+       12   6.07777e-04   2.42140e-01
+       13   4.23518e-04   2.42912e-01
+       14   2.95413e-04   2.43453e-01
+       15   2.06199e-04   2.43832e-01
+       16   1.43998e-04   2.44098e-01
+       17   1.00594e-04   2.44283e-01
+       18   7.02895e-05   2.44413e-01
+       19   4.91226e-05   2.44503e-01
+       20   3.43338e-05   2.44567e-01
+       21   2.39993e-05   2.44611e-01
+       22   1.67764e-05   2.44642e-01
+       23   1.17278e-05   2.44664e-01
+       24   8.19875e-06   2.44679e-01
+       25   5.73174e-06   2.44690e-01
+       26   4.00710e-06   2.44697e-01
+       27   2.80143e-06   2.44702e-01
+       28   1.95853e-06   2.44706e-01
+       29   1.36925e-06   2.44709e-01
+       30   9.57279e-07   2.44710e-01
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Computing atomic dispersion coefficients.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.862  0.431  0.431]
+cartesian multipoles:
+[[-0.862  0.    -0.     0.189 -5.147 -0.    -0.    -4.812 -0.    -5.012 -0.    -0.    -0.105  0.     0.     0.    -0.     0.58  -0.     0.174]
+ [ 0.431 -0.     0.077 -0.04  -0.392 -0.    -0.    -0.389  0.02  -0.375 -0.     0.088 -0.057  0.     0.    -0.     0.264 -0.039  0.083 -0.136]
+ [ 0.431  0.    -0.077 -0.04  -0.392  0.    -0.    -0.389 -0.02  -0.375  0.    -0.088 -0.057  0.    -0.     0.    -0.264 -0.039 -0.083 -0.136]]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="glisa.html" class="btn btn-neutral float-left" title="Global Linear approximation of the ISA (gLISA) method" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mulliken.html" class="btn btn-neutral float-right" title="Mulliken method" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

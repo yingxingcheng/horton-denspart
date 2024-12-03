@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>horton_part.utils module &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="horton_part.nlis module" href="horton_part.nlis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">horton_part</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="horton_part.html">horton_part package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="horton_part.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">horton_part</a></li>
+          <li class="breadcrumb-item"><a href="horton_part.html">horton_part package</a></li>
+      <li class="breadcrumb-item active">horton_part.utils module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pyapi/horton_part.utils.rst" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-horton_part.utils">
+<span id="horton-part-utils-module"></span><h1>horton_part.utils module<a class="headerlink" href="#module-horton_part.utils" title="Link to this heading"></a></h1>
+<p>Utility Functions</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.check_dens_monotonicity">
+<span class="sig-name descname"><span class="pre">check_dens_monotonicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_warn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.check_dens_monotonicity" title="Link to this definition"></a></dt>
+<dd><p>Check the monotonicity of a density.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dens</strong> (<em>1D np.ndarray</em>) – The density needs to be checked. It could be a proatom density or a spherically average of AIM density.</p></li>
+<li><p><strong>as_warn</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether treat this as a warning. The default is <cite>True</cite>.</p></li>
+<li><p><strong>logger</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Logger</span></code>]</span>) – The logging object. The default is <cite>None</cite>.</p></li>
+<li><p><strong>negative_cutoff</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The value less than <cite>threshold</cite> is treated as negative. The default is <cite>NEGATIVE_CUTOFF</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.check_dens_negativity">
+<span class="sig-name descname"><span class="pre">check_dens_negativity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_warn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.check_dens_negativity" title="Link to this definition"></a></dt>
+<dd><p>Check if a density is non-negative.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dens</strong> (<em>1D</em><em> or </em><em>3D np.ndarray</em>) – The density needs to be checked. It could be a proatom density or AIM density.
+It could be 1D on a radial grid or 3D on a molecular grid.</p></li>
+<li><p><strong>as_warn</strong> (<em>bool</em>) – Whether treat the error as a warning or not. The default is <cite>False</cite>.</p></li>
+<li><p><strong>logger</strong> (<em>logging.Logger</em><em> or </em><em>None</em>) – The logger object. The default is <cite>None</cite>.</p></li>
+<li><p><strong>negative_cutoff</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The value less than <cite>threshold</cite> is treated as negative. The default is <cite>NEGATIVE_CUTOFF</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.check_inputs">
+<span class="sig-name descname"><span class="pre">check_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pro_atom_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_functions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pro_atom_density</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.check_inputs" title="Link to this definition"></a></dt>
+<dd><p>Validate inputs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.check_pars_negativity">
+<span class="sig-name descname"><span class="pre">check_pars_negativity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_warn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.check_pars_negativity" title="Link to this definition"></a></dt>
+<dd><p>Check if a density is non-negative.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pars</strong> (<em>1D np.ndarray</em>) – Pro-atom parameters
+It could be 1D on a radial grid or 3D on a molecular grid.</p></li>
+<li><p><strong>as_warn</strong> (<em>bool</em>) – Whether treat the error as a warning or not. The default is <cite>False</cite>.</p></li>
+<li><p><strong>logger</strong> (<em>logging.Logger</em><em> or </em><em>None</em>) – The logger object. The default is <cite>None</cite>.</p></li>
+<li><p><strong>negative_cutoff</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The value less than <cite>threshold</cite> is treated as negative. The default is <cite>NEGATIVE_CUTOFF</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.check_pars_population">
+<span class="sig-name descname"><span class="pre">check_pars_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">propars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_pop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_warn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.check_pars_population" title="Link to this definition"></a></dt>
+<dd><p>Check the proatom parameters if the sum of them is equal to the reference population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>propars</strong> (<em>1D</em><em> or </em><em>3D np.ndarray</em>) – The density needs to be checked. It could be a proatom density or AIM density.
+It could be 1D on a radial grid or 3D on a molecular grid.</p></li>
+<li><p><strong>ref_pop</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The reference population.</p></li>
+<li><p><strong>as_warn</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether treat the error as a warning or not. The default is <cite>True</cite>.</p></li>
+<li><p><strong>logger</strong> (<em>logging.Logger</em><em> or </em><em>None</em>) – The logger object. The default is <cite>None</cite>.</p></li>
+<li><p><strong>population_cutoff</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – The absolute tolerance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.check_pro_atom_parameters">
+<span class="sig-name descname"><span class="pre">check_pro_atom_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pro_atom_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_functions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_population</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pro_atom_density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_monotonicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_negativity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_propars_negativity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.check_pro_atom_parameters" title="Link to this definition"></a></dt>
+<dd><p>Check the validity of pro-atom parameters.</p>
+<p>This function warns if any pro-atom parameters are negative and raises a
+RuntimeError if the pro-atom density contains negative values. It also warns
+if the sum of pro-atom parameters does not match the expected total atomic
+population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pro_atom_params</strong> (<em>ndarray</em>) – Array of pro-atom parameters.</p></li>
+<li><p><strong>basis_functions</strong> (<em>ndarray</em><em>, </em><em>optional</em>) – Basis functions on the grid.</p></li>
+<li><p><strong>total_population</strong> (<em>float</em><em>, </em><em>optional</em>) – Total atomic population to compare against the sum of pro-atom parameters.</p></li>
+<li><p><strong>pro_atom_density</strong> (<em>ndarray</em><em>, </em><em>optional</em>) – Pre-calculated pro-atom density array. If not provided, it is calculated
+from pro_atom_params and basis_functions.</p></li>
+<li><p><strong>check_monotonicity</strong> (<em>bool</em><em>, </em><em>optional</em>) – Check if the density is monotonically decreased w.r.t. radial radius.</p></li>
+<li><p><strong>check_negativity</strong> (<em>bool</em><em>, </em><em>optional</em>) – Check if the density is non-negativity.</p></li>
+<li><p><strong>check_propars_negativity</strong> (<em>bool</em><em>, </em><em>optional</em>) – Check if the propars is negative.</p></li>
+<li><p><strong>logger</strong> (<em>logging.Logger</em><em> or </em><em>None</em>) – Logger object.</p></li>
+<li><p><strong>negative_cutoff</strong> (<em>float</em>) – Value that small than <cite>negative_cutoff</cite> is treated as negative number.</p></li>
+<li><p><strong>population_cutoff</strong> (<em>float</em>) – The threshold for the difference between test and real population.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>RuntimeError</strong> – If negative values are found in the pro-atom density.</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<dl class="simple">
+<dt>UserWarning</dt><dd><p>If any pro-atom parameters are negative.
+If the sum of pro-atom parameters does not match the total_population.</p>
+</dd>
+</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.check_pro_atom_parameters_neg_pars">
+<span class="sig-name descname"><span class="pre">check_pro_atom_parameters_neg_pars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pro_atom_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_functions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_population</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pro_atom_density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_monotonicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_negativity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.check_pro_atom_parameters_neg_pars" title="Link to this definition"></a></dt>
+<dd><p>Validation for method with negative propars. See``check_pro_atom_parameters``.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.check_pro_atom_parameters_non_neg_pars">
+<span class="sig-name descname"><span class="pre">check_pro_atom_parameters_non_neg_pars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pro_atom_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_functions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_population</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pro_atom_density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">negative_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.check_pro_atom_parameters_non_neg_pars" title="Link to this definition"></a></dt>
+<dd><p>Validation for method with non-negative propars. See``check_pro_atom_parameters``.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.compute_quantities">
+<span class="sig-name descname"><span class="pre">compute_quantities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">density</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pro_atom_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_functions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density_cutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_sick</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_ln_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.compute_quantities" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Compute various quantities based on input density, pro-atom parameters, and basis functions.</p>
+<dl class="simple">
+<dt>density<span class="classifier">ndarray</span></dt><dd><p>The density array.</p>
+</dd>
+<dt>pro_atom_params<span class="classifier">ndarray</span></dt><dd><p>Array of pro-atom parameters.</p>
+</dd>
+<dt>basis_functions<span class="classifier">ndarray</span></dt><dd><p>Array of basis functions.</p>
+</dd>
+<dt>density_cutoff<span class="classifier">float, optional</span></dt><dd><p>The cutoff value for density and pro-atom density, below which values are considered negligible.</p>
+</dd>
+<dt>do_sick: bool</dt><dd><p>Mask sick values.</p>
+</dd>
+<dt>do_ratio: bool</dt><dd><p>Whether return the ratio :math:<a href="#id1"><span class="problematic" id="id2">`</span></a></p>
+</dd>
+</dl>
+</div></blockquote>
+<p>ho_a/
+ho_a^0`.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>do_ln_ratio: bool</dt><dd><p>Whether return the ratio :math:<a href="#id3"><span class="problematic" id="id4">`</span></a>ln (</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>ho_a/
+ho_a^0)`.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>pro_shells<span class="classifier">2D ndarray</span></dt><dd><p>Calculated pro-atom shell values.</p>
+</dd>
+<dt>pro_density<span class="classifier">1D ndarray</span></dt><dd><p>Calculated pro-atom density.</p>
+</dd>
+<dt>sick<span class="classifier">1D ndarray</span></dt><dd><p>Boolean array indicating where density or pro-density is below the cutoff.</p>
+</dd>
+<dt>ratio<span class="classifier">1D ndarray</span></dt><dd><p>Ratio of density to pro-atom density, with adjustments for sick values.</p>
+</dd>
+<dt>ln_ratio<span class="classifier">1D ndarray</span></dt><dd><p>Natural logarithm of the ratio, with adjustments for sick values.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.fix_propars">
+<span class="sig-name descname"><span class="pre">fix_propars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.fix_propars" title="Link to this definition"></a></dt>
+<dd><p>Fix the propar of the most diffuse function when it is negative and Newton step <cite>delta</cite> is negative.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exp_array</strong> (<em>2D np.ndarray</em>) – The exponent values.</p></li>
+<li><p><strong>propars</strong> (<em>2D np.ndarray</em>) – The pro-atom parameters.</p></li>
+<li><p><strong>delta</strong> (<em>1D np.ndarray</em>) – The step of Newton method.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.typecheck_geo">
+<span class="sig-name descname"><span class="pre">typecheck_geo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">need_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">need_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">need_pseudo_numbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.typecheck_geo" title="Link to this definition"></a></dt>
+<dd><p>Type check a molecular geometry specification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<em>2D np.ndarray</em>) – A (N, 3) float array with Cartesian coordinates of the atoms.</p></li>
+<li><p><strong>numbers</strong> (<em>1D np.ndarray</em>) – A (N,) int vector with the atomic numbers.</p></li>
+<li><p><strong>pseudo_numbers</strong> (<em>1D np.ndarray</em>) – A (N,) float array with pseudo-potential core charges.</p></li>
+<li><p><strong>need_coordinates</strong> (<em>bool</em>) – When set to False, the coordinates can be None, are not type checked
+and not returned.</p></li>
+<li><p><strong>need_numbers</strong> (<em>bool</em>) – When set to False, the numbers can be None, are not type checked
+and not returned.</p></li>
+<li><p><strong>need_pseudo_numbers</strong> (<em>bool</em>) – When set to False, the pseudo_numbers can be None, are not type
+checked and not returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[natom]</span></code> + all arguments that were type checked. The</p></li>
+<li><p><em>pseudo_numbers argument is converted to a floating point array.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.utils.wpart_schemes">
+<span class="sig-name descname"><span class="pre">wpart_schemes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.utils.wpart_schemes" title="Link to this definition"></a></dt>
+<dd><p>Return a part scheme by given its name.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="horton_part.nlis.html" class="btn btn-neutral float-left" title="horton_part.nlis module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

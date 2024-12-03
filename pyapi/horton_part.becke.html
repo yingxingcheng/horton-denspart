@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>horton_part.becke module &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="horton_part.gisa module" href="horton_part.gisa.html" />
+    <link rel="prev" title="horton_part.alisa module" href="horton_part.alisa.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">horton_part</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="horton_part.html">horton_part package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="horton_part.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">horton_part</a></li>
+          <li class="breadcrumb-item"><a href="horton_part.html">horton_part package</a></li>
+      <li class="breadcrumb-item active">horton_part.becke module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pyapi/horton_part.becke.rst" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-horton_part.becke">
+<span id="horton-part-becke-module"></span><h1>horton_part.becke module<a class="headerlink" href="#module-horton_part.becke" title="Link to this heading"></a></h1>
+<p>Becke partitioning</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BeckeWPart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moldens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spindens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart" title="horton_part.core.base.WPart"><code class="xref py py-class docutils literal notranslate"><span class="pre">WPart</span></code></a></p>
+<p>Becke partitioning with Becke-Lebedev grids</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moldens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spindens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.__init__" title="Link to this definition"></a></dt>
+<dd><p><strong>Optional arguments:</strong> (that are not defined in <code class="docutils literal notranslate"><span class="pre">WPart</span></code>)</p>
+<dl class="simple">
+<dt>k</dt><dd><p>The order of the polynomials used in the Becke partitioning.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.cache">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cache</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.cache" title="Link to this definition"></a></dt>
+<dd><p>Cache.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.calc_radial_distances">
+<span class="sig-name descname"><span class="pre">calc_radial_distances</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.calc_radial_distances" title="Link to this definition"></a></dt>
+<dd><p>Calculate radial distance w.r.t coordinates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.clear" title="Link to this definition"></a></dt>
+<dd><p>Discard all cached results, e.g. because wfn changed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.compute_pseudo_population">
+<span class="sig-name descname"><span class="pre">compute_pseudo_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.compute_pseudo_population" title="Link to this definition"></a></dt>
+<dd><p>Compute pseudo population</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.coordinates">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coordinates</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.coordinates" title="Link to this definition"></a></dt>
+<dd><p>Center/Atomic coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray(M, 3)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.density_cutoff">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">density_cutoff</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.density_cutoff" title="Link to this definition"></a></dt>
+<dd><p>Get the density cutoff value.</p>
+<p>Density values below this cutoff are considered to be invalid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The cutoff value for density.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.do_all">
+<span class="sig-name descname"><span class="pre">do_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.do_all" title="Link to this definition"></a></dt>
+<dd><p>Computes all properties and return a list of their keys.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.do_charges">
+<span class="sig-name descname"><span class="pre">do_charges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.do_charges" title="Link to this definition"></a></dt>
+<dd><p>Compute atomic charges.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.do_density_decomposition">
+<span class="sig-name descname"><span class="pre">do_density_decomposition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.do_density_decomposition" title="Link to this definition"></a></dt>
+<dd><p>Compute density decomposition.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.do_moments">
+<span class="sig-name descname"><span class="pre">do_moments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.do_moments" title="Link to this definition"></a></dt>
+<dd><p>Compute atomic multiple moments.</p>
+<p>Calculates various types of multipoles, including Cartesian, Spherical, and Radial moments.
+The order of the moments is determined by the <cite>lmax</cite> parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.do_partitioning">
+<span class="sig-name descname"><span class="pre">do_partitioning</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.do_partitioning" title="Link to this definition"></a></dt>
+<dd><p>Run partitioning.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.do_populations">
+<span class="sig-name descname"><span class="pre">do_populations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.do_populations" title="Link to this definition"></a></dt>
+<dd><p>Compute atomic populations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.do_spin_charges">
+<span class="sig-name descname"><span class="pre">do_spin_charges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.do_spin_charges" title="Link to this definition"></a></dt>
+<dd><p>Compute atomic spin charges.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.get_grid">
+<span class="sig-name descname"><span class="pre">get_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.get_grid" title="Link to this definition"></a></dt>
+<dd><p>Return an integration grid</p>
+<p><strong>Optional arguments:</strong></p>
+<dl class="simple">
+<dt>index</dt><dd><p>The index of the atom. If not given, a grid for the entire
+system is returned. If self.local is False, a full system grid
+is always returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.get_moldens">
+<span class="sig-name descname"><span class="pre">get_moldens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.get_moldens" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the molecular electron density (moldens) on the atomic grid.</p>
+<p>This method converts the molecular electron density to the atomic grid specified
+by the index. If an output array is provided, the result is stored in that array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The index of the atom for which the electron density is required.
+If None, electron density for all atoms is considered. Default is None.</p></li>
+<li><p><strong>output</strong> (<em>np.ndarray</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – An optional array to store the resulting electron density.
+If provided, the result is saved in this array. Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The molecular electron density on the atomic grid.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.get_spindens">
+<span class="sig-name descname"><span class="pre">get_spindens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.get_spindens" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the spin density (spindens) on the atomic grid.</p>
+<p>This method converts the spin density to the atomic grid specified by the index.
+If an output array is provided, the result is stored in that array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The index of the atom for which the spin density is required.
+If None, spin density for all atoms is considered. Default is None.</p></li>
+<li><p><strong>output</strong> (<em>np.ndarray</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – An optional array to store the resulting spin density.
+If provided, the result is saved in this array. Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The spin density on the atomic grid.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.get_wcor">
+<span class="sig-name descname"><span class="pre">get_wcor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.get_wcor" title="Link to this definition"></a></dt>
+<dd><p>Load correction of weights.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.grid">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">grid</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.grid" title="Link to this definition"></a></dt>
+<dd><p>Molecular grid.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.grid_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">grid_type</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.grid_type" title="Link to this definition"></a></dt>
+<dd><p>Get the type of grids used for partitioning density.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The type of grids used in the partitioning process.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.k" title="Link to this definition"></a></dt>
+<dd><p>The order of the Becke switching function.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.linear">
+<span class="sig-name descname"><span class="pre">linear</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#horton_part.becke.BeckeWPart.linear" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.lmax">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lmax</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.lmax" title="Link to this definition"></a></dt>
+<dd><p>The maximum angular momentum index for moment calculations.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.local">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.local" title="Link to this definition"></a></dt>
+<dd><p>Whether local grids are included.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'b'</span></em><a class="headerlink" href="#horton_part.becke.BeckeWPart.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.natom">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">natom</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.natom" title="Link to this definition"></a></dt>
+<dd><p>The number of atoms in the molecule.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.negative_cutoff">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">negative_cutoff</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.negative_cutoff" title="Link to this definition"></a></dt>
+<dd><p>Get the negative cutoff value.</p>
+<p>Values less than this threshold are treated as negative in computations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The negative cutoff value.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.nelec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nelec</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.nelec" title="Link to this definition"></a></dt>
+<dd><p>The number of electrons in the molecule.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.numbers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">numbers</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.numbers" title="Link to this definition"></a></dt>
+<dd><p>Atomic numbers</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.on_molgrid">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_molgrid</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.on_molgrid" title="Link to this definition"></a></dt>
+<dd><p>Check whether quantities are computed on molecular grids.</p>
+<blockquote>
+<div><p>These grids are used for evaluating various properties, including:</p>
+<ul class="simple">
+<li><p>AIM (Atoms-in-Molecule) weight functions: <span class="math notranslate nohighlight">\(w_a(\mathbf{r})\)</span>.</p></li>
+<li><p>Pro-atom density: :math:<a href="#id1"><span class="problematic" id="id2">`</span></a></p></li>
+</ul>
+</div></blockquote>
+<dl>
+<dt>ho_a^0(mathbf{r})`.</dt><dd><ul class="simple">
+<li><p>Pro-molecule density: :math:<a href="#id3"><span class="problematic" id="id4">`</span></a></p></li>
+</ul>
+</dd>
+<dt>ho^0(mathbf{r})`.</dt><dd><ul class="simple">
+<li><p>Mean-square deviation during computations.</p></li>
+</ul>
+<dl class="simple">
+<dt>bool</dt><dd><p>True if quantities are computed on molecular grids, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.only_use_molgrid">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">only_use_molgrid</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.only_use_molgrid" title="Link to this definition"></a></dt>
+<dd><p>Check whether intermediate values are computed exclusively using molecular grids.</p>
+<p>When set to <cite>True</cite>, all quantities are computed solely on the molecular grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if intermediate values are computed only using the molecular grid, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.options">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['lmax',</span> <span class="pre">'k']</span></em><a class="headerlink" href="#horton_part.becke.BeckeWPart.options" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.population_cutoff">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">population_cutoff</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.population_cutoff" title="Link to this definition"></a></dt>
+<dd><p>Get the population cutoff criterion.</p>
+<p>This represents the allowed difference between the sum of proatom parameters
+and the reference population for determining accuracy of methods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The cutoff value for population differences.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.pseudo_numbers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pseudo_numbers</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.pseudo_numbers" title="Link to this definition"></a></dt>
+<dd><p>Atomic charges.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.radial_distances">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">radial_distances</span></span><a class="headerlink" href="#horton_part.becke.BeckeWPart.radial_distances" title="Link to this definition"></a></dt>
+<dd><p>Get the radial distances of points from the atomic coordinates.</p>
+<p>The radial distances are calculated as the L2 norm (Euclidean distance)
+of the points relative to the atomic coordinates.</p>
+<p class="rubric">Notes</p>
+<p>Accessing this property triggers the calculation of radial distances
+via the <cite>calc_radial_distances</cite> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing the radial distances of points for each atom.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.setup_grids">
+<span class="sig-name descname"><span class="pre">setup_grids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.setup_grids" title="Link to this definition"></a></dt>
+<dd><p>Setup grids used in partitioning.</p>
+<p># 1. atom_grids + mol_grid, use atoms for everything and mol_grid is only used for weights calculation
+# 2. atom_grids + mol_grid, use mol_grid for everything but atom_grids are used applied contratins.
+# 3. mol_grid, use mol_grid for everything, like in gLISA+.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.to_atomic_grid">
+<span class="sig-name descname"><span class="pre">to_atomic_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.to_atomic_grid" title="Link to this definition"></a></dt>
+<dd><p>Load atomic contribution of molecular properties.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.update_at_weights">
+<span class="sig-name descname"><span class="pre">update_at_weights</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.update_at_weights" title="Link to this definition"></a></dt>
+<dd><p>Updates the at_weights arrays in the case (and all related arrays)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.becke.BeckeWPart.variables_stored_in_cache">
+<span class="sig-name descname"><span class="pre">variables_stored_in_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.becke.BeckeWPart.variables_stored_in_cache" title="Link to this definition"></a></dt>
+<dd><p>The properties stored in cache obj.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="horton_part.alisa.html" class="btn btn-neutral float-left" title="horton_part.alisa module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="horton_part.gisa.html" class="btn btn-neutral float-right" title="horton_part.gisa module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

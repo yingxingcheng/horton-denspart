@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>horton_part.core package &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="horton_part.core.base module" href="horton_part.core.base.html" />
+    <link rel="prev" title="horton_part.algo.quasi_newton module" href="horton_part.algo.quasi_newton.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">horton_part</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="horton_part.html">horton_part package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="horton_part.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">horton_part</a></li>
+          <li class="breadcrumb-item"><a href="horton_part.html">horton_part package</a></li>
+      <li class="breadcrumb-item active">horton_part.core package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pyapi/horton_part.core.rst" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="horton-part-core-package">
+<h1>horton_part.core package<a class="headerlink" href="#horton-part-core-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="horton_part.core.base.html">horton_part.core.base module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part"><code class="docutils literal notranslate"><span class="pre">Part</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.__init__"><code class="docutils literal notranslate"><span class="pre">Part.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.cache"><code class="docutils literal notranslate"><span class="pre">Part.cache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.clear"><code class="docutils literal notranslate"><span class="pre">Part.clear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.compute_pseudo_population"><code class="docutils literal notranslate"><span class="pre">Part.compute_pseudo_population()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.coordinates"><code class="docutils literal notranslate"><span class="pre">Part.coordinates</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.do_all"><code class="docutils literal notranslate"><span class="pre">Part.do_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.do_charges"><code class="docutils literal notranslate"><span class="pre">Part.do_charges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.do_moments"><code class="docutils literal notranslate"><span class="pre">Part.do_moments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.do_partitioning"><code class="docutils literal notranslate"><span class="pre">Part.do_partitioning()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.do_populations"><code class="docutils literal notranslate"><span class="pre">Part.do_populations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.do_spin_charges"><code class="docutils literal notranslate"><span class="pre">Part.do_spin_charges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.get_grid"><code class="docutils literal notranslate"><span class="pre">Part.get_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.get_moldens"><code class="docutils literal notranslate"><span class="pre">Part.get_moldens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.get_spindens"><code class="docutils literal notranslate"><span class="pre">Part.get_spindens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.get_wcor"><code class="docutils literal notranslate"><span class="pre">Part.get_wcor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.grid"><code class="docutils literal notranslate"><span class="pre">Part.grid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.lmax"><code class="docutils literal notranslate"><span class="pre">Part.lmax</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.local"><code class="docutils literal notranslate"><span class="pre">Part.local</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.name"><code class="docutils literal notranslate"><span class="pre">Part.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.natom"><code class="docutils literal notranslate"><span class="pre">Part.natom</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.nelec"><code class="docutils literal notranslate"><span class="pre">Part.nelec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.numbers"><code class="docutils literal notranslate"><span class="pre">Part.numbers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.pseudo_numbers"><code class="docutils literal notranslate"><span class="pre">Part.pseudo_numbers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.to_atomic_grid"><code class="docutils literal notranslate"><span class="pre">Part.to_atomic_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.update_at_weights"><code class="docutils literal notranslate"><span class="pre">Part.update_at_weights()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.Part.variables_stored_in_cache"><code class="docutils literal notranslate"><span class="pre">Part.variables_stored_in_cache()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart"><code class="docutils literal notranslate"><span class="pre">WPart</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.__init__"><code class="docutils literal notranslate"><span class="pre">WPart.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.cache"><code class="docutils literal notranslate"><span class="pre">WPart.cache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.calc_radial_distances"><code class="docutils literal notranslate"><span class="pre">WPart.calc_radial_distances()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.clear"><code class="docutils literal notranslate"><span class="pre">WPart.clear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.compute_pseudo_population"><code class="docutils literal notranslate"><span class="pre">WPart.compute_pseudo_population()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.coordinates"><code class="docutils literal notranslate"><span class="pre">WPart.coordinates</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.density_cutoff"><code class="docutils literal notranslate"><span class="pre">WPart.density_cutoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.do_all"><code class="docutils literal notranslate"><span class="pre">WPart.do_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.do_charges"><code class="docutils literal notranslate"><span class="pre">WPart.do_charges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.do_density_decomposition"><code class="docutils literal notranslate"><span class="pre">WPart.do_density_decomposition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.do_moments"><code class="docutils literal notranslate"><span class="pre">WPart.do_moments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.do_partitioning"><code class="docutils literal notranslate"><span class="pre">WPart.do_partitioning()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.do_populations"><code class="docutils literal notranslate"><span class="pre">WPart.do_populations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.do_spin_charges"><code class="docutils literal notranslate"><span class="pre">WPart.do_spin_charges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.get_grid"><code class="docutils literal notranslate"><span class="pre">WPart.get_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.get_moldens"><code class="docutils literal notranslate"><span class="pre">WPart.get_moldens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.get_spindens"><code class="docutils literal notranslate"><span class="pre">WPart.get_spindens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.get_wcor"><code class="docutils literal notranslate"><span class="pre">WPart.get_wcor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.grid"><code class="docutils literal notranslate"><span class="pre">WPart.grid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.grid_type"><code class="docutils literal notranslate"><span class="pre">WPart.grid_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.lmax"><code class="docutils literal notranslate"><span class="pre">WPart.lmax</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.local"><code class="docutils literal notranslate"><span class="pre">WPart.local</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.name"><code class="docutils literal notranslate"><span class="pre">WPart.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.natom"><code class="docutils literal notranslate"><span class="pre">WPart.natom</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.negative_cutoff"><code class="docutils literal notranslate"><span class="pre">WPart.negative_cutoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.nelec"><code class="docutils literal notranslate"><span class="pre">WPart.nelec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.numbers"><code class="docutils literal notranslate"><span class="pre">WPart.numbers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.on_molgrid"><code class="docutils literal notranslate"><span class="pre">WPart.on_molgrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.only_use_molgrid"><code class="docutils literal notranslate"><span class="pre">WPart.only_use_molgrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.population_cutoff"><code class="docutils literal notranslate"><span class="pre">WPart.population_cutoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.pseudo_numbers"><code class="docutils literal notranslate"><span class="pre">WPart.pseudo_numbers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.radial_distances"><code class="docutils literal notranslate"><span class="pre">WPart.radial_distances</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.setup_grids"><code class="docutils literal notranslate"><span class="pre">WPart.setup_grids()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.to_atomic_grid"><code class="docutils literal notranslate"><span class="pre">WPart.to_atomic_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.update_at_weights"><code class="docutils literal notranslate"><span class="pre">WPart.update_at_weights()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.WPart.variables_stored_in_cache"><code class="docutils literal notranslate"><span class="pre">WPart.variables_stored_in_cache()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.get_ncart_cumul"><code class="docutils literal notranslate"><span class="pre">get_ncart_cumul()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.base.html#horton_part.core.base.get_npure_cumul"><code class="docutils literal notranslate"><span class="pre">get_npure_cumul()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="horton_part.core.basis.html">horton_part.core.basis module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.AnalyticBasisFuncHelper"><code class="docutils literal notranslate"><span class="pre">AnalyticBasisFuncHelper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.AnalyticBasisFuncHelper.__init__"><code class="docutils literal notranslate"><span class="pre">AnalyticBasisFuncHelper.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.AnalyticBasisFuncHelper.compute_proatom_dens"><code class="docutils literal notranslate"><span class="pre">AnalyticBasisFuncHelper.compute_proatom_dens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.AnalyticBasisFuncHelper.compute_proshell_dens"><code class="docutils literal notranslate"><span class="pre">AnalyticBasisFuncHelper.compute_proshell_dens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.AnalyticBasisFuncHelper.get_initial"><code class="docutils literal notranslate"><span class="pre">AnalyticBasisFuncHelper.get_initial()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.AnalyticBasisFuncHelper.get_nshell"><code class="docutils literal notranslate"><span class="pre">AnalyticBasisFuncHelper.get_nshell()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.AnalyticBasisFuncHelper.initials"><code class="docutils literal notranslate"><span class="pre">AnalyticBasisFuncHelper.initials</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.BasisFuncHelper"><code class="docutils literal notranslate"><span class="pre">BasisFuncHelper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.BasisFuncHelper.__init__"><code class="docutils literal notranslate"><span class="pre">BasisFuncHelper.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.BasisFuncHelper.compute_proatom_dens"><code class="docutils literal notranslate"><span class="pre">BasisFuncHelper.compute_proatom_dens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.BasisFuncHelper.compute_proshell_dens"><code class="docutils literal notranslate"><span class="pre">BasisFuncHelper.compute_proshell_dens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.BasisFuncHelper.get_initial"><code class="docutils literal notranslate"><span class="pre">BasisFuncHelper.get_initial()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.BasisFuncHelper.get_nshell"><code class="docutils literal notranslate"><span class="pre">BasisFuncHelper.get_nshell()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.BasisFuncHelper.initials"><code class="docutils literal notranslate"><span class="pre">BasisFuncHelper.initials</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.__init__"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.compute_proatom_dens"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.compute_proatom_dens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.compute_proshell_dens"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.compute_proshell_dens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.exponents"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.exponents</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.from_file"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.from_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.from_function_type"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.from_function_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.from_json"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.from_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.from_yaml"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.from_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.get_exponent"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.get_exponent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.get_initial"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.get_initial()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.get_nshell"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.get_nshell()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.get_order"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.get_order()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.initials"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.initials</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.ExpBasisFuncHelper.orders"><code class="docutils literal notranslate"><span class="pre">ExpBasisFuncHelper.orders</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper.__init__"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper.compute_proatom_dens"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper.compute_proatom_dens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper.compute_proshell_dens"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper.compute_proshell_dens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper.from_file"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper.from_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper.from_function_type"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper.from_function_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper.get_initial"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper.get_initial()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper.get_nshell"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper.get_nshell()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper.initials"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper.initials</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.NumericBasisFuncHelper.splines_dict"><code class="docutils literal notranslate"><span class="pre">NumericBasisFuncHelper.splines_dict</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.evaluate_function"><code class="docutils literal notranslate"><span class="pre">evaluate_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.basis.html#horton_part.core.basis.load_params"><code class="docutils literal notranslate"><span class="pre">load_params()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="horton_part.core.cache.html">horton_part.core.cache module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.Cache"><code class="docutils literal notranslate"><span class="pre">Cache</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.Cache.__init__"><code class="docutils literal notranslate"><span class="pre">Cache.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.Cache.clear"><code class="docutils literal notranslate"><span class="pre">Cache.clear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.Cache.clear_item"><code class="docutils literal notranslate"><span class="pre">Cache.clear_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.Cache.dump"><code class="docutils literal notranslate"><span class="pre">Cache.dump()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.Cache.iteritems"><code class="docutils literal notranslate"><span class="pre">Cache.iteritems()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.Cache.iterkeys"><code class="docutils literal notranslate"><span class="pre">Cache.iterkeys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.Cache.itervalues"><code class="docutils literal notranslate"><span class="pre">Cache.itervalues()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.Cache.load"><code class="docutils literal notranslate"><span class="pre">Cache.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.CacheItem"><code class="docutils literal notranslate"><span class="pre">CacheItem</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.CacheItem.__init__"><code class="docutils literal notranslate"><span class="pre">CacheItem.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.CacheItem.check_alloc"><code class="docutils literal notranslate"><span class="pre">CacheItem.check_alloc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.CacheItem.check_tags"><code class="docutils literal notranslate"><span class="pre">CacheItem.check_tags()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.CacheItem.clear"><code class="docutils literal notranslate"><span class="pre">CacheItem.clear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.CacheItem.from_alloc"><code class="docutils literal notranslate"><span class="pre">CacheItem.from_alloc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.CacheItem.tags"><code class="docutils literal notranslate"><span class="pre">CacheItem.tags</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.CacheItem.valid"><code class="docutils literal notranslate"><span class="pre">CacheItem.valid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.CacheItem.value"><code class="docutils literal notranslate"><span class="pre">CacheItem.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.JustOnceClass"><code class="docutils literal notranslate"><span class="pre">JustOnceClass</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.JustOnceClass.__init__"><code class="docutils literal notranslate"><span class="pre">JustOnceClass.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.JustOnceClass.clear"><code class="docutils literal notranslate"><span class="pre">JustOnceClass.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.NoDefault"><code class="docutils literal notranslate"><span class="pre">NoDefault</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.NoDefault.__init__"><code class="docutils literal notranslate"><span class="pre">NoDefault.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.cache.html#horton_part.core.cache.just_once"><code class="docutils literal notranslate"><span class="pre">just_once()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="horton_part.core.iterstock.html">horton_part.core.iterstock module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.__init__"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.cache"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.cache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.calc_radial_distances"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.calc_radial_distances()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.clear"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.clear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.compute_change"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.compute_change()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.compute_pseudo_population"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.compute_pseudo_population()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.coordinates"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.coordinates</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.density_cutoff"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.density_cutoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.do_all"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.do_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.do_charges"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.do_charges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.do_density_decomposition"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.do_density_decomposition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.do_moments"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.do_moments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.do_partitioning"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.do_partitioning()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.do_populations"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.do_populations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.do_prosplines"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.do_prosplines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.do_spin_charges"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.do_spin_charges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.eval_proatom"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.eval_proatom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.eval_spline"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.eval_spline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.fix_proatom_rho"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.fix_proatom_rho()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.get_grid"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.get_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.get_moldens"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.get_moldens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.get_proatom_rho"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.get_proatom_rho()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.get_proatom_spline"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.get_proatom_spline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.get_rgrid"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.get_rgrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.get_spindens"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.get_spindens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.get_wcor"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.get_wcor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.grid"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.grid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.grid_type"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.grid_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.lmax"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.lmax</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.local"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.local</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.name"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.natom"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.natom</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.negative_cutoff"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.negative_cutoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.nelec"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.nelec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.numbers"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.numbers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.on_molgrid"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.on_molgrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.only_use_molgrid"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.only_use_molgrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.population_cutoff"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.population_cutoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.pseudo_numbers"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.pseudo_numbers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.radial_distances"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.radial_distances</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.setup_grids"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.setup_grids()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.to_atomic_grid"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.to_atomic_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.update_at_weights"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.update_at_weights()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.update_pro"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.update_pro()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.AbstractISAWPart.variables_stored_in_cache"><code class="docutils literal notranslate"><span class="pre">AbstractISAWPart.variables_stored_in_cache()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.compute_change"><code class="docutils literal notranslate"><span class="pre">compute_change()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.iterstock.html#horton_part.core.iterstock.finalize_propars"><code class="docutils literal notranslate"><span class="pre">finalize_propars()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="horton_part.core.logging.html">horton_part.core.logging module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.logging.html#horton_part.core.logging.deflist"><code class="docutils literal notranslate"><span class="pre">deflist()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.logging.html#horton_part.core.logging.get_print_func"><code class="docutils literal notranslate"><span class="pre">get_print_func()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.logging.html#horton_part.core.logging.setup_logger"><code class="docutils literal notranslate"><span class="pre">setup_logger()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="horton_part.core.proatomdb.html">horton_part.core.proatomdb module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB"><code class="docutils literal notranslate"><span class="pre">ProAtomDB</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.__init__"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.compact"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.compact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.get_charges"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.get_charges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.get_numbers"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.get_numbers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.get_record"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.get_record()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.get_rgrid"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.get_rgrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.get_rho"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.get_rho()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.get_spline"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.get_spline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.normalize"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.normalize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomDB.size"><code class="docutils literal notranslate"><span class="pre">ProAtomDB.size</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.__init__"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.charge"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.charge</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.chop"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.chop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.compute_radii"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.compute_radii()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.deriv"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.deriv</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.energy"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.energy</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.get_moment"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.get_moment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.ipot_energy"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.ipot_energy</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.number"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.population"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.population</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.pseudo_number"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.pseudo_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.pseudo_population"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.pseudo_population</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.rgrid"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.rgrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.rho"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.rho</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.safe"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.safe</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.proatomdb.html#horton_part.core.proatomdb.ProAtomRecord.update_safe"><code class="docutils literal notranslate"><span class="pre">ProAtomRecord.update_safe()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="horton_part.core.stockholder.html">horton_part.core.stockholder module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.__init__"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.cache"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.cache</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.calc_radial_distances"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.calc_radial_distances()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.clear"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.clear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.compute_pseudo_population"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.compute_pseudo_population()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.coordinates"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.coordinates</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.density_cutoff"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.density_cutoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.do_all"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.do_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.do_charges"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.do_charges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.do_density_decomposition"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.do_density_decomposition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.do_moments"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.do_moments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.do_partitioning"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.do_partitioning()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.do_populations"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.do_populations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.do_prosplines"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.do_prosplines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.do_spin_charges"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.do_spin_charges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.eval_proatom"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.eval_proatom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.eval_spline"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.eval_spline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.fix_proatom_rho"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.fix_proatom_rho()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.get_grid"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.get_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.get_moldens"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.get_moldens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.get_proatom_rho"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.get_proatom_rho()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.get_proatom_spline"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.get_proatom_spline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.get_rgrid"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.get_rgrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.get_spindens"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.get_spindens()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.get_wcor"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.get_wcor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.grid"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.grid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.grid_type"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.grid_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.lmax"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.lmax</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.local"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.local</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.name"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.natom"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.natom</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.negative_cutoff"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.negative_cutoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.nelec"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.nelec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.numbers"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.numbers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.on_molgrid"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.on_molgrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.only_use_molgrid"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.only_use_molgrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.population_cutoff"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.population_cutoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.pseudo_numbers"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.pseudo_numbers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.radial_distances"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.radial_distances</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.setup_grids"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.setup_grids()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.to_atomic_grid"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.to_atomic_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.update_at_weights"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.update_at_weights()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.update_pro"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.update_pro()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.core.stockholder.html#horton_part.core.stockholder.AbstractStockholderWPart.variables_stored_in_cache"><code class="docutils literal notranslate"><span class="pre">AbstractStockholderWPart.variables_stored_in_cache()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-horton_part.core">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-horton_part.core" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="horton_part.algo.quasi_newton.html" class="btn btn-neutral float-left" title="horton_part.algo.quasi_newton module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="horton_part.core.base.html" class="btn btn-neutral float-right" title="horton_part.core.base module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

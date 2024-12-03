@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>horton_part.core.basis module &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="horton_part.core.cache module" href="horton_part.core.cache.html" />
+    <link rel="prev" title="horton_part.core.base module" href="horton_part.core.base.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">horton_part</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="horton_part.html">horton_part package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="horton_part.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">horton_part</a></li>
+          <li class="breadcrumb-item"><a href="horton_part.html">horton_part package</a></li>
+          <li class="breadcrumb-item"><a href="horton_part.core.html">horton_part.core package</a></li>
+      <li class="breadcrumb-item active">horton_part.core.basis module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pyapi/horton_part.core.basis.rst" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-horton_part.core.basis">
+<span id="horton-part-core-basis-module"></span><h1>horton_part.core.basis module<a class="headerlink" href="#module-horton_part.core.basis" title="Link to this heading"></a></h1>
+<p>Module for handling basis functions used in GISA and LISA schemes.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="horton_part.core.basis.AnalyticBasisFuncHelper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AnalyticBasisFuncHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initials</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.AnalyticBasisFuncHelper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#horton_part.core.basis.BasisFuncHelper" title="horton_part.core.basis.BasisFuncHelper"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisFuncHelper</span></code></a></p>
+<p>Analytic basis function helper class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.AnalyticBasisFuncHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initials</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.AnalyticBasisFuncHelper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.AnalyticBasisFuncHelper.compute_proatom_dens">
+<span class="sig-name descname"><span class="pre">compute_proatom_dens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">populations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nderiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.AnalyticBasisFuncHelper.compute_proatom_dens" title="Link to this definition"></a></dt>
+<dd><p>Compute pro-atom density on points for an atom.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.AnalyticBasisFuncHelper.compute_proshell_dens">
+<span class="sig-name descname"><span class="pre">compute_proshell_dens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nderiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.AnalyticBasisFuncHelper.compute_proshell_dens" title="Link to this definition"></a></dt>
+<dd><p>Compute pro-shell density on points for an atom.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.AnalyticBasisFuncHelper.get_initial">
+<span class="sig-name descname"><span class="pre">get_initial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.AnalyticBasisFuncHelper.get_initial" title="Link to this definition"></a></dt>
+<dd><p>Get initial value for an atom for its <cite>ishell</cite> basis function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.AnalyticBasisFuncHelper.get_nshell">
+<span class="sig-name descname"><span class="pre">get_nshell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.AnalyticBasisFuncHelper.get_nshell" title="Link to this definition"></a></dt>
+<dd><p>Get number of basis functions based on the atomic number of an atom.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.core.basis.AnalyticBasisFuncHelper.initials">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initials</span></span><a class="headerlink" href="#horton_part.core.basis.AnalyticBasisFuncHelper.initials" title="Link to this definition"></a></dt>
+<dd><p>A dictionary mapping atomic numbers to their initial values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="horton_part.core.basis.BasisFuncHelper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BasisFuncHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initials</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.BasisFuncHelper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base of basis function helper.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.BasisFuncHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initials</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.BasisFuncHelper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.BasisFuncHelper.compute_proatom_dens">
+<span class="sig-name descname"><span class="pre">compute_proatom_dens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">populations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nderiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.BasisFuncHelper.compute_proatom_dens" title="Link to this definition"></a></dt>
+<dd><p>Compute pro-atom density on points for an atom.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.BasisFuncHelper.compute_proshell_dens">
+<span class="sig-name descname"><span class="pre">compute_proshell_dens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nderiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.BasisFuncHelper.compute_proshell_dens" title="Link to this definition"></a></dt>
+<dd><p>Compute pro-shell density on points for an atom.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.BasisFuncHelper.get_initial">
+<span class="sig-name descname"><span class="pre">get_initial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.BasisFuncHelper.get_initial" title="Link to this definition"></a></dt>
+<dd><p>Get initial value for an atom for its <cite>ishell</cite> basis function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.BasisFuncHelper.get_nshell">
+<span class="sig-name descname"><span class="pre">get_nshell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.BasisFuncHelper.get_nshell" title="Link to this definition"></a></dt>
+<dd><p>Get number of basis functions based on the atomic number of an atom.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.core.basis.BasisFuncHelper.initials">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initials</span></span><a class="headerlink" href="#horton_part.core.basis.BasisFuncHelper.initials" title="Link to this definition"></a></dt>
+<dd><p>A dictionary mapping atomic numbers to their initial values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ExpBasisFuncHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exponents_orders</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exponents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#horton_part.core.basis.AnalyticBasisFuncHelper" title="horton_part.core.basis.AnalyticBasisFuncHelper"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalyticBasisFuncHelper</span></code></a></p>
+<p>A helper class for handling basis functions in GISA and LISA methods.</p>
+<p>This class provides functionalities to load and access parameters of basis functions
+used in GISA and LISA methods. It supports operations for different atoms characterized
+by atomic numbers, and allows computations of densities and other properties at
+specified points in space.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exponents_orders</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exponents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.compute_proatom_dens">
+<span class="sig-name descname"><span class="pre">compute_proatom_dens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">populations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nderiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.compute_proatom_dens" title="Link to this definition"></a></dt>
+<dd><p>Compute pro-atom density on points for an atom.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.compute_proshell_dens">
+<span class="sig-name descname"><span class="pre">compute_proshell_dens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nderiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.compute_proshell_dens" title="Link to this definition"></a></dt>
+<dd><p>Compute pro-shell density on points for an atom.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.exponents">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exponents</span></span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.exponents" title="Link to this definition"></a></dt>
+<dd><p>A dictionary mapping atomic numbers to their exponents.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.from_file">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.from_file" title="Link to this definition"></a></dt>
+<dd><p>Construct class from a file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.from_function_type">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_function_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gauss'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.from_function_type" title="Link to this definition"></a></dt>
+<dd><p>Construct class from basis type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.from_json" title="Link to this definition"></a></dt>
+<dd><p>Construct from a yaml file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.from_yaml">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.from_yaml" title="Link to this definition"></a></dt>
+<dd><p>Construct from a yaml file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.get_exponent">
+<span class="sig-name descname"><span class="pre">get_exponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.get_exponent" title="Link to this definition"></a></dt>
+<dd><p>Get exponent coefficient for an atom for its <cite>ishell</cite> basis function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.get_initial">
+<span class="sig-name descname"><span class="pre">get_initial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.get_initial" title="Link to this definition"></a></dt>
+<dd><p>Get initial value for an atom for its <cite>ishell</cite> basis function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.get_nshell">
+<span class="sig-name descname"><span class="pre">get_nshell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.get_nshell" title="Link to this definition"></a></dt>
+<dd><p>Get number of basis functions based on the atomic number of an atom.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.get_order">
+<span class="sig-name descname"><span class="pre">get_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.get_order" title="Link to this definition"></a></dt>
+<dd><p>Get exponent order for an atom for its <cite>ishell</cite> basis function.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.initials">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initials</span></span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.initials" title="Link to this definition"></a></dt>
+<dd><p>A dictionary mapping atomic numbers to their initial values.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.core.basis.ExpBasisFuncHelper.orders">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">orders</span></span><a class="headerlink" href="#horton_part.core.basis.ExpBasisFuncHelper.orders" title="Link to this definition"></a></dt>
+<dd><p>A dictionary mapping atomic numbers to their exponential orders.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NumericBasisFuncHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">splines_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initials</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#horton_part.core.basis.BasisFuncHelper" title="horton_part.core.basis.BasisFuncHelper"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisFuncHelper</span></code></a></p>
+<p>Numerical basis function helper class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">splines_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initials</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper.compute_proatom_dens">
+<span class="sig-name descname"><span class="pre">compute_proatom_dens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">populations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nderiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper.compute_proatom_dens" title="Link to this definition"></a></dt>
+<dd><p>Compute pro-atom density on points for an atom.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper.compute_proshell_dens">
+<span class="sig-name descname"><span class="pre">compute_proshell_dens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nderiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper.compute_proshell_dens" title="Link to this definition"></a></dt>
+<dd><p>Compute pro-shell density on points for an atom.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper.from_file">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper.from_file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper.from_function_type">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_function_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gauss_num'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper.from_function_type" title="Link to this definition"></a></dt>
+<dd><p>Construct class from basis type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper.get_initial">
+<span class="sig-name descname"><span class="pre">get_initial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ishell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper.get_initial" title="Link to this definition"></a></dt>
+<dd><p>Get initial value for an atom for its <cite>ishell</cite> basis function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper.get_nshell">
+<span class="sig-name descname"><span class="pre">get_nshell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper.get_nshell" title="Link to this definition"></a></dt>
+<dd><p>Get number of basis functions based on the atomic number of an atom.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper.initials">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initials</span></span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper.initials" title="Link to this definition"></a></dt>
+<dd><p>A dictionary mapping atomic numbers to their initial values.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="horton_part.core.basis.NumericBasisFuncHelper.splines_dict">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">splines_dict</span></span><a class="headerlink" href="#horton_part.core.basis.NumericBasisFuncHelper.splines_dict" title="Link to this definition"></a></dt>
+<dd><p>Return splines dict.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.core.basis.evaluate_function">
+<span class="sig-name descname"><span class="pre">evaluate_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nderiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.evaluate_function" title="Link to this definition"></a></dt>
+<dd><p>Evaluate a general function and its derivative, with support for vectorized operations.</p>
+<p>This function calculates a custom mathematical function <span class="math notranslate nohighlight">\(f(\mathbf{r})\)</span> and optionally its derivative,
+given certain parameters. The calculation can be vectorized over multiple values of <span class="math notranslate nohighlight">\(n\)</span>,
+<span class="math notranslate nohighlight">\(\text{population}\)</span>, and <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<p>The function is defined as:</p>
+<div class="math notranslate nohighlight">
+\[f(\mathbf{r}) = N(\alpha, n) \exp(-\alpha |\mathbf{r}|^n)\]</div>
+<p>where <span class="math notranslate nohighlight">\(N(\alpha, n)\)</span> is a normalization factor ensuring the integral of <span class="math notranslate nohighlight">\(f\)</span> over all space equals 1.
+The derivative of <span class="math notranslate nohighlight">\(f\)</span> with respect to <span class="math notranslate nohighlight">\(r\)</span> is also provided.</p>
+<p>The normalization factor can be obtained as follows:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\int N(\alpha, n)  f(\mathbf{r}) d\mathbf{r} =  4 \pi * \int_0^{\infty} r^2  \exp^{-\alpha r^n} = 1\\N(\alpha, n) = \frac{n \alpha^{3/n}}{4 \pi \Gamma(3/n)}\end{aligned}\end{align} \]</div>
+<p>where N(α, n) is a normalization factor ensuring the integral of f over all space equals 1.</p>
+<p>For Slater function, i.e., <span class="math notranslate nohighlight">\(n=1\)</span>, the normalization factor is</p>
+<div class="math notranslate nohighlight">
+\[N(\alpha, 1) = \frac{\alpha^3}{8 \pi}\]</div>
+<p>For Gaussian function, <span class="math notranslate nohighlight">\(n=2\)</span>, the normalization factor is</p>
+<div class="math notranslate nohighlight">
+\[N(\alpha, 2) = (\frac{\alpha}{\pi})^{3/2}\]</div>
+<p>The derivative of function f w.r.t the <span class="math notranslate nohighlight">\(|r|\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial{f(\mathbf{r})}}{\partial{r}} = - n r^{n-1} \alpha f(\mathbf{r})\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>float</em><em> or </em><em>np.ndarray</em>) – Order, positive. Scalar or 1D array.</p></li>
+<li><p><strong>population</strong> (<em>float</em>) – Constant representing population.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em> or </em><em>np.ndarray</em>) – Exponential coefficient. Scalar or 1D array matching n.</p></li>
+<li><p><strong>r</strong> (<em>np.ndarray</em>) – Points. 1D array.</p></li>
+<li><p><strong>nderiv</strong> (<em>int</em><em>, </em><em>optional</em>) – The order of derivative. Currently supports 0 (function) and 1 (first derivative).</p></li>
+<li><p><strong>axis</strong> (<em>int</em><em>, </em><em>optional</em>) – The axis of the array to sum. Applicable if n, alpha are arrays.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>f</strong> (<em>np.ndarray</em>) – Function values at points r.</p></li>
+<li><p><strong>df</strong> (<em>np.ndarray, optional</em>) – Derivative of function at points r, if nderiv == 1.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="horton_part.core.basis.load_params">
+<span class="sig-name descname"><span class="pre">load_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'json'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#horton_part.core.basis.load_params" title="Link to this definition"></a></dt>
+<dd><p>Loads parameters from a JSON or YAML file.</p>
+<p>The function reads a file specified by the filename, which can be in JSON or YAML format,
+and extracts orders, exponents, and initial values for different elements based on their atomic numbers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – The path to the file containing the parameters in JSON or YAML format.</p></li>
+<li><p><strong>extension</strong> (<em>str</em><em>, </em><em>optional</em>) – The format of the file, either ‘json’ or ‘yaml’. Default is ‘json’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing three dictionaries: orders, exponents, and initials.
+Each dictionary maps an atomic number (int) to its corresponding numpy array values (orders, exponents, and initials).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple of dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="horton_part.core.base.html" class="btn btn-neutral float-left" title="horton_part.core.base module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="horton_part.core.cache.html" class="btn btn-neutral float-right" title="horton_part.core.cache module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

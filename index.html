@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Horton-Part’s documentation! &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/override.css?v=064c4a14" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyapi/modules.html">horton_part</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyapi/horton_part.html">horton_part package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyapi/horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyapi/horton_part.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyapi/horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyapi/horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to Horton-Part’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <a class="reference internal image-reference" href="_images/horton_part_logo.svg"><img alt="_images/horton_part_logo.svg" class="align-center" src="_images/horton_part_logo.svg" width="450" /></a>
+<section id="welcome-to-horton-part-s-documentation">
+<h1>Welcome to Horton-Part’s documentation!<a class="headerlink" href="#welcome-to-horton-part-s-documentation" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/yingxingcheng/horton-part">HORTON-PART</a> is a computational chemistry package that supports different partition schemes.
+It is based on the sub-module <code class="docutils literal notranslate"><span class="pre">part</span></code> of <code class="docutils literal notranslate"><span class="pre">HORTON2</span></code>, which is written and maintained by Toon Verstraelen (2).
+In <code class="docutils literal notranslate"><span class="pre">HORTON3</span></code>, all sub-modules have been rewritten using the pure Python programming language to support Python 3+.
+See more details on this <a class="reference external" href="http://theochem.github.com/horton/">website</a>.
+It should be noted that <code class="docutils literal notranslate"><span class="pre">HORTON2</span></code> also supports Python 3+ now.
+The <code class="docutils literal notranslate"><span class="pre">part</span></code> module has also been rewritten and is now called <a class="reference external" href="https://github.com/theochem/denspart">denspart</a> module.
+However, the algorithm implemented in <code class="docutils literal notranslate"><span class="pre">denspart</span></code> only uses one-step optimization, which can be computationally expensive for large systems.
+Additionally, <code class="docutils literal notranslate"><span class="pre">denspart</span></code> only supports the <code class="docutils literal notranslate"><span class="pre">MBIS</span></code> partitioning scheme.
+Another <code class="docutils literal notranslate"><span class="pre">part</span></code> module has been rewritten in pure Python programming language by Farnaz Heidar-Zadeh (2).
+However, the integration grid implemented in this module still uses the old ‘grid’ from Horton2.
+<a class="reference external" href="https://github.com/yingxingcheng/horton-part">HORTON-PART</a> with version <code class="docutils literal notranslate"><span class="pre">0.0.X</span></code> is based on this module.
+Starting from version <code class="docutils literal notranslate"><span class="pre">1.X.X</span></code>, <a class="reference external" href="https://github.com/yingxingcheng/horton-part">HORTON-PART</a> only supports the new integration <a class="reference external" href="https://github.com/theochem/grid">qc-grid</a>.
+The molecular density can be prepared using <code class="docutils literal notranslate"><span class="pre">IOData</span></code> (<a class="reference external" href="https://github.com/theochem/iodata">https://github.com/theochem/iodata</a>) and <code class="docutils literal notranslate"><span class="pre">GBasis</span></code> (<a class="reference external" href="https://github.com/theochem/gbasis">https://github.com/theochem/gbasis</a>) packages.</p>
+<p>This version contains contributions from
+YingXing Cheng (1),
+Toon Verstraelen (2),
+Pawel Tecmer (3),
+Farnaz Heidar-Zadeh (3),
+Cristina E. González-Espinoza (3),
+Matthew Chan (3),
+Taewon D. Kim (3),
+Katharina Boguslawski (3),
+Stijn Fias (4),
+Steven Vandenbrande (2),
+Diego Berrocal (3),
+and Paul W. Ayers (3)</p>
+<ul class="simple">
+<li><ol class="arabic simple">
+<li><p>Numerical Mathematics for High Performance Computing (NMH), University of Stuttgart, Stuttgart, Germany.</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p>Center for Molecular Modeling (CMM), Ghent University, Ghent, Belgium.</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="3">
+<li><p>The Ayers Group, McMaster University, Hamilton, Ontario, Canada.</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="4">
+<li><p>General Chemistry (ALGC), Free University of Brussels, Brussels, Belgium.</p></li>
+</ol>
+</li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">Horton-Part</span></code> source code is hosted on GitHub and is released under the GNU General Public License v3.0.
+Please report any issues you encounter while using <code class="docutils literal notranslate"><span class="pre">Horton-Part</span></code> library on
+<a class="reference external" href="https://github.com/yingxingcheng/horton-part/issues/new">GitHub Issues</a>.
+For further information and inquiries please contact us at <a class="reference external" href="mailto:yxcheng2buaa&#37;&#52;&#48;gmail&#46;com">yxcheng2buaa<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
+</section>
+<section id="functionality">
+<h1>Functionality<a class="headerlink" href="#functionality" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Real space partitioning schemes</p>
+<ul>
+<li><p>Mulliken partitioning method</p></li>
+</ul>
+</li>
+<li><p>Density related partitioning schemes</p>
+<ul>
+<li><p>Becke partitioning method</p></li>
+<li><p>Stockholder schemes</p>
+<ul>
+<li><p>Hirshfeld partitioning method</p></li>
+</ul>
+</li>
+<li><p>Iterative Stockholder schemes</p>
+<ul>
+<li><p>Iterative Hirshfeld (Hirshfeld-I) partitioning method</p></li>
+<li><p>Iterative Stockholder Approach (ISA)</p></li>
+<li><p>Minimal Basis Iterative Stockholder (MBIS)</p></li>
+<li><p>Gaussian iterative stockholder approach (GISA)</p></li>
+<li><p>Alternating Linear approximation of the ISA (aLISA) method</p></li>
+<li><p>Global Linear approximation of the ISA (gLISA) method</p></li>
+<li><p>Generalized Minimal Basis Iterative Stockholder (GMBIS)</p></li>
+<li><p>Non-linear approximation of the ISA (NLIS) method</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="citations">
+<h1>Citations<a class="headerlink" href="#citations" title="Link to this heading"></a></h1>
+<p>Please use the following citations in any publication using <code class="docutils literal notranslate"><span class="pre">horton-part</span></code> library:</p>
+<p>[1] Cheng, Y.; Cancès, E.; Ehrlacher, V.; Misquitta, A. J.; Stamm, B.
+<strong>Multi-center decomposition of molecular densities: A numerical perspective.</strong>
+<a class="reference external" href="https://doi.org/10.48550/arXiv.2405.08455">arXiv 2024, 2405.08455</a></p>
+<p>[2] Benda, R.; Cancès, E.; Ehrlacher, V.; Stamm, B.
+<strong>Multi-center decomposition of molecular densities: A mathematical perspective.</strong>
+<a class="reference external" href="https://doi.org/10.1063/5.0076630">J. Chem. Phys. 2022, 156, 164107</a></p>
+<p>[3] Chan, M.; Verstraelen, T.; Tehrani, A.; Richer, M.; Yang, X. D.; Kim, T. D.; Vöhringer-Martinez, E.; Heidar-Zadeh, F.; Ayers, P. W.
+<strong>The tale of HORTON: Lessons learned in a decade of scientific software development.</strong>
+<a class="reference external" href="https://doi.org/10.1063/5.0196638">J. Chem. Phys. 2024, 160, 162501</a></p>
+<p>[4] Tehrani, A.; Yang, X. D.; Martínez-González, M.; Pujal, L.; Hernández-Esparza, R.; Chan, M.; Vöhringer-Martinez, E.; Verstraelen, T.; Ayers, P. W.; Heidar-Zadeh, F.
+<strong>Grid: A Python library for molecular integration, interpolation, differentiation, and more.</strong>
+<a class="reference external" href="https://doi.org/10.1063/5.0202240">J. Chem. Phys. 2024, 160, 172503</a></p>
+<p>[5] Kim, T. D.; Pujal, L.; Richer, M.; van Zyl, M.; Martínez-González, M.; Tehrani, A.; Chuiko, V.; Sánchez-Díaz, G.; Sanchez, W.; Adams, W.; Huang, X.; Kelly, B. D.; Vöhringer-Martinez, E.; Verstraelen, T.; Heidar-Zadeh, F.; Ayers, P. W.
+<strong>GBasis: A Python library for evaluating functions, functionals, and integrals expressed with Gaussian basis functions.</strong>
+<a class="reference external" href="https://doi.org/10.1063/5.0216776">J. Chem. Phys. 2024, 161, 042503</a></p>
+<p>[6] Verstraelen, T.; Adams, W.; Pujal, L.; Tehrani, A.; Kelly, B. D.; Macaya, L.; Meng, F.; Richer, M.; Hernández-Esparza, R.; Yang, X. D.; Chan, M.; Kim, T. D.; Cools-Ceuppens, M.; Chuiko, V.; Vöhringer-Martinez, E.; Ayers, P. W.; Heidar-Zadeh, F.
+<strong>IOData: A python library for reading, writing, and converting computational chemistry file formats and generating input files.</strong>
+<a class="reference external" href="https://doi.org/10.1002/jcc.26468">J. Comput. Chem. 2021, 42, 458–464</a></p>
+</section>
+<section id="modules">
+<h1>Modules<a class="headerlink" href="#modules" title="Link to this heading"></a></h1>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 41.7%" />
+<col style="width: 58.3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Modules</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="pyapi/horton_part.becke.html#module-horton_part.becke" title="horton_part.becke"><code class="xref py py-func docutils literal notranslate"><span class="pre">Becke</span></code></a></p></td>
+<td><p>Becke partitioning method</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyapi/horton_part.hirshfeld.html#module-horton_part.hirshfeld" title="horton_part.hirshfeld"><code class="xref py py-func docutils literal notranslate"><span class="pre">Hirshfeld</span></code></a></p></td>
+<td><p>Hirshfeld partitioning method</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyapi/horton_part.hirshfeld_i.html#module-horton_part.hirshfeld_i" title="horton_part.hirshfeld_i"><code class="xref py py-func docutils literal notranslate"><span class="pre">Hirshfeld-I</span></code></a></p></td>
+<td><p>Iterative Hirshfeld partitioning method</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyapi/horton_part.isa.html#module-horton_part.isa" title="horton_part.isa"><code class="xref py py-func docutils literal notranslate"><span class="pre">ISA</span></code></a></p></td>
+<td><p>Iterative Stockholder analysis (ISA) method</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyapi/horton_part.mbis.html#module-horton_part.mbis" title="horton_part.mbis"><code class="xref py py-func docutils literal notranslate"><span class="pre">MBIS</span></code></a></p></td>
+<td><p>Minimal Basis Iterative Stockholder (MBIS) method</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyapi/horton_part.gisa.html#module-horton_part.gisa" title="horton_part.gisa"><code class="xref py py-func docutils literal notranslate"><span class="pre">GISA</span></code></a></p></td>
+<td><p>Gaussian iterative stockholder approach (GISA)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyapi/horton_part.alisa.html#module-horton_part.alisa" title="horton_part.alisa"><code class="xref py py-func docutils literal notranslate"><span class="pre">aLISA</span></code></a></p></td>
+<td><p>Alternating Linear approximation of the ISA method (aLISA)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyapi/horton_part.glisa.html#module-horton_part.glisa" title="horton_part.glisa"><code class="xref py py-func docutils literal notranslate"><span class="pre">gLISA</span></code></a></p></td>
+<td><p>Global linear approximation of the ISA method (gLISA)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyapi/horton_part.gmbis.html#module-horton_part.gmbis" title="horton_part.gmbis"><code class="xref py py-func docutils literal notranslate"><span class="pre">GMBIS</span></code></a></p></td>
+<td><p>Generalized Minimal Basis Iterative Stockholder (MBIS) method</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyapi/horton_part.nlis.html#module-horton_part.nlis" title="horton_part.nlis"><code class="xref py py-func docutils literal notranslate"><span class="pre">NLIS</span></code></a></p></td>
+<td><p>Non-linear approximation of the ISA method (NLIS) method</p></td>
+</tr>
+</tbody>
+</table>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quick_start.html">From Command Line</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/glisa.html">Global Linear approximation of the ISA (gLISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/hirshfeld.html">(Iterative) Hirshfeld method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/mulliken.html">Mulliken method</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyapi/modules.html">horton_part</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyapi/horton_part.html">horton_part package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

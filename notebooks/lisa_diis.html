@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Direct Inversion in Iterative Space (DIIS) &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Global Linear approximation of the ISA (gLISA) method" href="glisa.html" />
+    <link rel="prev" title="Alternating Linear approximation of the ISA (aLISA) method" href="lisa.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyapi/modules.html">horton_part</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pyapi/horton_part.html">horton_part package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">New Direct Inversion in Iterative Space (DIIS)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/lisa_diis.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="New-Direct-Inversion-in-Iterative-Space-(DIIS)">
+<h1>New Direct Inversion in Iterative Space (DIIS)<a class="headerlink" href="#New-Direct-Inversion-in-Iterative-Space-(DIIS)" title="Link to this heading"></a></h1>
+<p>This method has been extensively used to solve self-consistent field (SCF) problems in the fields of quantum chemistry and physics. In this tutorial, we employ this method to accelerate the solving of fixed-point problems.</p>
+<p>It should be noted that one potential issue with this method is that non-negative parameters cannot be guaranteed during optimization in the conventional DIIS approach. Although this issue can be addressed by explicitly introducing constraints to the linear combination coefficients, key concepts in DIIS, numerical issues may still arise, such as singular matrices or convergence problems.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">setup</span> <span class="kn">import</span> <span class="n">prepare_argument_dict</span><span class="p">,</span> <span class="n">prepare_grid_and_dens</span><span class="p">,</span> <span class="n">print_results</span>
+
+<span class="kn">from</span> <span class="nn">horton_part</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BasisFuncHelper</span><span class="p">,</span>
+    <span class="n">LinearISAWPart</span><span class="p">,</span>
+    <span class="n">check_pro_atom_parameters</span><span class="p">,</span>
+    <span class="n">compute_quantities</span><span class="p">,</span>
+    <span class="n">lstsq_solver_dyn</span><span class="p">,</span>
+    <span class="n">lstsq_solver_with_extra_constr</span><span class="p">,</span>
+    <span class="n">lstsq_spsolver</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>In DIIS method, the combination coefficients are determined by solving a least-square problem. The default method is <code class="docutils literal notranslate"><span class="pre">lstsq_spsolver</span></code>, which computes the inversion of the matrix directly. One can also use other least-square solver and availiable methods are <code class="docutils literal notranslate"><span class="pre">lstsq_solver_dyn</span></code>, <code class="docutils literal notranslate"><span class="pre">lstsq_solver_with_extra_constr</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run_diis</span><span class="p">(</span><span class="n">diis_method</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Self-consistent solver.&quot;&quot;&quot;</span>
+    <span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="n">prepare_grid_and_dens</span><span class="p">(</span><span class="s2">&quot;data/h2o.fchk&quot;</span><span class="p">)</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;diis&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Results with </span><span class="si">{</span><span class="n">diis_method</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver_options&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;diis_size&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;lstsq_solver&quot;</span><span class="p">:</span> <span class="n">diis_method</span><span class="p">}</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">LinearISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run_diis</span><span class="p">(</span><span class="n">lstsq_spsolver</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of electrons: 10.000003764139395
+Coordinates of the atoms
+ [[ 0.     0.     0.224]
+ [-0.     1.457 -0.896]
+ [-0.    -1.457 -0.896]]
+Atomic numbers of the atom
+ [8 1 1]
+********************************************************************************
+                          Results with lstsq_spsolver
+********************************************************************************
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : DIIS
+  Basis function type              : GAUSS
+  Grid type                        : 1
+  Solver options -- diis_size      : 8
+  Solver options -- lstsq_solver   : &lt;function lstsq_spsolver at 0x114df7760&gt;
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22855e-01   2.11396e-01
+        2   2.65515e-02   1.08102e-01
+        3   1.49501e-02   7.80048e-02
+        4   9.43137e-03   6.28961e-02
+        5   6.28278e-03   5.43378e-02
+        6   4.36240e-03   4.91980e-02
+        7   3.13687e-03   4.59888e-02
+        8   2.32437e-03   4.39260e-02
+        9   1.76689e-03   4.25692e-02
+       10   1.37224e-03   4.16592e-02
+       11   1.08477e-03   4.10387e-02
+       12   8.70268e-04   4.06094e-02
+       13   7.06515e-04   4.03085e-02
+       14   5.79259e-04   4.00953e-02
+       15   4.78833e-04   3.99426e-02
+       16   3.98553e-04   3.98323e-02
+       17   3.33683e-04   3.97519e-02
+       18   2.80789e-04   3.96928e-02
+       19   2.37328e-04   3.96492e-02
+       20   2.01381e-04   3.96168e-02
+       21   1.71485e-04   3.95926e-02
+       22   1.46486e-04   3.95743e-02
+       23   1.25503e-04   3.95606e-02
+       24   1.07837e-04   3.95501e-02
+       25   9.28262e-05   3.95422e-02
+       26   8.01463e-05   3.95361e-02
+       27   6.93267e-05   3.95315e-02
+       28   6.00950e-05   3.95279e-02
+       29   5.21910e-05   3.95251e-02
+       30   4.54046e-05   3.95230e-02
+       31   3.95668e-05   3.95214e-02
+       32   3.45395e-05   3.95201e-02
+       33   3.01894e-05   3.95191e-02
+       34   2.64219e-05   3.95183e-02
+       35   2.32048e-05   3.95177e-02
+       36   2.02725e-05   3.95173e-02
+       37   1.78443e-05   3.95169e-02
+       38   1.56917e-05   3.95166e-02
+       39   1.38118e-05   3.95164e-02
+       40   1.21657e-05   3.95162e-02
+       41   1.07252e-05   3.95161e-02
+       42   9.46173e-06   3.95160e-02
+       43   8.35306e-06   3.95159e-02
+       44   7.37884e-06   3.95158e-02
+       45   6.52269e-06   3.95158e-02
+       46   5.76628e-06   3.95158e-02
+       47   5.10255e-06   3.95157e-02
+       48   4.51624e-06   3.95157e-02
+       49   3.99896e-06   3.95157e-02
+       50   3.54223e-06   3.95157e-02
+       51   3.13864e-06   3.95157e-02
+       52   2.78194e-06   3.95157e-02
+       53   2.46633e-06   3.95156e-02
+       54   2.18725e-06   3.95156e-02
+       55   1.93972e-06   3.95156e-02
+       56   1.72097e-06   3.95156e-02
+       57   1.52708e-06   3.95156e-02
+       58   1.35521e-06   3.95156e-02
+       59   1.20290e-06   3.95156e-02
+       60   1.06782e-06   3.95156e-02
+       61   9.48037e-07   3.95156e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.     0.     0.133 -5.381 -0.    -0.    -4.802  0.    -5.094 -0.    -0.     0.034  0.    -0.     0.    -0.     0.416 -0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.     0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run_cdiis</span><span class="p">(</span><span class="o">**</span><span class="n">solver_options</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Self-consistent solver.&quot;&quot;&quot;</span>
+    <span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="n">prepare_grid_and_dens</span><span class="p">(</span><span class="s2">&quot;data/h2o.fchk&quot;</span><span class="p">)</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cdiis&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver_options&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">solver_options</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">LinearISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run_cdiis</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;R-CDIIS&quot;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of electrons: 10.000003764139395
+Coordinates of the atoms
+ [[ 0.     0.     0.224]
+ [-0.     1.457 -0.896]
+ [-0.    -1.457 -0.896]]
+Atomic numbers of the atom
+ [8 1 1]
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : CDIIS
+  Basis function type              : GAUSS
+  Grid type                        : 1
+  Solver options -- mode           : R-CDIIS
+  Solver options -- param          : 0.01
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22855e-01   2.11396e-01
+        2   2.65514e-02   1.08102e-01
+        3   1.49501e-02   7.80048e-02
+        4   9.43136e-03   6.28961e-02
+        5   6.28276e-03   5.43378e-02
+        6   4.36241e-03   4.91980e-02
+        7   3.13687e-03   4.59888e-02
+        8   2.32437e-03   4.39260e-02
+        9   1.76689e-03   4.25692e-02
+       10   1.37224e-03   4.16592e-02
+       11   1.08483e-03   4.10387e-02
+       12   8.70229e-04   4.06094e-02
+       13   7.06493e-04   4.03086e-02
+       14   5.79252e-04   4.00953e-02
+       15   4.78829e-04   3.99426e-02
+       16   3.98556e-04   3.98323e-02
+       17   3.33690e-04   3.97519e-02
+       18   2.80795e-04   3.96929e-02
+       19   2.37334e-04   3.96492e-02
+       20   2.01387e-04   3.96168e-02
+       21   1.71486e-04   3.95926e-02
+       22   1.46491e-04   3.95743e-02
+       23   1.25506e-04   3.95606e-02
+       24   1.07815e-04   3.95501e-02
+       25   9.28499e-05   3.95422e-02
+       26   8.01469e-05   3.95361e-02
+       27   6.93317e-05   3.95315e-02
+       28   6.00976e-05   3.95279e-02
+       29   5.21923e-05   3.95251e-02
+       30   4.54075e-05   3.95230e-02
+       31   3.95705e-05   3.95214e-02
+       32   3.45377e-05   3.95201e-02
+       33   3.01890e-05   3.95191e-02
+       34   2.64237e-05   3.95183e-02
+       35   2.31574e-05   3.95177e-02
+       36   2.03188e-05   3.95173e-02
+       37   1.78476e-05   3.95169e-02
+       38   1.56930e-05   3.95166e-02
+       39   1.37453e-05   3.95164e-02
+       40   1.21736e-05   3.95162e-02
+       41   1.07322e-05   3.95161e-02
+       42   9.46816e-06   3.95160e-02
+       43   8.35860e-06   3.95159e-02
+       44   7.35065e-06   3.95158e-02
+       45   6.52996e-06   3.95158e-02
+       46   5.77464e-06   3.95158e-02
+       47   5.10901e-06   3.95157e-02
+       48   4.49843e-06   3.95157e-02
+       49   4.00692e-06   3.95157e-02
+       50   3.54924e-06   3.95157e-02
+       51   3.14486e-06   3.95157e-02
+       52   2.78737e-06   3.95157e-02
+       53   2.43680e-06   3.95156e-02
+       54   2.19590e-06   3.95156e-02
+       55   1.91533e-06   3.95156e-02
+       56   1.73241e-06   3.95156e-02
+       57   1.53762e-06   3.95156e-02
+       58   1.36457e-06   3.95156e-02
+       59   1.21117e-06   3.95156e-02
+       60   1.07517e-06   3.95156e-02
+       61   9.54557e-07   3.95156e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.     0.     0.133 -5.381 -0.    -0.    -4.802 -0.    -5.094  0.    -0.     0.034  0.     0.    -0.    -0.     0.416 -0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.     0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run_cdiis</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;FD-CDIIS&quot;</span><span class="p">,</span> <span class="n">diis_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of electrons: 10.000003764139395
+Coordinates of the atoms
+ [[ 0.     0.     0.224]
+ [-0.     1.457 -0.896]
+ [-0.    -1.457 -0.896]]
+Atomic numbers of the atom
+ [8 1 1]
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : CDIIS
+  Basis function type              : GAUSS
+  Grid type                        : 1
+  Solver options -- mode           : FD-CDIIS
+  Solver options -- diis_size      : 5
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22855e-01   2.11396e-01
+        2   2.65514e-02   1.08102e-01
+        3   1.49501e-02   7.80048e-02
+        4   9.43137e-03   6.28961e-02
+        5   6.28277e-03   5.43378e-02
+        6   4.36240e-03   4.91980e-02
+        7   3.13687e-03   4.59888e-02
+        8   2.32436e-03   4.39260e-02
+        9   1.76689e-03   4.25692e-02
+       10   1.37223e-03   4.16592e-02
+       11   1.08483e-03   4.10387e-02
+       12   8.70228e-04   4.06094e-02
+       13   7.06492e-04   4.03086e-02
+       14   5.79252e-04   4.00953e-02
+       15   4.78830e-04   3.99426e-02
+       16   3.98555e-04   3.98323e-02
+       17   3.33687e-04   3.97519e-02
+       18   2.80793e-04   3.96929e-02
+       19   2.37331e-04   3.96492e-02
+       20   2.01387e-04   3.96168e-02
+       21   1.71486e-04   3.95926e-02
+       22   1.46492e-04   3.95743e-02
+       23   1.25506e-04   3.95606e-02
+       24   1.07816e-04   3.95501e-02
+       25   9.28519e-05   3.95422e-02
+       26   8.01464e-05   3.95361e-02
+       27   6.93304e-05   3.95315e-02
+       28   6.00959e-05   3.95279e-02
+       29   5.21921e-05   3.95251e-02
+       30   4.54072e-05   3.95230e-02
+       31   3.95703e-05   3.95214e-02
+       32   3.45377e-05   3.95201e-02
+       33   3.01888e-05   3.95191e-02
+       34   2.64221e-05   3.95183e-02
+       35   2.31583e-05   3.95177e-02
+       36   2.03189e-05   3.95173e-02
+       37   1.78473e-05   3.95169e-02
+       38   1.56923e-05   3.95166e-02
+       39   1.38127e-05   3.95164e-02
+       40   1.21661e-05   3.95162e-02
+       41   1.07251e-05   3.95161e-02
+       42   9.46191e-06   3.95160e-02
+       43   8.35870e-06   3.95159e-02
+       44   7.37880e-06   3.95158e-02
+       45   6.52069e-06   3.95158e-02
+       46   5.76659e-06   3.95158e-02
+       47   5.10200e-06   3.95157e-02
+       48   4.51593e-06   3.95157e-02
+       49   3.99875e-06   3.95157e-02
+       50   3.54207e-06   3.95157e-02
+       51   3.14026e-06   3.95157e-02
+       52   2.78118e-06   3.95157e-02
+       53   2.46534e-06   3.95156e-02
+       54   2.18605e-06   3.95156e-02
+       55   1.93891e-06   3.95156e-02
+       56   1.72013e-06   3.95156e-02
+       57   1.52635e-06   3.95156e-02
+       58   1.35466e-06   3.95156e-02
+       59   1.20249e-06   3.95156e-02
+       60   1.06757e-06   3.95156e-02
+       61   9.47909e-07   3.95156e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.     0.     0.133 -5.381 -0.    -0.    -4.802 -0.    -5.094 -0.     0.     0.034  0.     0.     0.     0.     0.416  0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.     0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run_cdiis</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;AD-CDIIS&quot;</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of electrons: 10.000003764139395
+Coordinates of the atoms
+ [[ 0.     0.     0.224]
+ [-0.     1.457 -0.896]
+ [-0.    -1.457 -0.896]]
+Atomic numbers of the atom
+ [8 1 1]
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : CDIIS
+  Basis function type              : GAUSS
+  Grid type                        : 1
+  Solver options -- mode           : AD-CDIIS
+  Solver options -- param          : 0.0001
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22855e-01   2.11396e-01
+        2   2.65513e-02   1.08102e-01
+        3   1.49501e-02   7.80048e-02
+        4   9.43136e-03   6.28961e-02
+        5   6.28278e-03   5.43378e-02
+        6   4.36240e-03   4.91980e-02
+        7   3.13687e-03   4.59888e-02
+        8   2.32436e-03   4.39260e-02
+        9   1.76689e-03   4.25692e-02
+       10   1.37224e-03   4.16592e-02
+       11   1.08483e-03   4.10387e-02
+       12   8.70228e-04   4.06094e-02
+       13   7.06493e-04   4.03086e-02
+       14   5.79250e-04   4.00953e-02
+       15   4.78831e-04   3.99426e-02
+       16   3.98556e-04   3.98323e-02
+       17   3.33687e-04   3.97519e-02
+       18   2.80792e-04   3.96929e-02
+       19   2.37333e-04   3.96492e-02
+       20   2.01385e-04   3.96168e-02
+       21   1.71484e-04   3.95926e-02
+       22   1.46495e-04   3.95743e-02
+       23   1.25504e-04   3.95606e-02
+       24   1.07820e-04   3.95501e-02
+       25   9.28487e-05   3.95422e-02
+       26   8.01471e-05   3.95361e-02
+       27   6.93309e-05   3.95315e-02
+       28   6.01014e-05   3.95279e-02
+       29   5.21893e-05   3.95251e-02
+       30   4.54049e-05   3.95230e-02
+       31   3.95744e-05   3.95214e-02
+       32   3.45332e-05   3.95201e-02
+       33   3.01903e-05   3.95191e-02
+       34   2.64247e-05   3.95183e-02
+       35   2.31579e-05   3.95177e-02
+       36   2.03162e-05   3.95173e-02
+       37   1.78478e-05   3.95169e-02
+       38   1.56932e-05   3.95166e-02
+       39   1.38121e-05   3.95164e-02
+       40   1.21664e-05   3.95162e-02
+       41   1.07257e-05   3.95161e-02
+       42   9.46095e-06   3.95160e-02
+       43   8.35933e-06   3.95159e-02
+       44   7.37777e-06   3.95158e-02
+       45   6.52059e-06   3.95158e-02
+       46   5.76633e-06   3.95158e-02
+       47   5.10201e-06   3.95157e-02
+       48   4.51599e-06   3.95157e-02
+       49   3.99876e-06   3.95157e-02
+       50   3.54202e-06   3.95157e-02
+       51   3.14033e-06   3.95157e-02
+       52   2.78123e-06   3.95157e-02
+       53   2.46539e-06   3.95156e-02
+       54   2.18610e-06   3.95156e-02
+       55   1.93896e-06   3.95156e-02
+       56   1.72018e-06   3.95156e-02
+       57   1.52640e-06   3.95156e-02
+       58   1.35471e-06   3.95156e-02
+       59   1.20253e-06   3.95156e-02
+       60   1.06760e-06   3.95156e-02
+       61   9.47943e-07   3.95156e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.     0.     0.133 -5.381 -0.    -0.    -4.802 -0.    -5.094 -0.     0.     0.034  0.     0.     0.     0.     0.416  0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.     0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run_cdiis</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;Roothaan&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of electrons: 10.000003764139395
+Coordinates of the atoms
+ [[ 0.     0.     0.224]
+ [-0.     1.457 -0.896]
+ [-0.    -1.457 -0.896]]
+Atomic numbers of the atom
+ [8 1 1]
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : CDIIS
+  Basis function type              : GAUSS
+  Grid type                        : 1
+  Solver options -- mode           : Roothaan
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22855e-01   2.11396e-01
+        2   2.65514e-02   1.08102e-01
+        3   1.49501e-02   7.80048e-02
+        4   9.43137e-03   6.28961e-02
+        5   6.28281e-03   5.43378e-02
+        6   4.36240e-03   4.91980e-02
+        7   3.13686e-03   4.59887e-02
+        8   2.32436e-03   4.39260e-02
+        9   1.76689e-03   4.25692e-02
+       10   1.37223e-03   4.16592e-02
+       11   1.08483e-03   4.10387e-02
+       12   8.70227e-04   4.06094e-02
+       13   7.06493e-04   4.03086e-02
+       14   5.79251e-04   4.00953e-02
+       15   4.78830e-04   3.99426e-02
+       16   3.98557e-04   3.98323e-02
+       17   3.33689e-04   3.97519e-02
+       18   2.80791e-04   3.96929e-02
+       19   2.37333e-04   3.96492e-02
+       20   2.01387e-04   3.96168e-02
+       21   1.71487e-04   3.95926e-02
+       22   1.46489e-04   3.95743e-02
+       23   1.25507e-04   3.95606e-02
+       24   1.07816e-04   3.95501e-02
+       25   9.28503e-05   3.95422e-02
+       26   8.01472e-05   3.95361e-02
+       27   6.93318e-05   3.95315e-02
+       28   6.00975e-05   3.95279e-02
+       29   5.21920e-05   3.95251e-02
+       30   4.54070e-05   3.95230e-02
+       31   3.95700e-05   3.95214e-02
+       32   3.45371e-05   3.95201e-02
+       33   3.01883e-05   3.95191e-02
+       34   2.64276e-05   3.95183e-02
+       35   2.31568e-05   3.95177e-02
+       36   2.03181e-05   3.95173e-02
+       37   1.78470e-05   3.95169e-02
+       38   1.56924e-05   3.95166e-02
+       39   1.38157e-05   3.95164e-02
+       40   1.21655e-05   3.95162e-02
+       41   1.07246e-05   3.95161e-02
+       42   9.46128e-06   3.95160e-02
+       43   8.35709e-06   3.95159e-02
+       44   7.37815e-06   3.95158e-02
+       45   6.52107e-06   3.95158e-02
+       46   5.77115e-06   3.95158e-02
+       47   5.10201e-06   3.95157e-02
+       48   4.52004e-06   3.95157e-02
+       49   3.99845e-06   3.95157e-02
+       50   3.54580e-06   3.95157e-02
+       51   3.13809e-06   3.95157e-02
+       52   2.78526e-06   3.95157e-02
+       53   2.46576e-06   3.95156e-02
+       54   2.19041e-06   3.95156e-02
+       55   1.94310e-06   3.95156e-02
+       56   1.72051e-06   3.95156e-02
+       57   1.52998e-06   3.95156e-02
+       58   1.35809e-06   3.95156e-02
+       59   1.20241e-06   3.95156e-02
+       60   1.07050e-06   3.95156e-02
+       61   9.50658e-07   3.95156e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.881  0.441  0.441]
+cartesian multipoles:
+[[-0.881  0.    -0.     0.133 -5.381 -0.    -0.    -4.802 -0.    -5.094  0.    -0.     0.034  0.     0.     0.    -0.     0.416 -0.     0.367]
+ [ 0.441  0.     0.022 -0.001 -0.275 -0.    -0.    -0.257  0.002 -0.26   0.     0.008  0.005  0.    -0.     0.     0.024  0.009  0.009  0.023]
+ [ 0.441  0.    -0.022 -0.001 -0.275  0.     0.    -0.257 -0.002 -0.26   0.    -0.008  0.005  0.    -0.     0.    -0.024  0.009 -0.009  0.023]]
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lisa.html" class="btn btn-neutral float-left" title="Alternating Linear approximation of the ISA (aLISA) method" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="glisa.html" class="btn btn-neutral float-right" title="Global Linear approximation of the ISA (gLISA) method" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

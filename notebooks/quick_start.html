@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>From Command Line &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Prepare Molecular Density and Grid" href="setup.html" />
+    <link rel="prev" title="Installation" href="../installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gisa.html">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gisa.html#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gisa.html#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyapi/modules.html">horton_part</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pyapi/horton_part.html">horton_part package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">From Command Line</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/quick_start.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="From-Command-Line">
+<h1>From Command Line<a class="headerlink" href="#From-Command-Line" title="Link to this heading"></a></h1>
+<p>In this tutorial, all calculations are performed via the command line.</p>
+<div class="line-block">
+<div class="line">Starting from version 1.1.6, <code class="docutils literal notranslate"><span class="pre">horton-part</span></code> only supports input files in <code class="docutils literal notranslate"><span class="pre">yaml</span></code> format to run its programs.</div>
+<div class="line">Below is a simple example of an input file, <code class="docutils literal notranslate"><span class="pre">sample_input.yaml</span></code>:</div>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">part-gen</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./data/h2o.fchk</span>
+<span class="w">  </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">h2o_dens.npz</span>
+<span class="nt">part-dens</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">h2o_dens.npz</span>
+<span class="w">  </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">h2o_part.npz</span>
+</pre></div>
+</div>
+<p>This input file specifies the inputs and outputs for two sub-programs: <code class="docutils literal notranslate"><span class="pre">part-gen</span></code> and <code class="docutils literal notranslate"><span class="pre">part-dens</span></code>.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">inputs</span></code> of <code class="docutils literal notranslate"><span class="pre">part-gen</span></code> specify the file used to generate the molecular density and molecular grids, which are stored in the path defined in the <code class="docutils literal notranslate"><span class="pre">outputs</span></code> section of <code class="docutils literal notranslate"><span class="pre">part-gen</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">outputs</span></code> of <code class="docutils literal notranslate"><span class="pre">part-gen</span></code> become the <code class="docutils literal notranslate"><span class="pre">inputs</span></code> for the <code class="docutils literal notranslate"><span class="pre">part-dens</span></code> sub-program, which partitions the molecular density into atomic contributions using various methods. The default method is <code class="docutils literal notranslate"><span class="pre">aLISA</span></code>.</p></li>
+</ul>
+<p>To run the calculation in the terminal, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>part<span class="w"> </span>sample_input.yaml
+</pre></div>
+</div>
+<p>If you prefer to run it in a Jupyter notebook, you will need to use the <code class="docutils literal notranslate"><span class="pre">os</span></code> module to execute the command.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+</pre></div>
+</div>
+</div>
+<p>Then, one can execute command through calling <code class="docutils literal notranslate"><span class="pre">os.system</span></code> function. The result is restored in <code class="docutils literal notranslate"><span class="pre">h2o_part.npz</span></code> that is a Numpy <code class="docutils literal notranslate"><span class="pre">npz</span></code> file.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;part sample_input.yaml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+****************************************************************************************************
+                     Settings for part-dens program with Horton-Part 0.0.post1
+****************************************************************************************************
+                                           input : h2o_dens.npz
+                                          output : h2o_part.npz
+                                      basis_func : gauss
+                                       func_file : None
+                                         maxiter : 1000
+                                       threshold : 1e-06
+                                 inner_threshold : 1e-08
+                                            lmax : 3
+                                       log_level : INFO
+                                          solver : sc
+                                   part_job_type : do_partitioning
+                                       grid_type : 1
+                                        log_file : None
+----------------------------------------------------------------------------------------------------
+
+Load grid and density data from h2o_dens.npz ...
+Load data done!
+Time usage 0.000 s
+Create molecular grid ...
+Create molecular grid done!
+Time usage 0.010 s
+****************************************************************************************************
+                                            Partitioning
+****************************************************************************************************
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 87300
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 150
+   |-- Angular grid sizes:
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 150
+   |-- Angular grid sizes:
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 150
+   |-- Angular grid sizes:
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194 194
+          194 194 194 194 194 194 194 194 194 194
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Linear Iterative Stockholder
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Using global ISA                 : False
+  Maximum outer iterations         : 1000
+  lmax                             : 3
+  Solver                           : SC
+  Basis function type              : GAUSS
+  Grid type                        : 1
+
+Load GAUSS basis functions
+Iteration       Change      Entropy
+        1   1.22830e-01   2.11417e-01
+        2   2.65479e-02   1.08527e-01
+        3   1.49456e-02   7.83538e-02
+        4   9.42839e-03   6.32378e-02
+        5   6.28105e-03   5.46797e-02
+        6   4.36137e-03   4.95400e-02
+        7   3.13626e-03   4.63304e-02
+        8   2.32400e-03   4.42673e-02
+        9   1.76667e-03   4.29100e-02
+       10   1.37210e-03   4.19998e-02
+       11   1.08474e-03   4.13791e-02
+       12   8.70173e-04   4.09497e-02
+       13   7.06459e-04   4.06488e-02
+       14   5.79228e-04   4.04355e-02
+       15   4.78820e-04   4.02828e-02
+       16   3.98549e-04   4.01724e-02
+       17   3.33684e-04   4.00920e-02
+       18   2.80795e-04   4.00330e-02
+       19   2.37335e-04   3.99894e-02
+       20   2.01390e-04   3.99570e-02
+       21   1.71490e-04   3.99327e-02
+       22   1.46498e-04   3.99145e-02
+       23   1.25513e-04   3.99007e-02
+       24   1.07823e-04   3.98903e-02
+       25   9.28565e-05   3.98823e-02
+       26   8.01521e-05   3.98763e-02
+       27   6.93374e-05   3.98716e-02
+       28   6.01030e-05   3.98680e-02
+       29   5.21975e-05   3.98653e-02
+       30   4.54125e-05   3.98631e-02
+       31   3.95753e-05   3.98615e-02
+       32   3.45423e-05   3.98602e-02
+       33   3.01945e-05   3.98592e-02
+       34   2.64284e-05   3.98584e-02
+       35   2.31618e-05   3.98578e-02
+       36   2.03229e-05   3.98574e-02
+       37   1.78516e-05   3.98570e-02
+       38   1.56966e-05   3.98567e-02
+       39   1.38148e-05   3.98565e-02
+       40   1.21691e-05   3.98563e-02
+       41   1.07281e-05   3.98562e-02
+       42   9.46461e-06   3.98561e-02
+       43   8.35637e-06   3.98560e-02
+       44   7.38135e-06   3.98559e-02
+       45   6.52413e-06   3.98558e-02
+       46   5.76940e-06   3.98558e-02
+       47   5.10437e-06   3.98558e-02
+       48   4.52132e-06   3.98557e-02
+       49   4.00077e-06   3.98557e-02
+       50   3.54375e-06   3.98557e-02
+       51   3.13992e-06   3.98557e-02
+       52   2.78363e-06   3.98557e-02
+       53   2.46740e-06   3.98557e-02
+       54   2.18796e-06   3.98557e-02
+       55   1.94125e-06   3.98557e-02
+       56   1.72164e-06   3.98557e-02
+       57   1.52537e-06   3.98557e-02
+       58   1.35548e-06   3.98557e-02
+       59   1.20377e-06   3.98557e-02
+       60   1.06879e-06   3.98557e-02
+       61   9.47255e-07   3.98557e-02
+
+****************************************************************************************************
+                                          Basis functions
+****************************************************************************************************
+    Exponential order  Exponents coefficients  Initials values
+    -----------------  ----------------------  ---------------
+Atom H
+     2.0                 5.672000                0.042900
+     2.0                 1.505000                0.263900
+     2.0                 0.530800                0.479000
+     2.0                 0.220400                0.212700
+Atom O
+     2.0               220.100000                0.186900
+     2.0                65.660000                0.657600
+     2.0                25.980000                0.975100
+     2.0                 1.685000                3.065700
+     2.0                 0.686000                2.562200
+     2.0                 0.231100                0.552800
+----------------------------------------------------------------------------------------------------
+
+****************************************************************************************************
+                                    The modified initial propars
+****************************************************************************************************
+Propars of No. 1 atom O:
+          0.18689323
+          0.65757616
+          0.97506466
+          3.06558888
+          2.56210713
+          0.55277996
+
+Propars of No. 2 atom H:
+          0.04296450
+          0.26429678
+          0.47972018
+          0.21301980
+
+Propars of No. 3 atom H:
+          0.04296450
+          0.26429678
+          0.47972018
+          0.21301980
+
+----------------------------------------------------------------------------------------------------
+
+****************************************************************************************************
+                                              Results
+****************************************************************************************************
+  Atomic charges [a.u.]:
+                                          O :     -0.88081213
+                                          H :      0.44056855
+                                          H :      0.44056855
+----------------------------------------------------------------------------------------------------
+
+****************************************************************************************************
+                                   Optimized pro-atom parameters
+****************************************************************************************************
+Propars of No. 1 atom O:
+          0.19790820
+          0.63334631
+          0.98351828
+          2.93953329
+          3.29297763
+          0.83352841
+
+Propars of No. 2 atom H:
+          0.07132704
+          0.34987871
+          0.12994288
+          0.00828282
+
+Propars of No. 3 atom H:
+          0.07132704
+          0.34987871
+          0.12994288
+          0.00828282
+
+----------------------------------------------------------------------------------------------------
+
+****************************************************************************************************
+                                             Time usage
+****************************************************************************************************
+Do Partitioning                               :       0.61 s
+  Update Weights                              :       0.29 s
+  Update Atomic Parameters (iter*N_atom)      :       0.28 s
+----------------------------------------------------------------------------------------------------
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># remove cache files</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;h2o_dens.npz&quot;</span><span class="p">,</span> <span class="s2">&quot;h2o_part.npz&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="setup.html" class="btn btn-neutral float-right" title="Prepare Molecular Density and Grid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

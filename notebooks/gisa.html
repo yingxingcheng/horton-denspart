@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gaussian Iterative Stockholder Analysis (GISA) method &mdash; Horton-Part  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/override.css?v=064c4a14" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Minimum Basis Iterative Stockholder (MBIS) scheme" href="mbis.html" />
+    <link rel="prev" title="Iterative Stockholder Analysis (ISA) method" href="isa.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Horton-Part
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#downloading-the-code">Downloading the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">From Command Line</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Prepare Molecular Density and Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isa.html">Iterative Stockholder Analysis (ISA) method</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gaussian Iterative Stockholder Analysis (GISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Quadprog-Solver">Quadprog Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Using-API">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Customized-Implementation">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#CVXOPT-Solver">CVXOPT Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Using API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Customized Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ECOS-Sovler">ECOS Sovler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#OSQP-Solver">OSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Customized-SLSQP-Solver">Customized SLSQP Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Customized-Least-Square-Sovler">Customized Least-Square Sovler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mbis.html">Minimum Basis Iterative Stockholder (MBIS) scheme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lisa.html">Alternating Linear approximation of the ISA (aLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Direct-Inversion-in-Iterative-Space-(DIIS)">Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lisa.html#Newton-Method">Newton Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lisa.html#Customized-Methods">Customized Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lisa_diis.html">New Direct Inversion in Iterative Space (DIIS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glisa.html">Global Linear approximation of the ISA (gLISA) method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-optimization-problem">Non-linear optimization problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Convex-optimization-method">Convex optimization method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Trust-region-method">Trust-region method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glisa.html#Non-linear-equations-(fixed-point-equations)">Non-linear equations (fixed-point equations)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Self-consistent-method">Self-consistent method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glisa.html#Direct-Inversion-of-Iterative-Space-(DIIS)">Direct Inversion of Iterative Space (DIIS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hirshfeld.html">(Iterative) Hirshfeld method</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Hirshfeld-method">Hirshfeld method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hirshfeld.html#Iterative-Hirshfeld-method">Iterative Hirshfeld method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mulliken.html">Mulliken method</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyapi/modules.html">horton_part</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pyapi/horton_part.html">horton_part package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.algo.html">horton_part.algo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.core.html">horton_part.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.scripts.html">horton_part.scripts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.alisa.html">horton_part.alisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.becke.html">horton_part.becke module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gisa.html">horton_part.gisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.glisa.html">horton_part.glisa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.gmbis.html">horton_part.gmbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld.html">horton_part.hirshfeld module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.hirshfeld_i.html">horton_part.hirshfeld_i module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.isa.html">horton_part.isa module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mbis.html">horton_part.mbis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.mulliken.html">horton_part.mulliken module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.nlis.html">horton_part.nlis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pyapi/horton_part.utils.html">horton_part.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pyapi/horton_part.html#module-horton_part">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Horton-Part</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Gaussian Iterative Stockholder Analysis (GISA) method</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/gisa.ipynb" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Gaussian-Iterative-Stockholder-Analysis-(GISA)-method">
+<h1>Gaussian Iterative Stockholder Analysis (GISA) method<a class="headerlink" href="#Gaussian-Iterative-Stockholder-Analysis-(GISA)-method" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">least_squares</span>
+<span class="kn">from</span> <span class="nn">setup</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">horton_part</span> <span class="kn">import</span> <span class="n">GaussianISAWPart</span>
+</pre></div>
+</div>
+</div>
+<section id="Quadprog-Solver">
+<h2>Quadprog Solver<a class="headerlink" href="#Quadprog-Solver" title="Link to this heading"></a></h2>
+<p>The problem of this solver is that the initials values are set to zeros for all pro-atom parameters and no threshold setting is availiable.</p>
+<section id="Using-API">
+<h3>Using API<a class="headerlink" href="#Using-API" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="n">prepare_grid_and_dens</span><span class="p">(</span><span class="s2">&quot;data/h2o.fchk&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">quadprog_solver</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;quadprog&quot;</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">GaussianISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+
+<span class="n">quadprog_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The number of electrons: 10.000003764139395
+Coordinates of the atoms
+ [[ 0.     0.     0.224]
+ [-0.     1.457 -0.896]
+ [-0.    -1.457 -0.896]]
+Atomic numbers of the atom
+ [8 1 1]
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Gaussian Iterative Stockholder Analysis (GISA)
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Maximum iterations               : 1000
+  lmax                             : 3
+  Solver                           : quadprog
+  Grid type                        : 1
+Iteration       Change      Entropy
+        1   2.11650e-01   2.11396e-01
+        2   2.49517e-02   1.12635e-01
+        3   1.32558e-02   8.50056e-02
+        4   8.55599e-03   6.90944e-02
+        5   5.91191e-03   5.95412e-02
+        6   4.24249e-03   5.35617e-02
+        7   3.12465e-03   4.96967e-02
+        8   2.34690e-03   4.71329e-02
+        9   1.79038e-03   4.53930e-02
+       10   1.38337e-03   4.41873e-02
+       11   1.08043e-03   4.33355e-02
+       12   8.51611e-04   4.27227e-02
+       13   6.76617e-04   4.22746e-02
+       14   5.41337e-04   4.19419e-02
+       15   4.35763e-04   4.16914e-02
+       16   3.52679e-04   4.15003e-02
+       17   2.86803e-04   4.13530e-02
+       18   2.34217e-04   4.12381e-02
+       19   1.91987e-04   4.11477e-02
+       20   1.57888e-04   4.10759e-02
+       21   1.30221e-04   4.10186e-02
+       22   1.07673e-04   4.09724e-02
+       23   8.92255e-05   4.09350e-02
+       24   7.40810e-05   4.09045e-02
+       25   6.16098e-05   4.08796e-02
+       26   5.13121e-05   4.08592e-02
+       27   4.27890e-05   4.08424e-02
+       28   3.57201e-05   4.08285e-02
+       29   2.98466e-05   4.08169e-02
+       30   2.49587e-05   4.08074e-02
+       31   2.08855e-05   4.07994e-02
+       32   1.74872e-05   4.07928e-02
+       33   1.46491e-05   4.07873e-02
+       34   1.22769e-05   4.07827e-02
+       35   1.02925e-05   4.07788e-02
+       36   8.63147e-06   4.07756e-02
+       37   7.24041e-06   4.07729e-02
+       38   6.07489e-06   4.07706e-02
+       39   5.09794e-06   4.07687e-02
+       40   4.27879e-06   4.07671e-02
+       41   3.59174e-06   4.07658e-02
+       42   3.01536e-06   4.07647e-02
+       43   2.53171e-06   4.07637e-02
+       44   2.12581e-06   4.07630e-02
+       45   1.78511e-06   4.07623e-02
+       46   1.49911e-06   4.07617e-02
+       47   1.25898e-06   4.07613e-02
+       48   1.05737e-06   4.07609e-02
+       49   8.88068e-07   4.07606e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.863  0.432  0.432]
+cartesian multipoles:
+[[-0.863  0.    -0.     0.113 -5.313 -0.    -0.    -4.718 -0.    -5.013  0.    -0.    -0.039  0.    -0.     0.    -0.     0.322 -0.     0.155]
+ [ 0.432  0.     0.023 -0.001 -0.309 -0.    -0.    -0.282  0.002 -0.288  0.     0.013  0.003  0.     0.     0.     0.039  0.009  0.015  0.02 ]
+ [ 0.432  0.    -0.023 -0.001 -0.309  0.    -0.    -0.282 -0.002 -0.288  0.    -0.013  0.003  0.    -0.     0.    -0.039  0.009 -0.015  0.02 ]]
+</pre></div></div>
+</div>
+</section>
+<section id="Customized-Implementation">
+<h3>Customized Implementation<a class="headerlink" href="#Customized-Implementation" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">quadprog</span>
+
+<span class="kn">from</span> <span class="nn">horton_part</span> <span class="kn">import</span> <span class="n">check_pro_atom_parameters</span>
+
+
+<span class="k">def</span> <span class="nf">_prepare_quantities</span><span class="p">(</span><span class="n">bs_funcs</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">propars</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">alphas</span><span class="p">):</span>
+    <span class="n">nprim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">propars</span><span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">2</span>
+        <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mf">1.5</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">alphas</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">alphas</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mf">1.5</span>
+        <span class="o">/</span> <span class="p">(</span><span class="n">alphas</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">alphas</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mf">1.5</span>
+    <span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="p">(</span><span class="n">G</span> <span class="o">+</span> <span class="n">G</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># a = np.zeros(nprim, float)</span>
+    <span class="c1"># for k in range(nprim):</span>
+    <span class="c1">#     a[k] = 2 * np.einsum(&quot;i,i,i&quot;, weights, bs_funcs[k], rho)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,ni,i-&gt;n&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">bs_funcs</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+
+    <span class="c1"># Construct linear equality or inequality constraints</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">nprim</span><span class="p">,</span> <span class="n">nprim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># First column : corresponds to the EQUALITY constraint sum_{k=1..Ka} c_(a,k)= N_a</span>
+    <span class="n">C</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nprim</span><span class="p">)</span>
+    <span class="c1"># Other K_a columns : correspond to the INEQUALITY constraints c_(a,k) &gt;=0</span>
+    <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nprim</span><span class="p">,</span> <span class="mi">1</span> <span class="p">:</span> <span class="p">(</span><span class="n">nprim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">nprim</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nprim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># First coefficient : corresponds to the EQUALITY constraint sum_{k=1..Ka} c_(a,k) = N_a</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,i&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">pop</span>
+    <span class="k">return</span> <span class="n">G</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">b</span>
+
+
+<span class="k">def</span> <span class="nf">opt_propars_qp_quadprog</span><span class="p">(</span><span class="n">bs_funcs</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">propars</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">alphas</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Optimize parameters for proatom density functions using quadratic programming.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        N_{Ai} = \int \rho_A(r) \frac{\rho_{Ai}^0(r)}{\rho_A^0(r)} dr</span>
+
+
+<span class="sd">        G = \frac{1}{2} c^T S c - c^T b</span>
+
+<span class="sd">        S = 2 \int \zeta(\vec{r}) \zeta(\vec{r}) d\vec{r}</span>
+<span class="sd">        = \frac{2}{\pi \sqrt{\pi}} \frac{(\alpha_k \alpha_l)^{3/2}}{(\alpha_k + \alpha_l)^{3/2}}</span>
+
+<span class="sd">        b = 2 * \int \zeta(\vec{r}) \rho_a(\vec{r}) d\vec{r}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bs_funcs : 2D np.ndarray</span>
+<span class="sd">        Basis functions array with shape (M, N), where &#39;M&#39; is the number of basis functions</span>
+<span class="sd">        and &#39;N&#39; is the number of grid points.</span>
+<span class="sd">    rho : 1D np.ndarray</span>
+<span class="sd">        Spherically-averaged atomic density as a function of radial distance, with shape (N,).</span>
+<span class="sd">    propars : 1D np.ndarray</span>
+<span class="sd">        Pro-atom parameters with shape (M). &#39;M&#39; is the number of basis functions.</span>
+<span class="sd">    points : 1D np.ndarray</span>
+<span class="sd">        Radial coordinates of grid points, with shape (N,).</span>
+<span class="sd">    weights : 1D np.ndarray</span>
+<span class="sd">        Weights for integration, including the angular part (4πr²), with shape (N,).</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Convergence threshold for the iterative process.</span>
+<span class="sd">    alphas : 1D np.ndarray</span>
+<span class="sd">        The Gaussian exponential coefficients.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        The convergence threshold of the optimization method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    1D np.ndarray</span>
+<span class="sd">        Optimized proatom parameters.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    RuntimeError</span>
+<span class="sd">        If the inner iteration does not converge.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">G</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">_prepare_quantities</span><span class="p">(</span><span class="n">bs_funcs</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">propars</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">alphas</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">quadprog</span><span class="o">.</span><span class="n">solve_qp</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">meq</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">check_pro_atom_parameters</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">total_population</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+<p>Now we can call the customized solver through follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">customized_quadprog_solver</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_propars_qp_quadprog</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;inner_threshold&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-8</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">GaussianISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+
+<span class="n">customized_quadprog_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Gaussian Iterative Stockholder Analysis (GISA)
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Maximum iterations               : 1000
+  lmax                             : 3
+  Solver                           : &lt;function opt_propars_qp_quadprog at 0x116874280&gt;
+  Grid type                        : 1
+Iteration       Change      Entropy
+        1   2.11650e-01   2.11396e-01
+        2   2.49517e-02   1.12635e-01
+        3   1.32558e-02   8.50056e-02
+        4   8.55599e-03   6.90944e-02
+        5   5.91191e-03   5.95412e-02
+        6   4.24249e-03   5.35617e-02
+        7   3.12465e-03   4.96967e-02
+        8   2.34690e-03   4.71329e-02
+        9   1.79038e-03   4.53930e-02
+       10   1.38337e-03   4.41873e-02
+       11   1.08043e-03   4.33355e-02
+       12   8.51611e-04   4.27227e-02
+       13   6.76617e-04   4.22746e-02
+       14   5.41337e-04   4.19419e-02
+       15   4.35763e-04   4.16914e-02
+       16   3.52679e-04   4.15003e-02
+       17   2.86803e-04   4.13530e-02
+       18   2.34217e-04   4.12381e-02
+       19   1.91987e-04   4.11477e-02
+       20   1.57888e-04   4.10759e-02
+       21   1.30221e-04   4.10186e-02
+       22   1.07673e-04   4.09724e-02
+       23   8.92255e-05   4.09350e-02
+       24   7.40810e-05   4.09045e-02
+       25   6.16098e-05   4.08796e-02
+       26   5.13121e-05   4.08592e-02
+       27   4.27890e-05   4.08424e-02
+       28   3.57201e-05   4.08285e-02
+       29   2.98466e-05   4.08169e-02
+       30   2.49587e-05   4.08074e-02
+       31   2.08855e-05   4.07994e-02
+       32   1.74872e-05   4.07928e-02
+       33   1.46491e-05   4.07873e-02
+       34   1.22769e-05   4.07827e-02
+       35   1.02925e-05   4.07788e-02
+       36   8.63147e-06   4.07756e-02
+       37   7.24041e-06   4.07729e-02
+       38   6.07489e-06   4.07706e-02
+       39   5.09794e-06   4.07687e-02
+       40   4.27879e-06   4.07671e-02
+       41   3.59174e-06   4.07658e-02
+       42   3.01536e-06   4.07647e-02
+       43   2.53171e-06   4.07637e-02
+       44   2.12581e-06   4.07630e-02
+       45   1.78511e-06   4.07623e-02
+       46   1.49911e-06   4.07617e-02
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/runner/work/horton-part/horton-part/src/horton_part/gisa.py:192: UserWarning: Customized solver is used, the argument `inner_threshold` is not used.
+  warnings.warn(&#34;Customized solver is used, the argument `inner_threshold` is not used.&#34;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+       47   1.25898e-06   4.07613e-02
+       48   1.05737e-06   4.07609e-02
+       49   8.88068e-07   4.07606e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.863  0.432  0.432]
+cartesian multipoles:
+[[-0.863  0.    -0.     0.113 -5.313 -0.    -0.    -4.718 -0.    -5.013  0.    -0.    -0.039  0.    -0.     0.    -0.     0.322 -0.     0.155]
+ [ 0.432  0.     0.023 -0.001 -0.309 -0.    -0.    -0.282  0.002 -0.288  0.     0.013  0.003  0.     0.     0.     0.039  0.009  0.015  0.02 ]
+ [ 0.432  0.    -0.023 -0.001 -0.309  0.    -0.    -0.282 -0.002 -0.288  0.    -0.013  0.003  0.    -0.     0.    -0.039  0.009 -0.015  0.02 ]]
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="CVXOPT-Solver">
+<h2>CVXOPT Solver<a class="headerlink" href="#CVXOPT-Solver" title="Link to this heading"></a></h2>
+<p>Another sovler implemented in <code class="docutils literal notranslate"><span class="pre">CVXOPT</span></code> can also be applied.</p>
+<section id="id1">
+<h3>Using API<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cvxopt_solver</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cvxopt&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver_options&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;eps_rel&quot;</span><span class="p">:</span> <span class="mf">1e-8</span><span class="p">}</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">GaussianISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="n">opt_propars</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;propars&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Difference between total electrons:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">opt_propars</span><span class="p">))</span>
+
+
+<span class="n">cvxopt_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Gaussian Iterative Stockholder Analysis (GISA)
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Maximum iterations               : 1000
+  lmax                             : 3
+  Solver                           : cvxopt
+  Grid type                        : 1
+Iteration       Change      Entropy
+        1   2.11603e-01   2.11396e-01
+        2   2.49842e-02   1.12501e-01
+        3   1.32921e-02   8.48478e-02
+        4   8.57237e-03   6.89801e-02
+        5   5.91785e-03   5.94610e-02
+        6   4.24425e-03   5.35056e-02
+        7   3.12533e-03   4.96581e-02
+        8   2.34836e-03   4.71079e-02
+        9   1.79441e-03   4.53802e-02
+       10   1.37842e-03   4.41882e-02
+       11   1.07512e-03   4.33343e-02
+       12   8.48063e-04   4.27203e-02
+       13   6.74378e-04   4.22717e-02
+       14   5.39965e-04   4.19391e-02
+       15   4.34960e-04   4.16889e-02
+       16   3.52247e-04   4.14983e-02
+       17   2.86606e-04   4.13515e-02
+       18   2.34163e-04   4.12373e-02
+       19   1.92009e-04   4.11475e-02
+       20   1.57947e-04   4.10765e-02
+       21   1.30281e-04   4.10198e-02
+       22   1.07710e-04   4.09742e-02
+       23   8.92219e-05   4.09375e-02
+       24   7.40284e-05   4.09077e-02
+       25   6.15061e-05   4.08834e-02
+       26   5.11599e-05   4.08635e-02
+       27   4.25939e-05   4.08472e-02
+       28   3.54894e-05   4.08338e-02
+       29   2.95885e-05   4.08227e-02
+       30   2.46814e-05   4.08136e-02
+       31   2.05967e-05   4.08060e-02
+       32   1.71939e-05   4.07997e-02
+       33   1.43571e-05   4.07945e-02
+       34   1.19911e-05   4.07902e-02
+       35   1.00168e-05   4.07866e-02
+       36   8.36874e-06   4.07836e-02
+       37   6.99267e-06   4.07811e-02
+       38   5.84343e-06   4.07790e-02
+       39   4.88343e-06   4.07772e-02
+       40   4.08141e-06   4.07758e-02
+       41   3.41127e-06   4.07746e-02
+       42   2.85128e-06   4.07736e-02
+       43   2.38330e-06   4.07727e-02
+       44   1.99218e-06   4.07720e-02
+       45   1.66528e-06   4.07714e-02
+       46   1.39205e-06   4.07709e-02
+       47   1.16366e-06   4.07705e-02
+       48   9.72756e-07   4.07702e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.863  0.432  0.432]
+cartesian multipoles:
+[[-0.863  0.     0.     0.112 -5.312 -0.    -0.    -4.718 -0.    -5.013 -0.     0.    -0.04   0.    -0.    -0.     0.     0.322  0.     0.153]
+ [ 0.432  0.     0.023 -0.001 -0.309 -0.    -0.    -0.283  0.002 -0.288  0.     0.013  0.003  0.    -0.     0.     0.04   0.009  0.015  0.02 ]
+ [ 0.432  0.    -0.023 -0.001 -0.309  0.     0.    -0.283 -0.002 -0.288  0.    -0.013  0.003  0.    -0.     0.    -0.04   0.009 -0.015  0.02 ]]
+Difference between total electrons:
+1.9924890887423885e-05
+</pre></div></div>
+</div>
+</section>
+<section id="id2">
+<h3>Customized Implementation<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cvxopt</span>
+
+
+<span class="k">def</span> <span class="nf">opt_propars_qp_cvxopt</span><span class="p">(</span><span class="n">bs_funcs</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">propars</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">alphas</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Optimize pro-atom parameters using quadratic-programming implemented in the `CVXOPT` package.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bs_funcs : 2D np.ndarray</span>
+<span class="sd">        Basis functions array with shape (M, N), where &#39;M&#39; is the number of basis functions</span>
+<span class="sd">        and &#39;N&#39; is the number of grid points.</span>
+<span class="sd">    rho : 1D np.ndarray</span>
+<span class="sd">        Spherically-averaged atomic density as a function of radial distance, with shape (N,).</span>
+<span class="sd">    propars : 1D np.ndarray</span>
+<span class="sd">        Pro-atom parameters with shape (M). &#39;M&#39; is the number of basis functions.</span>
+<span class="sd">    points : 1D np.ndarray</span>
+<span class="sd">        Radial coordinates of grid points, with shape (N,).</span>
+<span class="sd">    weights : 1D np.ndarray</span>
+<span class="sd">        Weights for integration, including the angular part (4πr²), with shape (N,).</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Convergence threshold for the iterative process.</span>
+<span class="sd">    alphas : 1D np.ndarray</span>
+<span class="sd">        The Gaussian exponential coefficients.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        The convergence threshold of the optimization method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    1D np.ndarray</span>
+<span class="sd">        Optimized proatom parameters.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    RuntimeError</span>
+<span class="sd">        If the inner iteration does not converge.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nprim</span><span class="p">,</span> <span class="n">npt</span> <span class="o">=</span> <span class="n">bs_funcs</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">2</span>
+        <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mf">1.5</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">alphas</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">alphas</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mf">1.5</span>
+        <span class="o">/</span> <span class="p">(</span><span class="n">alphas</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">alphas</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mf">1.5</span>
+    <span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+
+    <span class="n">vec_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nprim</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nprim</span><span class="p">):</span>
+        <span class="n">vec_b</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,i&quot;</span><span class="p">,</span> <span class="n">weights</span> <span class="o">*</span> <span class="n">bs_funcs</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="n">cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">vec_b</span><span class="p">)</span>
+
+    <span class="c1"># Linear inequality constraints</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">nprim</span><span class="p">,</span> <span class="n">nprim</span><span class="p">))</span>
+    <span class="n">G</span><span class="p">[::</span> <span class="n">nprim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">nprim</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Linear equality constraints</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nprim</span><span class="p">))</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;i,i&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">cvxopt</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># initial_values = cvxopt.matrix(np.array([1.0] * nprim).reshape((nprim, 1)))</span>
+    <span class="n">opt_CVX</span> <span class="o">=</span> <span class="n">cvxopt</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">qp</span><span class="p">(</span>
+        <span class="n">P</span><span class="p">,</span>
+        <span class="n">q</span><span class="p">,</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">h</span><span class="p">,</span>
+        <span class="n">A</span><span class="p">,</span>
+        <span class="n">b</span><span class="p">,</span>
+        <span class="c1"># initvals=propars,</span>
+        <span class="n">initvals</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">propars</span><span class="p">),</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;feastol&quot;</span><span class="p">:</span> <span class="n">threshold</span><span class="p">,</span> <span class="s2">&quot;show_progress&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="c1"># options={&quot;show_progress&quot;: log.do_medium, &quot;feastol&quot;: threshold},</span>
+    <span class="p">)</span>
+    <span class="n">new_propars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">opt_CVX</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">check_pro_atom_parameters</span><span class="p">(</span><span class="n">new_propars</span><span class="p">,</span> <span class="n">total_population</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">pop</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">new_propars</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">customized_cvxopt_solver</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_propars_qp_cvxopt</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;inner_threshold&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-8</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">GaussianISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="n">opt_propars</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;propars&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Difference between total electrons:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">opt_propars</span><span class="p">))</span>
+
+
+<span class="n">customized_cvxopt_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Gaussian Iterative Stockholder Analysis (GISA)
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Maximum iterations               : 1000
+  lmax                             : 3
+  Solver                           : &lt;function opt_propars_qp_cvxopt at 0x116876710&gt;
+  Grid type                        : 1
+Iteration       Change      Entropy
+        1   2.11603e-01   2.11396e-01
+        2   2.49842e-02   1.12501e-01
+        3   1.32921e-02   8.48478e-02
+        4   8.57237e-03   6.89801e-02
+        5   5.91785e-03   5.94610e-02
+        6   4.24425e-03   5.35056e-02
+        7   3.12533e-03   4.96581e-02
+        8   2.34836e-03   4.71079e-02
+        9   1.79441e-03   4.53802e-02
+       10   1.37842e-03   4.41882e-02
+       11   1.07512e-03   4.33343e-02
+       12   8.48063e-04   4.27203e-02
+       13   6.74378e-04   4.22717e-02
+       14   5.39965e-04   4.19391e-02
+       15   4.34960e-04   4.16889e-02
+       16   3.52247e-04   4.14983e-02
+       17   2.86606e-04   4.13515e-02
+       18   2.34163e-04   4.12373e-02
+       19   1.92009e-04   4.11475e-02
+       20   1.57947e-04   4.10765e-02
+       21   1.30281e-04   4.10198e-02
+       22   1.07710e-04   4.09742e-02
+       23   8.92219e-05   4.09375e-02
+       24   7.40284e-05   4.09077e-02
+       25   6.15061e-05   4.08834e-02
+       26   5.11599e-05   4.08635e-02
+       27   4.25939e-05   4.08472e-02
+       28   3.54894e-05   4.08338e-02
+       29   2.95885e-05   4.08227e-02
+       30   2.46814e-05   4.08136e-02
+       31   2.05967e-05   4.08060e-02
+       32   1.71939e-05   4.07997e-02
+       33   1.43571e-05   4.07945e-02
+       34   1.19911e-05   4.07902e-02
+       35   1.00168e-05   4.07866e-02
+       36   8.36874e-06   4.07836e-02
+       37   6.99267e-06   4.07811e-02
+       38   5.84343e-06   4.07790e-02
+       39   4.88343e-06   4.07772e-02
+       40   4.08141e-06   4.07758e-02
+       41   3.41127e-06   4.07746e-02
+       42   2.85128e-06   4.07736e-02
+       43   2.38330e-06   4.07727e-02
+       44   1.99218e-06   4.07720e-02
+       45   1.66528e-06   4.07714e-02
+       46   1.39205e-06   4.07709e-02
+       47   1.16366e-06   4.07705e-02
+       48   9.72756e-07   4.07702e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.863  0.432  0.432]
+cartesian multipoles:
+[[-0.863  0.    -0.     0.112 -5.312 -0.    -0.    -4.718 -0.    -5.013 -0.     0.    -0.04   0.    -0.    -0.     0.     0.322  0.     0.153]
+ [ 0.432  0.     0.023 -0.001 -0.309 -0.    -0.    -0.283  0.002 -0.288  0.     0.013  0.003  0.     0.     0.     0.04   0.009  0.015  0.02 ]
+ [ 0.432  0.    -0.023 -0.001 -0.309  0.     0.    -0.283 -0.002 -0.288  0.    -0.013  0.003  0.    -0.     0.    -0.04   0.009 -0.015  0.02 ]]
+Difference between total electrons:
+1.9924890892752956e-05
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="ECOS-Sovler">
+<h2>ECOS Sovler<a class="headerlink" href="#ECOS-Sovler" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ecos_solver</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ecos&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver_options&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;reltol&quot;</span><span class="p">:</span> <span class="mf">1e-10</span><span class="p">}</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">GaussianISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="n">opt_propars</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;propars&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Difference between total electrons:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">opt_propars</span><span class="p">))</span>
+
+
+<span class="n">ecos_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Gaussian Iterative Stockholder Analysis (GISA)
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Maximum iterations               : 1000
+  lmax                             : 3
+  Solver                           : ecos
+  Grid type                        : 1
+Iteration       Change      Entropy
+        1   2.11662e-01   2.11396e-01
+        2   2.49254e-02   1.12672e-01
+        3   1.32492e-02   8.50267e-02
+        4   8.53556e-03   6.91032e-02
+        5   5.93385e-03   5.95247e-02
+        6   4.24356e-03   5.35553e-02
+        7   3.11140e-03   4.96930e-02
+        8   2.33603e-03   4.71239e-02
+        9   1.82013e-03   4.53760e-02
+       10   1.39577e-03   4.41781e-02
+       11   1.08352e-03   4.33397e-02
+       12   8.45887e-04   4.27194e-02
+       13   6.72411e-04   4.22667e-02
+       14   5.38636e-04   4.19314e-02
+       15   4.34281e-04   4.16797e-02
+       16   3.52079e-04   4.14884e-02
+       17   2.86782e-04   4.13414e-02
+       18   2.34612e-04   4.12271e-02
+       19   1.92601e-04   4.11376e-02
+       20   1.57878e-04   4.10667e-02
+       21   1.36796e-04   4.10081e-02
+       22   1.13474e-04   4.09653e-02
+       23   9.30161e-05   4.09300e-02
+       24   7.62083e-05   4.09004e-02
+       25   6.26664e-05   4.08757e-02
+       26   5.17584e-05   4.08552e-02
+       27   4.28391e-05   4.08381e-02
+       28   3.55685e-05   4.08239e-02
+       29   2.96377e-05   4.08120e-02
+       30   2.47301e-05   4.08022e-02
+       31   2.06940e-05   4.07939e-02
+       32   1.73437e-05   4.07871e-02
+       33   1.44613e-05   4.07813e-02
+       34   1.21783e-05   4.07765e-02
+       35   1.01895e-05   4.07725e-02
+       36   8.55436e-06   4.07692e-02
+       37   7.22805e-06   4.07664e-02
+       38   6.02223e-06   4.07640e-02
+       39   5.01993e-06   4.07621e-02
+       40   4.28507e-06   4.07604e-02
+       41   3.59616e-06   4.07590e-02
+       42   2.98675e-06   4.07578e-02
+       43   2.53450e-06   4.07569e-02
+       44   2.16147e-06   4.07560e-02
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/qpsolvers/solvers/ecos_.py:126: UserWarning: warm-start values are ignored by this wrapper
+  warnings.warn(&#34;warm-start values are ignored by this wrapper&#34;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+       45   1.77456e-06   4.07554e-02
+       46   1.50009e-06   4.07548e-02
+       47   1.25209e-06   4.07543e-02
+       48   1.07946e-06   4.07539e-02
+       49   9.03533e-07   4.07535e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.864  0.432  0.432]
+cartesian multipoles:
+[[-0.864  0.    -0.     0.113 -5.313 -0.    -0.    -4.719  0.    -5.014  0.    -0.    -0.039  0.    -0.     0.    -0.     0.323 -0.     0.156]
+ [ 0.432  0.     0.023 -0.001 -0.309 -0.    -0.    -0.282  0.002 -0.288  0.     0.013  0.003  0.     0.     0.     0.039  0.009  0.015  0.02 ]
+ [ 0.432  0.    -0.023 -0.001 -0.309  0.     0.    -0.282 -0.002 -0.288  0.    -0.013  0.003  0.    -0.     0.    -0.039  0.009 -0.015  0.02 ]]
+Difference between total electrons:
+1.9957016604621458e-05
+</pre></div></div>
+</div>
+</section>
+<section id="OSQP-Solver">
+<h2>OSQP Solver<a class="headerlink" href="#OSQP-Solver" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">osqp_solver</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;osqp&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver_options&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;eps_rel&quot;</span><span class="p">:</span> <span class="mf">1e-14</span><span class="p">}</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">GaussianISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="n">opt_propars</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;propars&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Difference between total electrons:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">opt_propars</span><span class="p">))</span>
+
+
+<span class="n">osqp_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Gaussian Iterative Stockholder Analysis (GISA)
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-08
+  Maximum iterations               : 1000
+  lmax                             : 3
+  Solver                           : osqp
+  Grid type                        : 1
+Iteration       Change      Entropy
+        1   2.11651e-01   2.11396e-01
+        2   2.49657e-02   1.12973e-01
+        3   1.32654e-02   8.52924e-02
+        4   8.56298e-03   6.93533e-02
+        5   5.91735e-03   5.97855e-02
+        6   4.24694e-03   5.37985e-02
+        7   3.12845e-03   4.99301e-02
+        8   2.35025e-03   4.73651e-02
+        9   1.79344e-03   4.56252e-02
+       10   1.38623e-03   4.44203e-02
+       11   1.08311e-03   4.35696e-02
+       12   8.54135e-04   4.29580e-02
+       13   6.79008e-04   4.25111e-02
+       14   5.43621e-04   4.21798e-02
+       15   4.37958e-04   4.19310e-02
+       16   3.54779e-04   4.17414e-02
+       17   2.88808e-04   4.15953e-02
+       18   2.36124e-04   4.14815e-02
+       19   1.93786e-04   4.13921e-02
+       20   1.59575e-04   4.13211e-02
+       21   1.31793e-04   4.12644e-02
+       22   1.09131e-04   4.12188e-02
+       23   9.05717e-05   4.11818e-02
+       24   7.53178e-05   4.11518e-02
+       25   6.27411e-05   4.11271e-02
+       26   5.23429e-05   4.11069e-02
+       27   4.37247e-05   4.10903e-02
+       28   3.65663e-05   4.10765e-02
+       29   3.06094e-05   4.10651e-02
+       30   2.56442e-05   4.10556e-02
+       31   2.14997e-05   4.10477e-02
+       32   1.80360e-05   4.10411e-02
+       33   1.51383e-05   4.10356e-02
+       34   1.27117e-05   4.10310e-02
+       35   1.06782e-05   4.10271e-02
+       36   8.97286e-06   4.10239e-02
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/qpsolvers/conversions/ensure_sparse_matrices.py:24: UserWarning: Converted P to scipy.sparse.csc.csc_matrix
+For best performance, build P as a scipy.sparse.csc_matrix rather than as a numpy.ndarray
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/qpsolvers/conversions/ensure_sparse_matrices.py:24: UserWarning: Converted G to scipy.sparse.csc.csc_matrix
+For best performance, build G as a scipy.sparse.csc_matrix rather than as a numpy.ndarray
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/qpsolvers/conversions/ensure_sparse_matrices.py:24: UserWarning: Converted A to scipy.sparse.csc.csc_matrix
+For best performance, build A as a scipy.sparse.csc_matrix rather than as a numpy.ndarray
+  warnings.warn(
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.94063E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.78187E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.67536E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.60094E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.54746E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.50817E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.47878E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.45647E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.44044E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.42801E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.41825E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.41053E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40618E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40489E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40397E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40331E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40326E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40336E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40348E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40360E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40372E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40384E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40395E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40405E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40413E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40421E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40428E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40434E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40439E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40443E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40447E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40450E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40453E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40455E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40457E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40459E-04
+  warnings.warn(info)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+       37   7.54196e-06   4.10212e-02
+       38   6.34074e-06   4.10189e-02
+       39   5.33189e-06   4.10170e-02
+       40   4.48432e-06   4.10154e-02
+       41   3.77202e-06   4.10141e-02
+       42   3.17325e-06   4.10129e-02
+       43   2.66980e-06   4.10120e-02
+       44   2.24643e-06   4.10112e-02
+       45   1.89033e-06   4.10105e-02
+       46   1.59077e-06   4.10099e-02
+       47   1.33876e-06   4.10095e-02
+       48   1.12673e-06   4.10091e-02
+       49   9.48307e-07   4.10087e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.865  0.432  0.432]
+cartesian multipoles:
+[[-0.865  0.     0.     0.114 -5.316 -0.    -0.    -4.722 -0.    -5.017 -0.    -0.    -0.037 -0.    -0.     0.    -0.     0.326 -0.     0.162]
+ [ 0.432  0.     0.023 -0.001 -0.308 -0.    -0.    -0.281  0.002 -0.287  0.     0.013  0.003  0.     0.     0.     0.038  0.009  0.015  0.02 ]
+ [ 0.432  0.    -0.023 -0.001 -0.308  0.     0.    -0.281 -0.002 -0.287  0.    -0.013  0.003  0.    -0.     0.    -0.038  0.009 -0.015  0.02 ]]
+Difference between total electrons:
+0.000300968720148731
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40461E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40462E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40463E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40464E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40465E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40466E-04
+  warnings.warn(info)
+/Users/runner/work/horton-part/horton-part/src/horton_part/utils.py:454: UserWarning: WARNING: The sum of pro-atom parameters is not equal to reference population.
+WARNING: The difference is -1.40467E-04
+  warnings.warn(info)
+</pre></div></div>
+</div>
+<p>More supported sovlers can be found in <code class="docutils literal notranslate"><span class="pre">`qpsovlers</span></code> &lt;<a class="reference external" href="https://qpsolvers.github.io/qpsolvers/supported-solvers.html">https://qpsolvers.github.io/qpsolvers/supported-solvers.html</a>&gt;`__ package.</p>
+</section>
+<section id="Customized-SLSQP-Solver">
+<h2>Customized SLSQP Solver<a class="headerlink" href="#Customized-SLSQP-Solver" title="Link to this heading"></a></h2>
+<p>A equivalent method is using <code class="docutils literal notranslate"><span class="pre">minimization</span></code> with the ‘SLSQP’ sovler implemented in <code class="docutils literal notranslate"><span class="pre">SciPy</span></code> package.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">opt_propars_qp_slsqp</span><span class="p">(</span><span class="n">bs_funcs</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">propars</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">alphas</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Optimize parameters for proatom density functions using quadratic programming.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        N_{Ai} = \int \rho_A(r) \frac{\rho_{Ai}^0(r)}{\rho_A^0(r)} dr</span>
+
+
+<span class="sd">        G = \frac{1}{2} c^T S c - c^T b</span>
+
+<span class="sd">        S = 2 \int \zeta(\vec{r}) \zeta(\vec{r}) d\vec{r}</span>
+<span class="sd">        = \frac{2}{\pi \sqrt{\pi}} \frac{(\alpha_k \alpha_l)^{3/2}}{(\alpha_k + \alpha_l)^{3/2}}</span>
+
+<span class="sd">        b = 2 * \int \zeta(\vec{r}) \rho_a(\vec{r}) d\vec{r}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bs_funcs : 2D np.ndarray</span>
+<span class="sd">        Basis functions array with shape (M, N), where &#39;M&#39; is the number of basis functions</span>
+<span class="sd">        and &#39;N&#39; is the number of grid points.</span>
+<span class="sd">    rho : 1D np.ndarray</span>
+<span class="sd">        Spherically-averaged atomic density as a function of radial distance, with shape (N,).</span>
+<span class="sd">    propars : 1D np.ndarray</span>
+<span class="sd">        Pro-atom parameters with shape (M). &#39;M&#39; is the number of basis functions.</span>
+<span class="sd">    points : 1D np.ndarray</span>
+<span class="sd">        Radial coordinates of grid points, with shape (N,).</span>
+<span class="sd">    weights : 1D np.ndarray</span>
+<span class="sd">        Weights for integration, including the angular part (4πr²), with shape (N,).</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Convergence threshold for the iterative process.</span>
+<span class="sd">    alphas : 1D np.ndarray</span>
+<span class="sd">        The Gaussian exponential coefficients.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        The convergence threshold of the optimization method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    1D np.ndarray</span>
+<span class="sd">        Optimized proatom parameters.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    RuntimeError</span>
+<span class="sd">        If the inner iteration does not converge.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">G</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">_prepare_quantities</span><span class="p">(</span><span class="n">bs_funcs</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">propars</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">alphas</span><span class="p">)</span>
+    <span class="n">meq</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_obj_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="n">constraints</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">meq</span> <span class="k">else</span> <span class="s2">&quot;ineq&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;fun&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span><span class="p">)[</span><span class="n">i</span><span class="p">],</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">]</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+        <span class="n">_obj_func</span><span class="p">,</span>
+        <span class="n">x0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="p">)),</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;SLSQP&quot;</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="n">constraints</span><span class="p">,</span>
+        <span class="n">tol</span><span class="o">=</span><span class="n">threshold</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">customized_slsqp_solver</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_propars_qp_cvxopt</span>
+    <span class="c1"># the value is from the test file of quadprog package.</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;inner_threshold&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-10</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">GaussianISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="n">opt_propars</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;propars&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Difference between total electrons:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">opt_propars</span><span class="p">))</span>
+
+
+<span class="n">customized_slsqp_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Gaussian Iterative Stockholder Analysis (GISA)
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-10
+  Maximum iterations               : 1000
+  lmax                             : 3
+  Solver                           : &lt;function opt_propars_qp_cvxopt at 0x116876710&gt;
+  Grid type                        : 1
+Iteration       Change      Entropy
+        1   2.11603e-01   2.11396e-01
+        2   2.49842e-02   1.12501e-01
+        3   1.32921e-02   8.48478e-02
+        4   8.57237e-03   6.89801e-02
+        5   5.91785e-03   5.94610e-02
+        6   4.24425e-03   5.35056e-02
+        7   3.12533e-03   4.96581e-02
+        8   2.34836e-03   4.71079e-02
+        9   1.79441e-03   4.53802e-02
+       10   1.37842e-03   4.41882e-02
+       11   1.07512e-03   4.33343e-02
+       12   8.48063e-04   4.27203e-02
+       13   6.74378e-04   4.22717e-02
+       14   5.39965e-04   4.19391e-02
+       15   4.34960e-04   4.16889e-02
+       16   3.52247e-04   4.14983e-02
+       17   2.86606e-04   4.13515e-02
+       18   2.34163e-04   4.12373e-02
+       19   1.92009e-04   4.11475e-02
+       20   1.57947e-04   4.10765e-02
+       21   1.30281e-04   4.10198e-02
+       22   1.07710e-04   4.09742e-02
+       23   8.92219e-05   4.09375e-02
+       24   7.40284e-05   4.09077e-02
+       25   6.15061e-05   4.08834e-02
+       26   5.11599e-05   4.08635e-02
+       27   4.25939e-05   4.08472e-02
+       28   3.54894e-05   4.08338e-02
+       29   2.95885e-05   4.08227e-02
+       30   2.46814e-05   4.08136e-02
+       31   2.05967e-05   4.08060e-02
+       32   1.71939e-05   4.07997e-02
+       33   1.43571e-05   4.07945e-02
+       34   1.19911e-05   4.07902e-02
+       35   1.00168e-05   4.07866e-02
+       36   8.36874e-06   4.07836e-02
+       37   6.99267e-06   4.07811e-02
+       38   5.84343e-06   4.07790e-02
+       39   4.88343e-06   4.07772e-02
+       40   4.08141e-06   4.07758e-02
+       41   3.41127e-06   4.07746e-02
+       42   2.85128e-06   4.07736e-02
+       43   2.38330e-06   4.07727e-02
+       44   1.99218e-06   4.07720e-02
+       45   1.66528e-06   4.07714e-02
+       46   1.39205e-06   4.07709e-02
+       47   1.16366e-06   4.07705e-02
+       48   9.72756e-07   4.07702e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.863  0.432  0.432]
+cartesian multipoles:
+[[-0.863  0.    -0.     0.112 -5.312 -0.    -0.    -4.718 -0.    -5.013 -0.     0.    -0.04   0.    -0.    -0.     0.     0.322  0.     0.153]
+ [ 0.432  0.     0.023 -0.001 -0.309 -0.    -0.    -0.283  0.002 -0.288  0.     0.013  0.003  0.     0.     0.     0.04   0.009  0.015  0.02 ]
+ [ 0.432  0.    -0.023 -0.001 -0.309  0.     0.    -0.283 -0.002 -0.288  0.    -0.013  0.003  0.    -0.     0.    -0.04   0.009 -0.015  0.02 ]]
+Difference between total electrons:
+1.9924890892752956e-05
+</pre></div></div>
+</div>
+</section>
+<section id="Customized-Least-Square-Sovler">
+<h2>Customized Least-Square Sovler<a class="headerlink" href="#Customized-Least-Square-Sovler" title="Link to this heading"></a></h2>
+<p>Users can easily apply customized solvers. The first step involves defining a customized solver, for example, <code class="docutils literal notranslate"><span class="pre">customized_solver</span></code>. The corresponding arguments and their meanings are as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">opt_propars_lstsq</span><span class="p">(</span><span class="n">bs_funcs</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">propars</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">alphas</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Optimize pro-atom parameters using quadratic-programming implemented in the `CVXOPT` package.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        N_{Ai} = \int \rho_A(r) \frac{\rho_{Ai}^0(r)}{\rho_A^0(r)} dr</span>
+
+<span class="sd">        G = \frac{1}{2} c^T S c - c^T b</span>
+
+<span class="sd">        S = 2 \int \zeta(\vec{r}) \zeta(\vec{r}) d\vec{r}</span>
+<span class="sd">        = \frac{2}{\pi \sqrt{\pi}} \frac{(\alpha_k \alpha_l)^{3/2}}{(\alpha_k + \alpha_l)^{3/2}}</span>
+
+<span class="sd">        b = \int \zeta(\vec{r}) \rho_a(\vec{r}) d\vec{r}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bs_funcs : 2D np.ndarray</span>
+<span class="sd">        Basis functions array with shape (M, N), where &#39;M&#39; is the number of basis functions</span>
+<span class="sd">        and &#39;N&#39; is the number of grid points.</span>
+<span class="sd">    rho : 1D np.ndarray</span>
+<span class="sd">        Spherically-averaged atomic density as a function of radial distance, with shape (N,).</span>
+<span class="sd">    propars : 1D np.ndarray</span>
+<span class="sd">        Pro-atom parameters with shape (M). &#39;M&#39; is the number of basis functions.</span>
+<span class="sd">    points : 1D np.ndarray</span>
+<span class="sd">        Radial coordinates of grid points, with shape (N,).</span>
+<span class="sd">    weights : 1D np.ndarray</span>
+<span class="sd">        Weights for integration, including the angular part (4πr²), with shape (N,).</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Convergence threshold for the iterative process.</span>
+<span class="sd">    alphas : 1D np.ndarray</span>
+<span class="sd">        The Gaussian exponential coefficients.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        The convergence threshold of the optimization method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    1D np.ndarray</span>
+<span class="sd">        Optimized proatom parameters.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    RuntimeError</span>
+<span class="sd">        If the inner iteration does not converge.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_obj_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">pro</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">bs_funcs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pro</span> <span class="o">-</span> <span class="n">rho</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span>
+        <span class="n">_obj_func</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">propars</span><span class="p">),</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span> <span class="n">ftol</span><span class="o">=</span><span class="n">threshold</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<p>Next, we need to pass this customized solver to our partitioning method.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">customized_lstsq_solver</span><span class="p">():</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">prepare_argument_dict</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt_propars_lstsq</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;inner_threshold&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-14</span>
+    <span class="n">part</span> <span class="o">=</span> <span class="n">GaussianISAWPart</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">do_all</span><span class="p">()</span>
+
+    <span class="n">print_results</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="n">opt_propars</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;propars&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Difference between total electrons:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">opt_propars</span><span class="p">))</span>
+
+
+<span class="n">customized_lstsq_solver</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+================================================================================
+Information of integral grids.
+--------------------------------------------------------------------------------
+Grid size of molecular grid: 18460
+************************************ Atom 0 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+          18 18 18 18 18 18 26 26 26 26 38 38 38 38 38 50 50 50 50 50
+          86 86 110 110 110 110 170 194 194 434 590 590 434 434 434 302 302 302 194 194
+          170 110 110 110 110 110 110 110 110 110 110 110 86 50 50 18 18 18 18 18
+
+************************************ Atom 1 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+************************************ Atom 2 ************************************
+   |-- Radial grid size: 120
+   |-- Angular grid sizes:
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+          6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 18 18 18 18 18
+          18 18 18 18 18 18 18 18 18 26 26 26 38 38 38 38 38 38 38 50
+          50 50 50 50 50 86 86 86 110 110 110 170 170 170 194 194 194 194 170 170
+          170 110 110 110 110 110 110 110 110 110 110 86 86 50 50 50 18 18 18 18
+
+--------------------------------------------------------------------------------
+================================================================================
+
+Performing a density-based AIM analysis with a wavefunction as input.
+  Molecular grid    : MolGrid
+  Using local grids : True
+  Scheme                           : Gaussian Iterative Stockholder Analysis (GISA)
+  Outer loop convergence threshold : 1.0e-06
+  Inner loop convergence threshold : 1.0e-14
+  Maximum iterations               : 1000
+  lmax                             : 3
+  Solver                           : &lt;function opt_propars_lstsq at 0x116877c70&gt;
+  Grid type                        : 1
+Iteration       Change      Entropy
+        1   2.11298e-01   2.11396e-01
+        2   2.46519e-02   1.80014e-01
+        3   1.28132e-02   1.26698e-01
+        4   8.42981e-03   9.80376e-02
+        5   5.91104e-03   8.25972e-02
+        6   4.27281e-03   7.36442e-02
+        7   3.15177e-03   6.83481e-02
+        8   2.36037e-03   6.52034e-02
+        9   1.78898e-03   6.33440e-02
+       10   1.36932e-03   6.22633e-02
+       11   1.05671e-03   6.16538e-02
+       12   8.21140e-04   6.13310e-02
+       13   6.41832e-04   6.11801e-02
+       14   5.04271e-04   6.11310e-02
+       15   3.97855e-04   6.11374e-02
+       16   3.15078e-04   6.11756e-02
+       17   2.50328e-04   6.12273e-02
+       18   1.99391e-04   6.12831e-02
+       19   1.59208e-04   6.13390e-02
+       20   1.27367e-04   6.13902e-02
+       21   1.02024e-04   6.14357e-02
+       22   8.19030e-05   6.14771e-02
+       23   6.58242e-05   6.15109e-02
+       24   5.28996e-05   6.15393e-02
+       25   4.26065e-05   6.15647e-02
+       26   3.43209e-05   6.15848e-02
+       27   2.76529e-05   6.16015e-02
+       28   2.22904e-05   6.16157e-02
+       29   1.80032e-05   6.16275e-02
+       30   1.45244e-05   6.16365e-02
+       31   1.17041e-05   6.16440e-02
+       32   9.50562e-06   6.16510e-02
+       33   7.63668e-06   6.16547e-02
+       34   6.15246e-06   6.16595e-02
+       35   4.99646e-06   6.16637e-02
+       36   4.03830e-06   6.16659e-02
+       37   3.24126e-06   6.16678e-02
+       38   2.65512e-06   6.16702e-02
+       39   2.10232e-06   6.16709e-02
+       40   1.70464e-06   6.16731e-02
+       41   1.43617e-06   6.16740e-02
+       42   1.09228e-06   6.16733e-02
+       43   9.18311e-07   6.16756e-02
+
+Computing atomic populations.
+Computing atomic charges.
+Computing density decomposition for atom 0
+Computing density decomposition for atom 1
+Computing density decomposition for atom 2
+Computing cartesian and pure AIM multipoles and radial AIM moments.
+Storing proatom density spline for atom 0.
+Storing proatom density spline for atom 1.
+Storing proatom density spline for atom 2.
+charges:
+[-0.829  0.415  0.415]
+cartesian multipoles:
+[[-0.829 -0.    -0.     0.08  -5.229 -0.    -0.    -4.611  0.    -4.916 -0.    -0.    -0.116 -0.    -0.     0.    -0.     0.229 -0.    -0.061]
+ [ 0.415  0.     0.028 -0.003 -0.351 -0.    -0.    -0.313  0.001 -0.322  0.     0.024 -0.005  0.    -0.     0.     0.066  0.004  0.025  0.001]
+ [ 0.415  0.    -0.028 -0.003 -0.351  0.     0.    -0.313 -0.001 -0.322  0.    -0.024 -0.005  0.    -0.     0.    -0.066  0.004 -0.025  0.001]]
+Difference between total electrons:
+0.018707097100820747
+</pre></div></div>
+</div>
+<p>The result of the least squares method differs slightly from the quadratic programming method due to the constraints. We can observe that the deviation in the total electrons obtained by the least squares method is larger than that obtained by the quadratic programming method.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="isa.html" class="btn btn-neutral float-left" title="Iterative Stockholder Analysis (ISA) method" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mbis.html" class="btn btn-neutral float-right" title="Minimum Basis Iterative Stockholder (MBIS) scheme" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, YingXing Cheng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
